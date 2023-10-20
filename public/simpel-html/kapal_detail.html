@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="assets/"
+    data-template="horizontal-menu-template">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Dashboard - Analytics | Vuexy - Bootstrap Admin Template</title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome.css" />
+    <link rel="stylesheet" href="assets/vendor/fonts/tabler-icons.css" />
+    <link rel="stylesheet" href="assets/vendor/fonts/flag-icons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="assets/css/demo.css" />
+
+    <!-- DASHBOARD CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/node-waves/node-waves.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/swiper/swiper.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
+
+    <!-- LEAFLET CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/node-waves/node-waves.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/leaflet/leaflet.css" />
+
+    <!-- DATATABLE CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/node-waves/node-waves.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
+
+    <!-- DATEPICKER CSS -->
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/node-waves/node-waves.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/jquery-timepicker/jquery-timepicker.css" />
+    <link rel="stylesheet" href="assets/vendor/libs/pickr/pickr-themes.css" />
+
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="assets/vendor/css/pages/cards-advance.css" />
+    <!-- Helpers -->
+    <script src="assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+    <script src="assets/vendor/js/template-customizer.js"></script>
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="assets/js/config.js"></script>
+
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+
+    <style>
+        .btn-detail-kapal {
+            color: white;
+            background-color: #1c6487;
+        }
+
+        .btn-detail-kapal:hover {
+            color: white;
+            /* font-weight: bolder; */
+            background-color: darkcyan;
+        }
+
+        .menu-toggle::after {
+            display: none;
+        }
+
+        .custom-container-kapal {
+            width: 1600px;
+            /* Set your desired width */
+            /* background-color: #f0f0f0; */
+            /* padding: 20px;
+    border: 1px solid #ccc; */
+            /* text-align: center; */
+        }
+
+        /* Waves Animation start*/
+
+        .waves {
+            position: absolute;
+            width: 100%;
+            height: 15vh;
+            min-height: 100px;
+            max-height: 150px;
+            bottom: 0;
+            left: 0;
+        }
+
+        .parallax>use {
+            animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
+        }
+
+        .parallax>use:nth-child(1) {
+            animation-delay: -2s;
+            animation-duration: 7s;
+        }
+
+        .parallax>use:nth-child(2) {
+            animation-delay: -3s;
+            animation-duration: 10s;
+        }
+
+        .parallax>use:nth-child(3) {
+            animation-delay: -4s;
+            animation-duration: 13s;
+        }
+
+        .parallax>use:nth-child(4) {
+            animation-delay: -5s;
+            animation-duration: 20s;
+        }
+
+        @keyframes move-forever {
+            0% {
+                transform: translate3d(-90px, 0, 0);
+            }
+
+            100% {
+                transform: translate3d(85px, 0, 0);
+            }
+        }
+
+
+        /*Shrinking for mobile*/
+
+        @media (max-width: 768px) {
+            .waves {
+                height: 40px;
+                min-height: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+        <div class="layout-container">
+            <!-- Navbar -->
+            <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar"
+                style="z-index:9999;">
+                <div class="container-xxl">
+                    <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
+                        <a href="javascript:void(0);" class="app-brand-link gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="61" height="50" viewBox="0 0 61 58"
+                                fill="none">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M53.4649 20.2188L30.6945 1.35718L7.92407 20.2188L18.8518 29.2697L7.92407 38.3235L30.6945 57.1851L53.4649 38.3235L42.5372 29.2726L53.4649 20.2188Z"
+                                    fill="#3895EF" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M46.8043 32.8048L42.5372 29.2726L45.4478 26.8627L26.8776 14.5522L28.4753 10.788L43.8385 12.2931L43.8792 12.2815L30.6945 1.35718L7.92407 20.2188L14.5847 25.7375L18.8518 29.2697L15.9412 31.6796L34.5114 43.9901L32.9137 47.7543L17.5505 46.2492L17.5098 46.2637L30.6945 57.1851L53.4649 38.3235L46.8043 32.8048Z"
+                                    fill="black" fill-opacity="0.14902" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M27.4905 9.18718L43.8966 12.2931L30.6945 1.35718L7.92407 20.2188L27.4905 9.18718Z"
+                                    fill="#4D89EF" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M28.7774 9.43078L32.9137 3.19578L30.6945 1.35718L7.92407 20.2188L27.4905 9.18718L28.7774 9.43078Z"
+                                    fill="black" fill-opacity="0.14902" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M33.9537 49.358L17.5505 46.2492L30.7498 57.1851L53.5231 38.3235L33.9537 49.358Z"
+                                    fill="#4D89EF" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M33.9537 49.358L32.6175 49.1028L28.4956 55.3175L30.7497 57.1851L52.1287 39.4748L53.3604 38.4134L33.9537 49.358Z"
+                                    fill="black" fill-opacity="0.14902" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M7.92407 20.2188L36.2281 43.6653L30.6945 57.1851L53.4649 38.3235L25.1609 14.877L30.6945 1.35718L7.92407 20.2188Z"
+                                    fill="#A1B4FF" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M30.6946 1.35718L24.0369 9.91508L17.3472 18.4469L17.3211 18.1975C19.5752 20.0651 21.8293 21.9327 24.0659 23.8177L30.7905 29.464L37.483 35.1451L44.1582 40.8465L44.3092 40.9741L44.1843 41.1249L37.4598 49.1724L30.6946 57.1851L37.2652 49.0129L43.8764 40.8726L43.9026 41.151L37.1664 35.5192L30.4448 29.87L23.758 24.1831C21.5214 22.2923 19.305 20.3841 17.0887 18.473L16.9551 18.357L17.0655 18.2236L23.8626 9.77878L30.6946 1.35718Z"
+                                    fill="white" />
+                            </svg>
+                            <span class="app-brand-text demo menu-text fw-bold">SIMPEL</span>
+                        </a>
+
+                        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
+                            <i class="ti ti-x ti-sm align-middle"></i>
+                        </a>
+                    </div>
+
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                            <i class="ti ti-menu-2 ti-sm"></i>
+                        </a>
+                    </div>
+
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+                            <!-- Search -->
+                            <!-- <li class="nav-item navbar-search-wrapper me-2 me-xl-0">
+                                <a class="nav-link search-toggler" href="javascript:void(0);">
+                                    <i class="ti ti-search ti-md"></i>
+                                </a>
+                            </li> -->
+                            <!-- /Search -->
+
+                            <!-- Style Switcher -->
+                            <li class="nav-item me-2 me-xl-0">
+                                <a class="nav-link style-switcher-toggle hide-arrow" href="javascript:void(0);">
+                                    <i class="ti ti-md"></i>
+                                </a>
+                            </li>
+                            <!--/ Style Switcher -->
+
+                            <!-- Notification -->
+                            <!-- <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                    <i class="ti ti-bell ti-md"></i>
+                                    <span class="badge bg-danger rounded-pill badge-notifications">5</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end py-0">
+                                    <li class="dropdown-menu-header border-bottom">
+                                        <div class="dropdown-header d-flex align-items-center py-3">
+                                            <h5 class="text-body mb-0 me-auto">Notification</h5>
+                                            <a href="javascript:void(0)" class="dropdown-notifications-all text-body" data-bs-toggle="tooltip" data-bs-placement="top" title="Mark all as read"><i class="ti ti-mail-opened fs-4"></i></a>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-notifications-list scrollable-container">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="avatar">
+                                                            <img src="assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">Congratulation Lettie 🎉</h6>
+                                                        <p class="mb-0">Won the monthly best seller gold badge</p>
+                                                        <small class="text-muted">1h ago</small>
+                                                    </div>
+                                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="avatar">
+                                                            <span class="avatar-initial rounded-circle bg-label-danger">CF</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">Charles Franklin</h6>
+                                                        <p class="mb-0">Accepted your connection</p>
+                                                        <small class="text-muted">12hr ago</small>
+                                                    </div>
+                                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="avatar">
+                                                            <img src="assets/img/avatars/2.png" alt class="h-auto rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">New Message ✉️</h6>
+                                                        <p class="mb-0">You have new message from Natalie</p>
+                                                        <small class="text-muted">1h ago</small>
+                                                    </div>
+                                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="avatar">
+                                                            <span class="avatar-initial rounded-circle bg-label-success"><i class="ti ti-shopping-cart"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">Whoo! You have new order 🛒</h6>
+                                                        <p class="mb-0">ACME Inc. made new order $1,154</p>
+                                                        <small class="text-muted">1 day ago</small>
+                                                    </div>
+                                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="avatar">
+                                                            <img src="assets/img/avatars/9.png" alt class="h-auto rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">Application has been approved 🚀</h6>
+                                                        <p class="mb-0">Your ABC project application has been approved.</p>
+                                                        <small class="text-muted">2 days ago</small>
+                                                    </div>
+                                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="avatar">
+                                                            <span class="avatar-initial rounded-circle bg-label-success"><i class="ti ti-chart-pie"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">Monthly report is generated</h6>
+                                                        <p class="mb-0">July monthly financial report is generated</p>
+                                                        <small class="text-muted">3 days ago</small>
+                                                    </div>
+                                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="avatar">
+                                                            <img src="assets/img/avatars/5.png" alt class="h-auto rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">Send connection request</h6>
+                                                        <p class="mb-0">Peter sent you connection request</p>
+                                                        <small class="text-muted">4 days ago</small>
+                                                    </div>
+                                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="avatar">
+                                                            <img src="assets/img/avatars/6.png" alt class="h-auto rounded-circle" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">New message from Jane</h6>
+                                                        <p class="mb-0">Your have new message from Jane</p>
+                                                        <small class="text-muted">5 days ago</small>
+                                                    </div>
+                                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="avatar">
+                                                            <span class="avatar-initial rounded-circle bg-label-warning"><i class="ti ti-alert-triangle"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">CPU is running high</h6>
+                                                        <p class="mb-0">CPU Utilization Percent is currently at 88.63%,</p>
+                                                        <small class="text-muted">5 days ago</small>
+                                                    </div>
+                                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-menu-footer border-top">
+                                        <a href="javascript:void(0);" class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center">
+                                            View all notifications
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li> -->
+                            <!--/ Notification -->
+
+                            <!-- User -->
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="pages-account-settings-account.html">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="assets/img/avatars/1.png" alt
+                                                            class="h-auto rounded-circle" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <span class="fw-semibold d-block">Sampurasun</span>
+                                                    <small class="text-muted">Admin</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="landing_page.php">
+                                            <i class="ti ti-logout me-2 ti-sm"></i>
+                                            <span class="align-middle">Log Out</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--/ User -->
+                        </ul>
+                    </div>
+
+                    <!-- Search Small Screens -->
+                    <!-- <div class="navbar-search-wrapper search-input-wrapper container-xxl d-none">
+                        <input type="text" class="form-control search-input border-0" placeholder="Search..." aria-label="Search..." />
+                        <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
+                    </div> -->
+                </div>
+            </nav>
+            <!-- / Navbar -->
+
+            <!-- Layout container -->
+            <div class="layout-page">
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+
+                    <!-- Menu -->
+                    <aside id="layout-menu"
+                        class="layout-menu-horizontal menu-horizontal menu bg-menu-theme flex-grow-0"
+                        style="z-index:2;">
+                        <div class="container-xxl d-flex h-100">
+
+                            <ul class="menu menu-inner">
+                                <!-- Dashboards -->
+                                <li class="menu-item">
+                                    <a href="" class="menu-link menu-toggle" id="dashboard">
+                                        <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                                        <div data-i18n="Dashboards">Dashboards</div>
+                                    </a>
+                                </li>
+
+                                <!-- Layouts -->
+                                <li class="menu-item active">
+                                    <a href="" class="menu-link menu-toggle" id="kapal">
+                                        <i class="menu-icon tf-icons ti ti-ship"></i>
+                                        <div data-i18n="Kapal">Kapal</div>
+                                    </a>
+                                </li>
+
+                                <!-- Apps -->
+                                <li class="menu-item">
+                                    <a href="" class="menu-link menu-toggle" id="laporan">
+                                        <i class="menu-icon tf-icons ti ti-layout-grid-add"></i>
+                                        <div data-i18n="Laporan">Laporan</div>
+                                    </a>
+                                </li>
+
+                                <!-- Pages -->
+                                <li class="menu-item">
+                                    <a href="" class="menu-link menu-toggle" id="pengaturan">
+                                        <i class="menu-icon tf-icons ti ti-settings"></i>
+
+                                        <div data-i18n="Pengaturan Mobile">Pengaturan Mobile</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </aside>
+                    <!-- / Menu -->
+
+                    <!-- Content -->
+                    <div class="container-xxl flex-grow-1 container-p-y">
+
+                        <!-- Header -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card mb-4">
+                                    <div class="leaflet-map" id="basicMap" style="height: 600px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ Header -->
+
+                        <!-- User Profile Content -->
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-5 col-md-5">
+                                <!-- About User -->
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <p class="card-text text-uppercase">DETAIL KAPAL</p>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <th style="width: 10%;"><i class="ti ti-ship"></i></th>
+                                                    <th style="width: 40%;">Nama Kapal</th>
+                                                    <td><span class="badge bg-label-info">HASIL KARIMUN - III</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th><i class="ti ti-check"></i></th>
+                                                    <th>Status</th>
+                                                    <td><span class="badge bg-label-success">CHECK IN</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <th><i class="ti ti-user"></i></th>
+                                                    <th>Penanggung Jawab</th>
+                                                    <td>Budi Raharjo</td>
+                                                </tr>
+                                                <tr>
+                                                    <th><i class="ti ti-phone-call"></i></th>
+                                                    <th>Nomor Hp</th>
+                                                    <td>(62) 812 4944 2476 </td>
+                                                </tr>
+                                                <tr style="background-color: #25293c;">
+                                                    <th colspan=3 class="accordion mt-3 accordion" id="accordionStyle1">
+                                                        <button type="button" class="accordion-button"
+                                                            data-bs-toggle="collapse"
+                                                            data-bs-target="#accordionStyle1-1" aria-expanded="false">
+                                                            <span class="card-text text-uppercase">BIODATA KAPAL</span>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="3" style="border:0px;">
+                                                        <div id="accordionStyle1-1" class="accordion-collapse collapse"
+                                                            data-bs-parent="#accordionStyle1">
+                                                            <div class="accordion-body">
+                                                                <table class="table table-borderless">
+                                                                    <tr>
+                                                                        <th style="width: 40%;">Jenis</th>
+                                                                        <td>KAPAL ANGKUT</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Dimensi (m)</th>
+                                                                        <td>21,25 x 5,30</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Pelabuhan Pangkalan</th>
+                                                                        <td>PP.Barelang, PPP.Tegalsari</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Nomor Siup</th>
+                                                                        <td>02.20.01.0140.10332</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Nomor BKP</th>
+                                                                        <td>A011044</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>TANDA SELAR</th>
+                                                                        <td>TB. KARIMUN/GT.30 No.1645/GGe</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Tanggal Terdaftar</th>
+                                                                        <td>12/06/2023</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan=3 style="border:0px;">
+
+                                                        <div class="d-grid gap-2 col-lg-9 mx-auto">
+                                                            <button class="btn btn-primary" type="button"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#modalCenter">Edit Detail Kapal</button>
+                                                        </div>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="modalCenter" tabindex="-1"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered"
+                                                                role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="modalCenterTitle">
+                                                                            Detail Kapal</h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col mb-3">
+                                                                                <label for="nameWithTitle"
+                                                                                    class="form-label">Nama
+                                                                                    Kapal</label>
+                                                                                <input type="text" id="nameWithTitle"
+                                                                                    class="form-control"
+                                                                                    placeholder="HASIL KARIMUN - III" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col mb-3">
+                                                                                <label for="nameWithTitle"
+                                                                                    class="form-label">Penanggung
+                                                                                    Jawab</label>
+                                                                                <input type="text" id="nameWithTitle"
+                                                                                    class="form-control"
+                                                                                    placeholder="Budi Raharjo" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col mb-3">
+                                                                                <label for="nameWithTitle"
+                                                                                    class="form-label">Pelabuhan
+                                                                                    Pangkalan</label>
+                                                                                <input type="text" id="nameWithTitle"
+                                                                                    class="form-control"
+                                                                                    placeholder="PP.BARELANG, PPP.TEGALSARI" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row g-2">
+                                                                            <div class="col mb-0">
+                                                                                <div class="mb-3">
+                                                                                    <label for="defaultSelect"
+                                                                                        class="form-label">Jenis
+                                                                                        Kapal</label>
+                                                                                    <select id="defaultSelect"
+                                                                                        class="form-select">
+                                                                                        <!-- <option>Default select</option> -->
+                                                                                        <option value="1">Kapal Angkut
+                                                                                        </option>
+                                                                                        <option value="1">Kapal Tangkap
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col mb-0">
+                                                                                <label for="defaultSelect"
+                                                                                    class="form-label">Dimensi Kapal (P
+                                                                                    x L)</label>
+                                                                                <div class="input-group mb-3">
+                                                                                    <input type="text"
+                                                                                        id="nameWithTitle"
+                                                                                        class="form-control"
+                                                                                        placeholder="21,25">
+                                                                                    <div class="input-group-prepend">
+                                                                                        <span
+                                                                                            class="input-group-text">x</span>
+                                                                                    </div>
+                                                                                    <input type="text"
+                                                                                        id="nameWithTitle"
+                                                                                        class="form-control"
+                                                                                        placeholder="5,30">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row g-2">
+                                                                            <div class="col mb-0">
+                                                                                <div class="mb-3">
+                                                                                    <label for="nameWithTitle"
+                                                                                        class="form-label">Nomor
+                                                                                        SIUP</label>
+                                                                                    <input type="email"
+                                                                                        id="nameWithTitle"
+                                                                                        class="form-control"
+                                                                                        placeholder="02.20.01.0140.10332" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col mb-0">
+                                                                                <div class="mb-3">
+                                                                                    <label for="nameWithTitle"
+                                                                                        class="form-label">Nomor
+                                                                                        BKP</label>
+                                                                                    <input type="text"
+                                                                                        id="nameWithTitle"
+                                                                                        class="form-control"
+                                                                                        placeholder="A011044" />
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col mb-3">
+                                                                                <label for="nameWithTitle"
+                                                                                    class="form-label">Tanda
+                                                                                    Selar</label>
+                                                                                <input type="text" id="nameWithTitle"
+                                                                                    class="form-control"
+                                                                                    placeholder="TB. KARIMUN/GT.30 NO.1645/GGE" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                            class="btn btn-label-secondary"
+                                                                            data-bs-dismiss="modal">
+                                                                            Tutup
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-primary">Simpan </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!--/ About User -->
+
+                                <!-- Profile Overview -->
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <p class="card-text text-uppercase">BIODATA PEMILIK</p>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <th style="width: 10%;"><i class="ti ti-phone-call"></i></th>
+                                                    <th style="width: 40%;">Nama</th>
+                                                    <td> ASENG </td>
+                                                </tr>
+                                                <tr>
+                                                    <th><i class="ti ti-mail ti-fade"></i></th>
+                                                    <th>Email</th>
+                                                    <td>aseng2102@gmail.com</td>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan=3 style="border:0px;">
+                                                        <div class="d-grid gap-2 col-lg-9 mx-auto">
+                                                            <button class="btn btn-primary" type="button"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#modalBiodata">Edit Biodata
+                                                                Pemilik</button>
+                                                        </div>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="modalBiodata" tabindex="-1"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered"
+                                                                role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="modalBiodataTitle">
+                                                                            Detail Biodata Pemilik</h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col mb-3">
+                                                                                <label for="nameWithTitle"
+                                                                                    class="form-label">Nama</label>
+                                                                                <input type="text" id="nameWithTitle"
+                                                                                    class="form-control"
+                                                                                    value="ASENG" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col mb-3">
+                                                                                <label for="nameWithTitle"
+                                                                                    class="form-label">Nomor HP</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    value="081249442476" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col mb-3">
+                                                                                <label for="nameWithTitle"
+                                                                                    class="form-label">Email</label>
+                                                                                <input class="form-control" type="email"
+                                                                                    value="aseng2102@gmail.com" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                            class="btn btn-label-secondary"
+                                                                            data-bs-dismiss="modal">
+                                                                            Tutup
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-primary">Simpan </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!--/ Profile Overview -->
+
+                                <!-- Profile Overview -->
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <p class="card-text text-uppercase">Tinjauan</p>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <th style="width: 10%;"><i class="ti ti-check"></i></th>
+                                                    <th style="width: 40%;">Total Fraud</th>
+                                                    <th><span class="badge bg-label-danger">2</span></th>
+                                                </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!--/ Profile Overview -->
+                            </div>
+                            <div class="col-xl-6 col-lg-7 col-md-7">
+                                <div class="col-md-12 col-12 mb-4">
+                                    <input type="text" id="bs-rangepicker-range" class="form-control" />
+                                </div>
+                                <!-- Activity Timeline -->
+                                <div class="card card-action mb-4 navbar-dropdown dropdown"
+                                    style="height:832px !important; overflow-y: scroll;">
+                                    <div class="card-header align-items-center">
+                                        <h5 class="card-action-title mb-0">Log Kapal</h5>
+                                        <div class="card-action-element">
+                                            <div class="dropdown">
+                                                <button type="button" class="btn dropdown-toggle hide-arrow p-0"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ti ti-dots-vertical text-muted"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li><a class="dropdown-item" href="javascript:void(0);">Export
+                                                            Log</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body pb-0">
+                                        <ul class="timeline ms-1 mb-0">
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-success"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-success">
+                                                            <i class="fa-solid fa-circle-arrow-down"></i> &nbsp;
+                                                            <strong> CHECK IN </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-09-14 18:21:30</small>
+                                                    </div>
+                                                    <p class="mb-2">PPP Tegalsari - Tegal</p>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-info"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-info">
+                                                            <i class="fa-solid fa-circle-arrow-up"></i> &nbsp;
+                                                            <strong> CHECK OUT </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-09-03 18:21:30</small>
+                                                    </div>
+                                                    <p class="mb-2">PPP Tegalsari - Tegal</p>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-success"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-success">
+                                                            <i class="fa-solid fa-circle-arrow-down"></i> &nbsp;
+                                                            <strong> CHECK IN </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-08-31 11:45:51</small>
+                                                    </div>
+                                                    <p class="mb-2">PPP Tegalsari - Tegal</p>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-info"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-info">
+                                                            <i class="fa-solid fa-circle-arrow-up"></i> &nbsp;
+                                                            <strong> CHECK OUT </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-08-31 10:51:17</small>
+                                                    </div>
+                                                    <p class="mb-2">PPP Tegalsari - Tegal</p>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-success"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-success">
+                                                            <i class="fa-solid fa-circle-arrow-down"></i> &nbsp;
+                                                            <strong> CHECK IN </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-08-31 10:49:00</small>
+                                                    </div>
+                                                    <p class="mb-2">PPP Tegalsari - Tegal</p>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-info"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-info">
+                                                            <i class="fa-solid fa-circle-arrow-up"></i> &nbsp;
+                                                            <strong> CHECK OUT </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-08-31 10:46:42</small>
+                                                    </div>
+                                                    <p class="mb-2">PPP Tegalsari - Tegal</p>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-success"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-success">
+                                                            <i class="fa-solid fa-circle-arrow-down"></i> &nbsp;
+                                                            <strong> CHECK IN </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-08-31 10:46:33</small>
+                                                    </div>
+                                                    <p class="mb-2">PPP Tegalsari - Tegal</p>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-info"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-info">
+                                                            <i class="fa-solid fa-circle-arrow-up"></i> &nbsp;
+                                                            <strong> CHECK OUT </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-08-31 03:16:57</small>
+                                                    </div>
+                                                    <p class="mb-2">PPP Tegalsari - Tegal</p>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-success"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-success">
+                                                            <i class="fa-solid fa-circle-arrow-down"></i> &nbsp;
+                                                            <strong> CHECK IN </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-08-31 01:14:45</small>
+                                                    </div>
+                                                    <p class="mb-2">PPP Tegalsari - Tegal</p>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-info"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-info">
+                                                            <i class="fa-solid fa-circle-arrow-up"></i> &nbsp;
+                                                            <strong> CHECK OUT </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-08-30 19:30:50</small>
+                                                    </div>
+                                                    <p class="mb-2">PPP Tegalsari - Tegal</p>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-warning"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-warning">
+                                                            <i class="fa-solid fa-circle-arrow-up"></i> &nbsp;
+                                                            <strong> OUT OF SCOPE </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-08-30 19:30:50</small>
+                                                    </div>
+                                                    <p class="mb-2">-6.228013, 106.811361</p>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-item timeline-item-transparent">
+                                                <span class="timeline-point timeline-point-danger"></span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header">
+                                                        <span class="badge bg-label-danger">
+                                                            <i class="fa-solid fa-circle-arrow-up"></i> &nbsp;
+                                                            <strong> FRAUD </strong>
+                                                        </span>
+                                                        <small class="text-muted">2023-08-30 19:30:50</small>
+                                                    </div>
+                                                    <p class="mb-2">-6.218116, 106.802735</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ User Profile Content -->
+
+                        <!--/ Content -->
+                    </div>
+                </div>
+                <!--/ Layout container -->
+            </div>
+        </div>
+
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+
+        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+        <div class="drag-target"></div>
+
+        <!--/ Layout wrapper -->
+
+        <!-- Core JS -->
+        <!-- build:js assets/vendor/js/core.js -->
+        <script src="assets/vendor/libs/popper/popper.js"></script>
+        <script src="assets/vendor/js/bootstrap.js"></script>
+        <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="assets/vendor/libs/node-waves/node-waves.js"></script>
+
+        <script src="assets/vendor/libs/hammer/hammer.js"></script>
+        <script src="assets/vendor/libs/i18n/i18n.js"></script>
+        <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+
+        <script src="assets/vendor/js/menu.js"></script>
+        <!-- endbuild -->
+
+        <!-- DASHBOARD JS -->
+        <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
+        <script src="assets/vendor/libs/swiper/swiper.js"></script>
+        <script src="assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+
+        <!-- DATATABLE JS -->
+
+        <script src="assets/js/tables-datatables-basic.js"></script>
+        <script src="assets/vendor/libs/moment/moment.js"></script>
+        <script src="assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+        <script src="assets/vendor/libs/select2/select2.js"></script>
+        <!-- <script src="assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script> -->
+        <!-- <script src="assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script> -->
+        <!-- <script src="assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script> -->
+        <script src="assets/vendor/libs/cleavejs/cleave.js"></script>
+        <script src="assets/vendor/libs/cleavejs/cleave-phone.js"></script>
+        <!-- <script src="assets/js/app-user-list.js"></script> -->
+
+        <!-- LEAFLET JS -->
+        <script src="assets/vendor/libs/leaflet/leaflet.js"></script>
+        <script src="assets/js/maps-leaflet.js"></script>
+
+        <!-- DATETIME JS -->
+        <script src="assets/vendor/libs/moment/moment.js"></script>
+        <!-- <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script> -->
+        <script src="assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+        <script src="assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js"></script>
+        <script src="assets/vendor/libs/jquery-timepicker/jquery-timepicker.js"></script>
+        <!-- <script src="assets/vendor/libs/pickr/pickr.js"></script> -->
+        <!-- <script src="assets/js/forms-pickers.js"></script> -->
+
+        <!-- Main JS -->
+        <script src="assets/js/main.js"></script>
+
+        <!-- DASHBOARD JS -->
+        <script src="assets/js/dashboards-analytics.js"></script>
+</body>
+
+</html>
