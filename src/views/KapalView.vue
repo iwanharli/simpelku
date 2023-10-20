@@ -1,79 +1,91 @@
+<script setup>
+import { RouterView } from 'vue-router'
+</script>
+
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row g-4 mb-4">
       <div class="col-sm-6 col-xl-3">
-        <div class="card text-white mb-3" style="background-color: #67b167">
-          <div class="card-body">
-            <div class="d-flex align-items-start justify-content-between">
-              <div class="content-left">
-                <span>Total Kapal</span>
-                <div class="d-flex align-items-center my-1">
-                  <h1 class="mb-0 me-2 text-white">1,600</h1>
+        <RouterLink to="/kapal">
+          <div class="card text-white mb-3" style="background-color: #67b167">
+            <div class="card-body">
+              <div class="d-flex align-items-start justify-content-between">
+                <div class="content-left">
+                  <span>Total Kapal</span>
+                  <div class="d-flex align-items-center my-1">
+                    <h1 class="mb-0 me-2 text-white">1,600</h1>
+                  </div>
                 </div>
-              </div>
-              <span class="badge bg-label-info rounded p-2">
-                <i class="ti ti-ship ti-sm"></i>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-xl-3">
-        <div class="card bg-primary text-white mb-3">
-          <div class="card-body">
-            <div class="d-flex align-items-start justify-content-between">
-              <div class="content-left">
-                <span>Kapal Fraud</span>
-                <div class="d-flex align-items-center my-1">
-                  <h1 class="mb-0 me-2 text-white">3</h1>
-                </div>
-              </div>
-              <a href="">
-                <span class="badge bg-label-danger rounded p-2">
-                  <i class="ti ti-bug ti-sm"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-xl-3">
-        <div class="card bg-warning text-white mb-3">
-          <div class="card-body">
-            <div class="d-flex align-items-start justify-content-between">
-              <div class="content-left">
-                <span>Pengajuan Menunggu</span>
-                <div class="d-flex align-items-center my-1">
-                  <h1 class="mb-0 me-2 text-white">23</h1>
-                </div>
-              </div>
-              <a href="">
                 <span class="badge bg-label-info rounded p-2">
-                  <i class="ti ti-user-check ti-sm"></i>
+                  <i class="ti ti-ship ti-sm"></i>
                 </span>
-              </a>
+              </div>
             </div>
           </div>
-        </div>
+        </RouterLink>
       </div>
       <div class="col-sm-6 col-xl-3">
-        <div class="card bg-danger text-white mb-3">
-          <div class="card-body">
-            <div class="d-flex align-items-start justify-content-between">
-              <div class="content-left">
-                <span>Pengajuan Ditolak</span>
-                <div class="d-flex align-items-center my-1">
-                  <h1 class="mb-0 me-2 text-white">5</h1>
+        <RouterLink to="/kapal-fraud">
+          <div class="card bg-primary text-white mb-3">
+            <div class="card-body">
+              <div class="d-flex align-items-start justify-content-between">
+                <div class="content-left">
+                  <span>Kapal Fraud</span>
+                  <div class="d-flex align-items-center my-1">
+                    <h1 class="mb-0 me-2 text-white">3</h1>
+                  </div>
                 </div>
+                <a href="">
+                  <span class="badge bg-label-danger rounded p-2">
+                    <i class="ti ti-bug ti-sm"></i>
+                  </span>
+                </a>
               </div>
-              <a href="">
-                <span class="badge bg-label-warning rounded p-2">
-                  <i class="ti ti-user-exclamation ti-sm"></i>
-                </span>
-              </a>
             </div>
           </div>
-        </div>
+        </RouterLink>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <RouterLink to="/kapal-menunggu">
+          <div class="card bg-warning text-white mb-3">
+            <div class="card-body">
+              <div class="d-flex align-items-start justify-content-between">
+                <div class="content-left">
+                  <span>Pengajuan Menunggu</span>
+                  <div class="d-flex align-items-center my-1">
+                    <h1 class="mb-0 me-2 text-white">23</h1>
+                  </div>
+                </div>
+                <a href="">
+                  <span class="badge bg-label-info rounded p-2">
+                    <i class="ti ti-user-check ti-sm"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </RouterLink>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <RouterLink to="/kapal-ditolak">
+          <div class="card bg-danger text-white mb-3">
+            <div class="card-body">
+              <div class="d-flex align-items-start justify-content-between">
+                <div class="content-left">
+                  <span>Pengajuan Ditolak</span>
+                  <div class="d-flex align-items-center my-1">
+                    <h1 class="mb-0 me-2 text-white">5</h1>
+                  </div>
+                </div>
+                <a href="">
+                  <span class="badge bg-label-warning rounded p-2">
+                    <i class="ti ti-user-exclamation ti-sm"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </RouterLink>
       </div>
     </div>
 
@@ -83,7 +95,7 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>#</th>
+              <th>No</th>
               <th>Device ID</th>
               <th>Nama Kapal</th>
               <th>Nama Penanggung Jawab</th>
@@ -163,29 +175,17 @@
     </div>
 
     <!--Hero area end-->
-    <div class="wave_area">
-      <svg
-        class="waves"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        viewBox="0 24 150 28"
-        preserveAspectRatio="none"
-        shape-rendering="auto"
-      >
-        <defs>
-          <path
-            id="gentle-wave"
-            d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-          />
-        </defs>
-        <g class="parallax">
-          <use xlink:href="#gentle-wave" x="48" y="0" fill="#d3ecf9" />
-          <use xlink:href="#gentle-wave" x="48" y="3" fill="#9ccce8" />
-          <use xlink:href="#gentle-wave" x="48" y="5" fill="#2e88c7" />
-          <use xlink:href="#gentle-wave" x="48" y="7" fill="#2158a8" />
-        </g>
-      </svg>
-    </div>
+    <WaveComponent />
     <!--Hero area end-->
   </div>
 </template>
+
+<script>
+import WaveComponent from '../components/WaveItem.vue'
+
+export default {
+  components: {
+    WaveComponent
+  }
+}
+</script>

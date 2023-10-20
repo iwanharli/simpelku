@@ -11,7 +11,7 @@ import { RouterLink } from 'vue-router'
     <div class="container-xxl d-flex h-100">
       <ul class="menu menu-inner">
         <!-- Dashboards -->
-        <li class="menu-item active">
+        <li @click="active = 'dashboard'" class="menu-item" :class="{active:active === 'dashboard'}">
           <RouterLink to="/" class="menu-link menu-toggle" id="dashboard">
             <i class="menu-icon tf-icons ti ti-smart-home"></i>
             <div data-i18n="Dashboards">Dashboards</div>
@@ -19,7 +19,7 @@ import { RouterLink } from 'vue-router'
         </li>
 
         <!-- Layouts -->
-        <li class="menu-item">
+        <li @click="active = 'kapal'" class="menu-item" :class="{active:active === 'kapal'}">
           <RouterLink to="/kapal" class="menu-link menu-toggle" id="kapal">
             <i class="menu-icon tf-icons ti ti-ship"></i>
             <div data-i18n="Kapal">Kapal</div>
@@ -27,7 +27,7 @@ import { RouterLink } from 'vue-router'
         </li>
 
         <!-- Apps -->
-        <li class="menu-item">
+        <li @click="active = 'laporan'" class="menu-item" :class="{active:active === 'laporan'}">
           <RouterLink to="/laporan" class="menu-link menu-toggle" id="laporan">
             <i class="menu-icon tf-icons ti ti-layout-grid-add"></i>
             <div data-i18n="Laporan">Laporan</div>
@@ -35,7 +35,7 @@ import { RouterLink } from 'vue-router'
         </li>
 
         <!-- Pages -->
-        <li class="menu-item">
+        <li @click="active = 'pengaturan-mobile'" class="menu-item" :class="{active:active === 'pengaturan-mobile'}">
           <RouterLink to="/pengaturan-mobile" class="menu-link menu-toggle" id="pengaturan">
             <i class="menu-icon tf-icons ti ti-settings"></i>
 
@@ -46,3 +46,11 @@ import { RouterLink } from 'vue-router'
     </div>
   </aside>
 </template>
+
+<script>
+export default {
+  data() {
+    return { active: null }
+  }
+}
+</script>
