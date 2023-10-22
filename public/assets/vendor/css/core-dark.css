@@ -4676,7 +4676,7 @@ textarea.form-control-lg {
   outline: 0;
 }
 
-.modal-backdrop {
+/* .modal-backdrop {
   --bs-backdrop-zindex: 1089;
   --bs-backdrop-bg: #000;
   --bs-backdrop-opacity: 0.5;
@@ -4692,8 +4692,8 @@ textarea.form-control-lg {
   opacity: 0;
 }
 .modal-backdrop.show {
-  opacity: var(--bs-backdrop-opacity);
-}
+  opacity: 0;
+} */
 
 .modal-header {
   display: flex;

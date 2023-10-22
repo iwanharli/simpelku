@@ -12,7 +12,7 @@ import { RouterLink } from 'vue-router'
       <ul class="menu menu-inner">
         <!-- Dashboards -->
         <li @click="active = 'dashboard'" class="menu-item" :class="{active:active === 'dashboard'}">
-          <RouterLink to="/" class="menu-link menu-toggle" id="dashboard">
+          <RouterLink to="/home" class="menu-link menu-toggle" id="dashboard">
             <i class="menu-icon tf-icons ti ti-smart-home"></i>
             <div data-i18n="Dashboards">Dashboards</div>
           </RouterLink>

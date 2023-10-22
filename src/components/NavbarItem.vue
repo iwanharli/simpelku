@@ -85,13 +85,6 @@
 
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <ul class="navbar-nav flex-row align-items-center ms-auto">
-          <!-- Search -->
-          <!-- <li class="nav-item navbar-search-wrapper me-2 me-xl-0">
-                        <a class="nav-link search-toggler" href="javascript:void(0);">
-                            <i class="ti ti-search ti-md"></i>
-                        </a>
-                    </li> -->
-          <!-- /Search -->
 
           <!-- Style Switcher -->
           <li class="nav-item me-2 me-xl-0">
@@ -297,7 +290,7 @@
               data-bs-toggle="dropdown"
             >
               <div class="avatar avatar-online">
-                <img src="assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                <img src="assets/img/avatars/1.png" class="h-auto rounded-circle" />
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -306,7 +299,7 @@
                   <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                       <div class="avatar avatar-online">
-                        <img src="assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                        <img src="assets/img/avatars/1.png" class="h-auto rounded-circle" />
                       </div>
                     </div>
                     <div class="flex-grow-1">
@@ -320,7 +313,7 @@
                 <div class="dropdown-divider"></div>
               </li>
               <li>
-                <a class="dropdown-item" href="landing_page.php">
+                <a class="dropdown-item" @click="logout">
                   <i class="ti ti-logout me-2 ti-sm"></i>
                   <span class="align-middle">Log Out</span>
                 </a>
@@ -330,12 +323,24 @@
           <!--/ User -->
         </ul>
       </div>
-
-      <!-- Search Small Screens -->
-      <!-- <div class="navbar-search-wrapper search-input-wrapper container-xxl d-none">
-                <input type="text" class="form-control search-input border-0" placeholder="Search..." aria-label="Search..." />
-                <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
-            </div> -->
     </div>
   </nav>
 </template>
+
+<script>
+import { useRouter } from 'vue-router'
+
+export default {
+    setup() {
+        const router    = useRouter();
+        const logout     = () => {
+          localStorage.setItem('authenticated', false);
+          router.push({ name: 'login' });
+        }
+    
+        return { logout };
+    }
+
+}
+
+</script>
