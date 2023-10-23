@@ -14,7 +14,7 @@ import { RouterLink } from 'vue-router'
         <li @click="active = 'dashboard'" class="menu-item" :class="{active:active === 'dashboard'}">
           <RouterLink to="/home" class="menu-link menu-toggle" id="dashboard">
             <i class="menu-icon tf-icons ti ti-smart-home"></i>
-            <div data-i18n="Dashboards">Dashboards</div>
+            <div data-i18n="Dashboards">Dashboard</div>
           </RouterLink>
         </li>
 
@@ -50,7 +50,7 @@ import { RouterLink } from 'vue-router'
 <script>
 export default {
   data() {
-    return { active: null }
+    return { active: 'dashboard' }
   }
 }
 </script>

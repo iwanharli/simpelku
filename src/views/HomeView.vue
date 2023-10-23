@@ -1,11 +1,10 @@
 <template>
-  <div class="container-fluid flex-grow-1 container-p-y">
-    <div style="height: 1000px; width: 2000px">
+  <div>
+    <div style="height: 87.2vh; width: 100vw">
       <l-map
         ref="map"
         v-model:zoom="zoom"
         :center="[-6.846155, 109.128892]"
-        style="border-radius: 20px"
       >
         <l-tile-layer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -46,32 +45,6 @@
       </l-map>
     </div>
   </div>
-  
-  <!--Hero area end-->
-  <div class="wave_area">
-    <svg
-      class="waves"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      viewBox="0 24 150 28"
-      preserveAspectRatio="none"
-      shape-rendering="auto"
-    >
-      <defs>
-        <path
-          id="gentle-wave"
-          d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-        />
-      </defs>
-      <g class="parallax">
-        <use xlink:href="#gentle-wave" x="48" y="0" fill="#d3ecf9" />
-        <use xlink:href="#gentle-wave" x="48" y="3" fill="#9ccce8" />
-        <use xlink:href="#gentle-wave" x="48" y="5" fill="#2e88c7" />
-        <use xlink:href="#gentle-wave" x="48" y="7" fill="#2158a8" />
-      </g>
-    </svg>
-  </div>
-  <!--Hero area end-->
 </template>
 
 <script>

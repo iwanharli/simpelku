@@ -7,7 +7,7 @@
       <!-- / Navbar -->
 
       <!-- Layout container -->
-      <div class="layout-page">
+      <div class="layout-page pt-2 mt-5">
         <!-- Content wrapper -->
         <div class="content-wrapper">
           <!-- Content -->

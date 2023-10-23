@@ -15,10 +15,10 @@
         />
       </defs>
       <g class="parallax">
-        <use xlink:href="#gentle-wave" x="48" y="0" fill="#d3ecf9" />
-        <use xlink:href="#gentle-wave" x="48" y="3" fill="#9ccce8" />
-        <use xlink:href="#gentle-wave" x="48" y="5" fill="#2e88c7" />
-        <use xlink:href="#gentle-wave" x="48" y="7" fill="#2158a8" />
+        <use xlink:href="#gentle-wave" x="48" y="0" fill="#c5c0f9" />
+        <use xlink:href="#gentle-wave" x="48" y="3" fill="#a49df5" />
+        <use xlink:href="#gentle-wave" x="48" y="5" fill="#8379f2" />
+        <use xlink:href="#gentle-wave" x="48" y="7" fill="#7367f0" />
       </g>
     </svg>
   </div>

@@ -1,7 +1,7 @@
 <template>
   <nav
     class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme"
-    id="layout-navbar"
+    id="layout-navbar border-primary"
     style="z-index: 9999"
   >
     <div class="container-xxl">
@@ -18,7 +18,7 @@
               fill-rule="evenodd"
               clip-rule="evenodd"
               d="M53.4649 20.2188L30.6945 1.35718L7.92407 20.2188L18.8518 29.2697L7.92407 38.3235L30.6945 57.1851L53.4649 38.3235L42.5372 29.2726L53.4649 20.2188Z"
-              fill="#3895EF"
+              fill="#7367f0"
             />
             <path
               fill-rule="evenodd"
@@ -31,7 +31,7 @@
               fill-rule="evenodd"
               clip-rule="evenodd"
               d="M27.4905 9.18718L43.8966 12.2931L30.6945 1.35718L7.92407 20.2188L27.4905 9.18718Z"
-              fill="#4D89EF"
+              fill="#8379f2"
             />
             <path
               fill-rule="evenodd"
@@ -44,7 +44,7 @@
               fill-rule="evenodd"
               clip-rule="evenodd"
               d="M33.9537 49.358L17.5505 46.2492L30.7498 57.1851L53.5231 38.3235L33.9537 49.358Z"
-              fill="#4D89EF"
+              fill="#8379f2 "
             />
             <path
               fill-rule="evenodd"

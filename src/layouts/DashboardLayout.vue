@@ -7,17 +7,14 @@ import { RouterView } from 'vue-router'
     <div class="layout-container">
       <!-- Navbar -->
       <NavbarItem />
+      <HorizontalMenuItem class="pt-3 mt-5" />
       <!-- / Navbar -->
 
       <!-- Layout container -->
-      <div class="layout-page">
+      <div class="layout-page pt-0">
         <!-- Content wrapper -->
         <div class="content-wrapper">
           <div class="layout-wrapper">
-            <!-- Menu -->
-            <HorizontalMenuItem />
-            <!-- / Menu -->
-            
             <RouterView />
           </div>
         </div>

@@ -7,7 +7,7 @@ import { RouterView } from 'vue-router'
     <div class="row g-4 mb-4">
       <div class="col-sm-6 col-xl-3">
         <RouterLink to="/kapal">
-          <div class="card text-white mb-3" style="background-color: #67b167">
+          <div class="card text-white mb-3 bg-success">
             <div class="card-body">
               <div class="d-flex align-items-start justify-content-between">
                 <div class="content-left">
@@ -90,7 +90,7 @@ import { RouterView } from 'vue-router'
     </div>
 
     <div class="card">
-      <h5 class="card-header">KAPAL TERDAFTAR</h5>
+      <h5 class="card-header">Kapal Terdaftar</h5>
       <div class="card-datatable text-nowrap">
         <table class="table table-striped">
           <thead>

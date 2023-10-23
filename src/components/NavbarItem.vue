@@ -10,7 +10,7 @@
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="61"
-            height="50"
+            height="40"
             viewBox="0 0 61 58"
             fill="none"
           >
@@ -18,7 +18,7 @@
               fill-rule="evenodd"
               clip-rule="evenodd"
               d="M53.4649 20.2188L30.6945 1.35718L7.92407 20.2188L18.8518 29.2697L7.92407 38.3235L30.6945 57.1851L53.4649 38.3235L42.5372 29.2726L53.4649 20.2188Z"
-              fill="#3895EF"
+              fill="#7367f0"
             />
             <path
               fill-rule="evenodd"
@@ -31,7 +31,7 @@
               fill-rule="evenodd"
               clip-rule="evenodd"
               d="M27.4905 9.18718L43.8966 12.2931L30.6945 1.35718L7.92407 20.2188L27.4905 9.18718Z"
-              fill="#4D89EF"
+              fill="#8379f2"
             />
             <path
               fill-rule="evenodd"
@@ -44,7 +44,7 @@
               fill-rule="evenodd"
               clip-rule="evenodd"
               d="M33.9537 49.358L17.5505 46.2492L30.7498 57.1851L53.5231 38.3235L33.9537 49.358Z"
-              fill="#4D89EF"
+              fill="#8379f2 "
             />
             <path
               fill-rule="evenodd"
@@ -66,7 +66,9 @@
               fill="white"
             />
           </svg>
-          <span class="app-brand-text demo menu-text fw-bold">SIMPEL</span>
+          <span class="app-brand-text demo menu-text fw-bold" style="margin-left: -15px !important"
+            >IMPEL &nbsp;&nbsp;|&nbsp;&nbsp; PPN TEGAL SARI</span
+          >
         </a>
 
         <a

@@ -2,7 +2,7 @@
   <div class="flip-card">
     <div class="flip-card-inner">
       <div class="flip-card-front">
-        <div style="width: 2045px; height: 1100px">
+        <div style="width: 100vw; height: 93.5vh">
           <l-map ref="map" v-model:zoom="zoom" :center="[-1.167395, 115.80259]">
             <l-tile-layer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
