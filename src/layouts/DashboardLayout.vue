@@ -3,6 +3,7 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
+  <!-- <h1>Welcome, {{ userStore.user }}</h1> -->
   <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
     <div class="layout-container">
       <!-- Navbar -->
@@ -31,6 +32,8 @@ import { RouterView } from 'vue-router'
 </template>
 
 <script>
+import { useUserStore } from "../stores/user";
+
 // components
 import NavbarItem from '../components/NavbarItem.vue'
 import HorizontalMenuItem from '../components/HorizontalMenuItem.vue'
@@ -40,6 +43,10 @@ export default {
   components: {
     NavbarItem,
     HorizontalMenuItem
-  }
+  },
+  setup() {
+    const userStore = useUserStore;
+    return { userStore };
+  },
 }
 </script>

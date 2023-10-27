@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import LoginLayout from "../layouts/LoginLayout.vue"
-import DashboardLayout from "../layouts/DashboardLayout.vue"
+import LoginLayout from "@/layouts/LoginLayout.vue"
+import DashboardLayout from "@/layouts/DashboardLayout.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,22 +26,31 @@ const router = createRouter({
           path: 'kapal',
           name: 'kapal',
           component: () => import('../views/KapalView.vue'),
+          children: [
+            { path: 'detail/1', component: () => import('../views/KapalDetailView.vue') },
+          ]
           // children: [
           //   {
-          //     path: '/kapal-fraud',
-          //     name: 'kapal-fraud',
-          //     component: () => import('../views/KapalFraudView.vue')
-          //   },
-          //   {
-          //     path: '/kapal-ditolak',
-          //     name: 'kapal-ditolak',
-          //     component: () => import('../views/KapalDitolakView.vue')
-          //   },
-          //   {
-          //     path: '/kapal-menunggu',
-          //     name: 'kapal-menunggu',
-          //     component: () => import('../views/KapalMenungguView.vue')
-          //   },
+          //     path: 'status',
+          //     name: 'status-kapal',
+          //     children: [
+          //       {
+          //         path: 'fraud',
+          //         name: 'kapalFraud',
+          //         component: () => import('../views/KapalFraudView.vue'),
+          //       },
+          //       {
+          //         path: 'menunggu',
+          //         name: 'kapalMenunggu',
+          //         component: () => import('../views/KapalMenungguView.vue'),
+          //       },
+          //       {
+          //         path: 'ditolak',
+          //         name: 'kapalDitolak',
+          //         component: () => import('../views/KapalDitolakView.vue'),
+          //       },
+          //     ]
+          //   }
           // ]
         },
         {
@@ -60,12 +69,12 @@ const router = createRouter({
 })
 
 
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = JSON.parse(localStorage.getItem('authenticated'));
+// router.beforeEach((to, from, next) => {
+//   const isAuthenticated = JSON.parse(localStorage.getItem('authenticated'));
 
-  if (to.name !== 'login' && !isAuthenticated) next({ name: 'login' });
-  if (to.name === 'login' && isAuthenticated) next({ name: 'home' });
-  else next();
-})
+//   if (to.name !== 'login' && !isAuthenticated) next({ name: 'login' });
+//   if (to.name === 'login' && isAuthenticated) next({ name: 'home' });
+//   else next();
+// })
 
 export default router

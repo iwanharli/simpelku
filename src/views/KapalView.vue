@@ -25,7 +25,7 @@ import { RouterView } from 'vue-router'
         </RouterLink>
       </div>
       <div class="col-sm-6 col-xl-3">
-        <RouterLink to="/kapal-fraud">
+        <RouterLink to="status/kapal-fraud">
           <div class="card bg-primary text-white mb-3">
             <div class="card-body">
               <div class="d-flex align-items-start justify-content-between">
@@ -111,10 +111,12 @@ import { RouterView } from 'vue-router'
               <th>Budi Sudarsono</th>
               <th class="text-center"><span class="badge bg-label-secondary">OFFLINE</span></th>
               <th class="text-center">
+                <RouterLink to="/kapal/detail/1">
                 <button class="btn btn-detail-kapal" type="button" id="kapal_detail">
                   <!-- <i class="ti ti-plus me-sm-1"></i>  -->
                   <span class="d-none d-sm-inline-block">Detail Kapal</span>
                 </button>
+                </RouterLink>
               </th>
             </tr>
             <tr>

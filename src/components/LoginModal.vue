@@ -21,48 +21,48 @@
             </div>
             <!-- /Logo -->
 
-            <!-- <form id="formAuthentication" class="mb-3" action="http://103.139.192.254:9016/api/v1/user/login" method="POST"> -->
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input
-                type="text"
-                class="form-control"
-                id="emailLogin"
-                name="email-username"
-                placeholder="Masukkan email Anda"
-                autofocus
-              />
-            </div>
-            <div class="mb-3 form-password-toggle">
-              <div class="d-flex justify-content-between">
-                <label class="form-label" for="password">Password</label>
-                <a
-                  href="#"
-                  data-bs-target="#modalToggle2"
-                  data-bs-toggle="modal"
-                  data-bs-dismiss="modal"
-                >
-                  <small>Forgot Password?</small>
-                </a>
-              </div>
-              <div class="input-group input-group-merge">
+            <form @submit.prevent="handleSubmit">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
                 <input
-                  type="password"
-                  id="password"
+                  v-model="email"
+                  type="text"
                   class="form-control"
-                  name="password"
-                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                  aria-describedby="password"
+                  id="emailLogin"
+                  name="email"
+                  placeholder="Masukkan email Anda"
+                  autofocus
                 />
-                <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
               </div>
-            </div>
-            <div class="mb-3">
-              <button @click="login" class="btn btn-primary d-grid w-100" type="submit">
-                Sign in
-              </button>
-            </div>
-            <!-- </form> -->
+              <div class="mb-3 form-password-toggle">
+                <div class="d-flex justify-content-between">
+                  <label class="form-label" for="password">Password</label>
+                  <a
+                    href="#"
+                    data-bs-target="#modalToggle2"
+                    data-bs-toggle="modal"
+                    data-bs-dismiss="modal"
+                  >
+                    <small>Forgot Password?</small>
+                  </a>
+                </div>
+                <div class="input-group input-group-merge">
+                  <input
+                    v-model="password"
+                    type="password"
+                    id="password"
+                    class="form-control"
+                    name="password"
+                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                    aria-describedby="password"
+                  />
+                  <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -71,18 +71,39 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 export default {
-  name: 'LoginModal',
-  setup() {
-    const router = useRouter()
-    const login = () => {
-      localStorage.setItem('authenticated', true);
-      router.push({ name: 'home' })
+  name: 'LoginPage',
+  data() {
+    return {
+      email: '',
+      password: ''
     }
+  },
+  methods: {
+    async handleSubmit() {
+      // const router = useRouter()
+      const response = await axios.post('api/v1/user/login', {
+        email: this.email,
+        password: this.password
+      })
 
-    return { login }
+      // console.log(response)
+
+      localStorage.setItem('token', response.data.data.token_jwt)
+
+      console.log('STATUS     :', response.data.meta.code)
+      console.log('MSG        :', response.data.meta.message)
+      console.log('TOKEN JWT  :', response.data.data.token_jwt)
+      console.log('USER       :', response.data.data.data_user)
+
+      localStorage.setItem('authenticated', true)
+      this.$router.push({ name: 'home' })
+    }
+  },
+  mounted() {
+    // console.log({ router: this.$router })
   }
 }
 </script>
