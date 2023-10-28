@@ -44,30 +44,15 @@
 </template>
 
 <script>
-import axios from 'axios'
 import 'leaflet/dist/leaflet.css'
 import { LMap, LPolygon, LTileLayer } from '@vue-leaflet/vue-leaflet'
 
 export default {
   name: 'HomeAdmin',
-  async created() {
-    // SIMPEL => GET
-    let webApiUrl  = 'http://103.139.192.254:9016/api/v1/user/get-profile'
-    let tokenStr   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVyYWRtaW5AZ21haWwuY29tIiwiZXhwIjoxNzAwNzU4NTcxLCJ1c2VyX2lkIjoiMSJ9.-Kn2nFQGYg6PJMNb4CnxeovwwqzpXF3eNdHkME-Ia_8'
-
-    // COBRA  => POST
-    // let webApiUrl  = 'https://cobra-api.puas.in//api/visualization-multi/get-multi-result/10'
-    // let tokenStr   = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb2JyYS1hcGkucHVhcy5pbiIsImlhdCI6MTY5ODIyMTA4NywibmJmIjoxNjk4MjIxMDkyLCJleHAiOjE2OTgzOTM4ODcsInVpZCI6IjEwIiwiZGF0YSI6eyJ1c2VybmFtZSI6Im1hc3RlciIsImVtYWlsIjoibWFzdGVyQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiJ9fQ.r-ITjo2OzQvJwqCVoqnfET-v5JMwHGVLJdDao2j_eKQ'
-
-    console.warn(localStorage.getItem('token'))
-
-    const res = await axios({
-      method: 'GET',
-      url: webApiUrl,
-      headers: { Authorization: `Bearer ${tokenStr}` }
-    })
-
-    console.log(res)
+  data() {
+    return {
+      zoom: 16
+    }
   },
 
   components: {
@@ -75,11 +60,6 @@ export default {
     LTileLayer,
     LPolygon
   },
-  data() {
-    return {
-      zoom: 16
-    }
-  }
 }
 </script>
 

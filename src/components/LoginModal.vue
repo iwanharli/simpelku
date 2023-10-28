@@ -81,29 +81,41 @@ export default {
       password: ''
     }
   },
+
   methods: {
     async handleSubmit() {
-      // const router = useRouter()
-      const response = await axios.post('api/v1/user/login', {
-        email: this.email,
-        password: this.password
-      })
+      try {
+        const response = await axios.post('api/v1/user/login', {
+          email: this.email,
+          password: this.password
+        })
+        
+        localStorage.setItem('token', response.data.data.token_jwt)
+        this.$router.push({ name: 'home' })
+        localStorage.setItem('authenticated', true)
 
-      // console.log(response)
+        console.log(localStorage.getItem('token'))
 
-      localStorage.setItem('token', response.data.data.token_jwt)
+      } catch (error) {
+        if(error.response.status === 400){
+          console.log(error.response.data.meta.code)
+          console.log(error.response.data.meta.message)
 
-      console.log('STATUS     :', response.data.meta.code)
-      console.log('MSG        :', response.data.meta.message)
-      console.log('TOKEN JWT  :', response.data.data.token_jwt)
-      console.log('USER       :', response.data.data.data_user)
+        } else if(error.response.status === 422) {
+          console.log(error.response.data.meta.code)
+          console.log(error.response.data.meta.message)
 
-      localStorage.setItem('authenticated', true)
-      this.$router.push({ name: 'home' })
+          if(this.email === null){
+            console.log(error.response.data.data.errors[0])
+          }else if(this.password === null) {
+            console.log(error.response.data.data.errors[1])
+          }else {
+            console.log(error.response.data.data.errors[0])
+            console.log(error.response.data.data.errors[1])
+          }
+        }
+      }
     }
-  },
-  mounted() {
-    // console.log({ router: this.$router })
   }
 }
 </script>
