@@ -25,44 +25,28 @@ const router = createRouter({
         {
           path: 'kapal',
           name: 'kapal',
-          component: () => import('../views/KapalView.vue'),
-          children: [
-            { path: 'detail/1', component: () => import('../views/KapalDetailView.vue') },
-          ]
-          // children: [
-          //   {
-          //     path: 'status',
-          //     name: 'status-kapal',
-          //     children: [
-          //       {
-          //         path: 'fraud',
-          //         name: 'kapalFraud',
-          //         component: () => import('../views/KapalFraudView.vue'),
-          //       },
-          //       {
-          //         path: 'menunggu',
-          //         name: 'kapalMenunggu',
-          //         component: () => import('../views/KapalMenungguView.vue'),
-          //       },
-          //       {
-          //         path: 'ditolak',
-          //         name: 'kapalDitolak',
-          //         component: () => import('../views/KapalDitolakView.vue'),
-          //       },
-          //     ]
-          //   }
-          // ]
+          component: () => import('../views/ShipView.vue'),
+        },
+        {
+          path: 'kapal/detail/:shipId',
+          name: 'detailKapal',
+          component: () => import('../views/ShipDetailView.vue'),
+        },
+        {
+          path: 'pengajuan-kapal',
+          name: 'pengajuanKapal',
+          component: () => import('../views/ShipRegisterView.vue'),
         },
         {
           path: 'laporan',
           name: 'laporan',
-          component: () => import('../views/LaporanView.vue')
+          component: () => import('../views/ReportView.vue')
         },
         {
           path: 'pengaturan-mobile',
           name: 'pengaturan-mobile',
-          component: () => import('../views/PengaturanMobileView.vue')
-        }
+          component: () => import('../views/MobileSettingView.vue')
+        },
       ]
     },
   ]

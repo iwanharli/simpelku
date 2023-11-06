@@ -2,23 +2,23 @@
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { LoadingPlugin } from 'vue-loading-overlay';
+import PrimeVue from 'primevue/config';
+// import store from './stores/store'
+
 
 import App from './App.vue'
 import router from './router'
 import './axios'
-// import store from './vuex'
-
-// new Vue({
-//     router,
-//     store,
-//     render: h => h(App),
-// }).$mount('#app')
-
+import 'vue-loading-overlay/dist/css/index.css';
+// import L from 'leaflet'
 
 const app = createApp(App)
 
 app.use(createPinia())
-app.use(router)
-// app.use(store)
+app.use(LoadingPlugin);
+app.use(router);
+app.use(PrimeVue);
+
 
 app.mount('#app')

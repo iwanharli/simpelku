@@ -3,7 +3,7 @@
   <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
     <div class="layout-container">
       <!-- Navbar -->
-      <NavbarLanding />
+      <NavBar />
       <!-- / Navbar -->
 
       <!-- Layout container -->
@@ -12,13 +12,13 @@
         <div class="content-wrapper">
           <!-- Content -->
           <div class="layout-wrapper">
-            <MapPelabuhan />
+            <MapIndonesia />
 
             <!-- Modal LOGIN-->
-            <LoginModal />
+            <ModalLogin />
 
             <!-- Modal Lupa Password-->
-            <ForgotPasswordModal />
+            <ModalForgotPassword />
           </div>
           <!--/ Content -->
         </div>
@@ -38,18 +38,18 @@
 <script>
 
 //components
-import NavbarLanding from '../components/NavbarLanding.vue'
-import LoginModal from '../components/LoginModal.vue'
-import ForgotPasswordModal from '../components/ForgotPasswordModal.vue'
-import MapPelabuhan from '../components/MapPelabuhan.vue'
+import NavBar from '../components/NavBar.vue'
+import ModalLogin from '../components/Modal/ModalLogin.vue'
+import ModalForgotPassword from '../components/Modal/ModalForgotPassword.vue'
+import MapIndonesia from '../components/Maps/MapIndonesia.vue'
 
 export default {
   name: 'LandingPage',
   components: {
-    NavbarLanding,
-    LoginModal,
-    ForgotPasswordModal,
-    MapPelabuhan,
+    NavBar,
+    ModalLogin,
+    ModalForgotPassword,
+    MapIndonesia,
   },
 }
 </script>

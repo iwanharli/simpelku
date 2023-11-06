@@ -4,11 +4,14 @@ import { RouterView } from 'vue-router'
 
 <template>
   <!-- <h1>Welcome, {{ userStore.user }}</h1> -->
-  <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+  <div
+    class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu gradient-bg"
+  >
     <div class="layout-container">
       <!-- Navbar -->
-      <NavbarItem v-bind:userData="user" />
-      <HorizontalMenuItem class="pt-3 mt-5" />
+      <NavbarAdmin v-bind:userData="user" />
+      <MenuAdmin class="pt-3 mt-5" />
+      <!-- <MenuSuperAdmin class="pt-3 mt-5" /> -->
       <!-- / Navbar -->
 
       <!-- Layout container -->
@@ -35,8 +38,9 @@ import { RouterView } from 'vue-router'
 import axios from 'axios'
 
 // components
-import NavbarItem from '../components/NavbarItem.vue'
-import HorizontalMenuItem from '../components/HorizontalMenuItem.vue'
+import NavbarAdmin from '../components/NavbarAdmin.vue'
+import MenuAdmin from '../components/MenuAdmin.vue'
+// import MenuSuperAdmin from '../components/MenuSuperAdmin.vue'
 
 export default {
   name: 'App',
@@ -49,8 +53,8 @@ export default {
 
   async created() {
     const response = await axios.get('api/v1/user/get-profile', {
-      headers : {
-        "Authorization" : 'Bearer ' + localStorage.getItem('token')
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
       }
     })
 
@@ -58,8 +62,29 @@ export default {
   },
 
   components: {
-    NavbarItem,
-    HorizontalMenuItem
+    NavbarAdmin,
+    MenuAdmin
+    // MenuSuperAdmin
   }
 }
 </script>
+
+<style>
+.gradient-bg {
+  background: linear-gradient(-45deg, #cdd7a6, #a6e1ff, #a4e7ff, rgba(112, 116, 255, 0.808));
+  background-size: 400% 400%;
+  animation: gradient 3s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+</style>
