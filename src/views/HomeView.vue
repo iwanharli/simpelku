@@ -4,7 +4,7 @@
     <!-- STATISTIK KAPAL  -->
     <div class="row" style="position: absolute; bottom: 15px; width: 70% !important; z-index: 999">
       <div class="col-xl-2 col-md-6 col-sm-12">
-        <div class="card text-white bg-success mb-3 ">
+        <div class="card text-white bg-success mb-3">
           <div class="card-body">
             <div class="d-flex align-items-start justify-content-between">
               <div class="content-left">
@@ -79,78 +79,106 @@
       </div>
     </div>
 
-    <!-- MAP -->
-    <!-- <div
-        style="
-          height: 87.6vh;
-          width: 100vw;
-          margin-left: -330px;
-          /* margin-top: -200px; */
-          z-index: 0 !important;
-        "
-      >
-        <l-map
-          ref="map"
-          v-model:zoom="zoom"
-          :center="[-6.846155, 109.128892]"
-          style="z-index: 0 !important"
-        >
-          <l-tile-layer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            layer-type="base"
-            name="OpenStreetMap"
-          ></l-tile-layer>
+    <div
+      ref="mapDiv"
+      id="map"
+      style="position: absolute; height: 89.5vh; width: 100vw; margin-left: -25px; margin-top: -25px;="
+    ></div>
 
-          <l-polygon
-            :lat-lngs="[
-              [-6.84803, 109.127111],
-              [-6.84493, 109.127213],
-              [-6.844399, 109.127412],
-              [-6.843839, 109.127916],
-              [-6.843522, 109.128222],
-              [-6.843405, 109.128479],
-              [-6.843397, 109.128805],
-              [-6.843378, 109.129482],
-              [-6.843815, 109.130108],
-              [-6.844419, 109.130499],
-              [-6.845571, 109.130567],
-              [-6.848934, 109.130598],
-              [-6.849089, 109.130019],
-              [-6.850875, 109.129794],
-              [-6.851462, 109.129584],
-              [-6.851276, 109.127807],
-              [-6.850367, 109.127907],
-              [-6.850528, 109.12923],
-              [-6.849406, 109.129368],
-              [-6.849238, 109.12804],
-              [-6.848195, 109.12814],
-              [-6.848085, 109.127142]
-            ]"
-            color="#41b782"
-            :fill="true"
-            :fillOpacity="0.5"
-            fillColor="#41b782"
-          />
-        </l-map>
-      </div> -->
-
-    <!-- <div class="d-flex text-center" style="height: 15vh">
-        <div class="m-auto">
-          <h4>YOUR POSITION</h4>
-          <h3>LATITUDE: {{ currPos.lat.toFixed(2) }}, LONGITUDE: {{ currPos.lng.toFixed(2) }}</h3>
-        </div>
-        <div class="m-auto">
-          <h4>Clicked Position</h4>
-          <span v-if="otherPos">
-            LATITUDE: {{ otherPos.lat.toFixed(2) }}, LONGITUDE: {{ otherPos.lng.toFixed(2) }}
-          </span>
-          <span v-else> Click Map to Select a Position </span>
-        </div>
-      </div> -->
-
-    <div ref="mapDiv" style="position: absolute; height: 89.5vh; width: 100vw; margin-left: -25px; margin-top: -25px;=" />
+    <button id="btnResetMap" @click="resetMap"><i class="ti ti-home-2"></i></button>
   </div>
 </template>
+
+<style>
+@import url('https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css');
+
+#btnResetMap {
+  width: 33px;
+  height: 33px;
+  line-height: 30px;
+  position: absolute;
+  z-index: 99999;
+  left: 9px;
+  top: 80px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid #88a9b2;
+  line-height: 26px;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.marker-cluster-small {
+  background-color: rgba(181, 226, 140, 0.8);
+}
+.marker-cluster-small div {
+  background-color: rgba(240, 159, 7, 0.8);
+}
+.marker-cluster-medium {
+  background-color: rgba(241, 211, 87, 0.8);
+}
+.marker-cluster-medium div {
+  background-color: rgba(240, 194, 12, 0.8);
+}
+.marker-cluster-large {
+  background-color: rgba(253, 156, 115, 0.8);
+}
+.marker-cluster-large div {
+  background-color: rgba(241, 128, 23, 0.8);
+}
+.leaflet-oldie .marker-cluster-small {
+  background-color: #b5e28c;
+}
+.leaflet-oldie .marker-cluster-small div {
+  background-color: #6ecc39;
+}
+.leaflet-oldie .marker-cluster-medium {
+  background-color: #f1d357;
+}
+.leaflet-oldie .marker-cluster-medium div {
+  background-color: #f0c20c;
+}
+.leaflet-oldie .marker-cluster-large {
+  background-color: #fd9c73;
+}
+.leaflet-oldie .marker-cluster-large div {
+  background-color: #f18017;
+}
+.marker-cluster {
+  background-clip: padding-box;
+  border-radius: 20px;
+  border: 3px solid steelblue;
+  animation: pulse-animation 2s infinite;
+}
+.marker-cluster div {
+  width: 30px;
+  height: 30px;
+  margin-left: 3px;
+  margin-top: 3px;
+  text-align: center;
+  border-radius: 15px;
+  font:
+    1.3em 'Helvetica Neue',
+    Arial,
+    Helvetica,
+    sans-serif;
+  font-weight: bold !important;
+}
+.marker-cluster span {
+  line-height: 30px;
+}
+
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+  }
+}
+</style>
 
 <script>
 /* eslint-disable no-undef */
@@ -159,17 +187,33 @@ import axios from 'axios'
 import { computed, onMounted, ref } from 'vue'
 import { useGeolocation } from '../useGeolocation'
 import { Loader } from '@googlemaps/js-api-loader'
+// import WebSocket from 'ws'
+// import WebSocket from 'isomorphic-ws'
+// import { w3cwebsocket as W3CWebSocket } from "websocket";
 // import { Carousel3d, Slide } from 'vue-carousel-3d'
 
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet'
+import 'leaflet.markercluster'
+
 // AIzaSyB-KuyteYp1DYW8KdRT6L1M7nB_GfAER00
-const GOOGLE_MAPS_API_KEY = 'AIzaSyB-KuyteYp1DYW8KdRT6L1M7nB_GfAER00'
+const GOOGLE_MAPS_API_KEY = 'AIzaSyB-KuyteYp1DYW8KdRT6L1M7nB_GfAER00xxxxxxxxxx'
 
 export default {
   name: 'HomeAdmin',
   data() {
     return {
       stats: [],
-      center: { lat: 51.093048, lng: 6.84212 }
+      center: { lat: -6.846155, lng: 109.128892 },
+      leaflet_map: null,
+      leaflet_markers: [],
+      leaflet_layerGroups: null,
+      ship_collection: [],
+      socket: null,
+      ws_url: 'ws://103.139.192.254:9016/api/v1/dashboard/ship-monitor/open-websocket',
+      harbour_name: 'PEL A BUHAN',
+      harbour_geo: []
+      // ws_url: "ws://localhost:8080",
     }
   },
 
@@ -181,36 +225,152 @@ export default {
     }))
 
     // const otherPos = ref(null)
-    const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY })
-    const mapDiv = ref(null)
+    // const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY })
 
-    let map = ref(null)
-    let clickListener = null
+    // let clickListener = null
 
-    onMounted(async () => {
-      await loader.load()
-      new google.maps.Map(mapDiv.value, {
-        center: currPos.value,
-        zoom: 16
-      })
-      // clickListener = map.value.addListener(
-      //   'click',
-      //   ({ latLng: { lat, lng } }) =>
-      //   (otherPos.value = { lat: lat(), lng: lng() })
-      // )
-    })
+    // onMounted(async () => {
+    //   await loader.load()
+    //   new google.maps.Map(mapDiv.value, {
+    //     center: currPos.value,
+    //     zoom: 16
+    //   })
+    //   // clickListener = map.value.addListener(
+    //   //   'click',
+    //   //   ({ latLng: { lat, lng } }) =>
+    //   //   (otherPos.value = { lat: lat(), lng: lng() })
+    //   // )
+    // })
     // onMounted(async () => {
     //   if (clickListener) clickListener.remove()
     // })
 
-    return { currPos, mapDiv }
+    // return { currPos, mapDiv }
   },
 
   mounted() {
+    this.getAppSetting()
     this.getStatistics()
+
+    setTimeout(() => {
+      this.akuPeta()
+      this.ws_container()
+    }, 500)
+  },
+
+  unmounted() {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      console.log('Ada koneksi nyambung, yukk putus aja.')
+
+      this.socket.close()
+      return
+    }
   },
 
   methods: {
+    async akuPeta() {
+      console.log('peta', L, [this.center.lat, this.center.lng])
+
+      this.mapZoomAnimFix()
+
+      this.leaflet_map = L.map('map', {}).setView([this.center.lat, this.center.lng], 13)
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxNativeZoom: 19,
+        maxZoom: 30,
+        noWrap: true,
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(this.leaflet_map)
+
+      // L.marker([this.center.lat, this.center.lng])
+      //   .addTo(this.leaflet_map)
+      //   .bindPopup(this.harbour_name)
+      //   .openPopup()
+
+      // this.leaflet_layerGroups = L.layerGroup().addTo(this.leaflet_map)
+      this.leaflet_layerGroups = L.markerClusterGroup().addTo(this.leaflet_map)
+
+      this.harbourEditor(this.harbour_geo)
+    }, // end func
+
+    async harbourEditor(geofence) {
+      var fix_geofence = geofence.map((item) => [item.lat, item.long])
+
+      var polygon = L.polygon(fix_geofence, {
+        color: '#7367F0',
+        fillColor: '#A1B4FF',
+        fillOpacity: 0.5
+      }).addTo(this.leaflet_map)
+    },
+
+    async markerEditor(ship) {
+      try {
+        if (this.leaflet_markers.hasOwnProperty(ship.ship_id)) {
+          // Jika marker sudah ada, perbarui posisinya
+          this.leaflet_markers[ship.ship_id].setLatLng([ship.geo[1], ship.geo[0]])
+
+          console.log(
+            'update marker kapal',
+            ship.ship_id,
+            ship.ship_name,
+            ' - koordinat ',
+            ship.geo
+          )
+        } else {
+          // Jika marker belum ada, buat marker baru dan tambahkan ke LayerGroup
+
+          var myIcon = L.icon({
+            iconUrl:
+              'https://raw.githubusercontent.com/iconic/open-iconic/master/png/map-marker-8x.png',
+            iconSize: [32, 32],
+            iconAnchor: [16, 32]
+          })
+
+          var marker = L.marker([ship.geo[1], ship.geo[0]], {
+            icon: myIcon
+          })
+            .bindTooltip(ship.ship_name)
+            .addTo(this.leaflet_layerGroups)
+            .on('click', this.clickZoom)
+
+          this.leaflet_markers[ship.ship_id] = marker
+
+          // console.log(
+          //   'create marker kapal',
+          //   ship.ship_id,
+          //   ship.ship_name,
+          //   ' - koordinat ',
+          //   ship.geo
+          // )
+        }
+      } catch (error) {
+        console.log('error add marker', error)
+      }
+    },
+
+    clickZoom(e) {
+      this.leaflet_map.setView(e.target.getLatLng(), 25)
+    },
+
+    resetMap() {
+      this.leaflet_map.setView([this.center.lat, this.center.lng], 15)
+    },
+
+    /******************** */
+
+    async prosesSocketData(data) {
+      var data = data.data
+      var json_data = JSON.parse(data)
+
+      // console.clear()
+      console.log(json_data)
+
+      json_data.forEach((ship) => {
+        this.markerEditor(ship)
+      })
+    },
+
+    /********************** */
     getStatistics() {
       axios
         .get('api/v1/dashboard/statistic', {
@@ -225,15 +385,136 @@ export default {
         .catch((error) => {
           console.log('Error : ' + error.response.data.meta.message)
         })
-    }
-  },
+    },
 
-  components: {
-    // LMap,
-    // LTileLayer,
-    // LPolygon
-    // 'carousel-3d': window['carousel-3d'].Carousel3d,
-    // 'slide': window['carousel-3d'].Slide
+    /**********************************************/
+
+    async ws_container() {
+      await this.ws_konek_donk()
+      await this.ws_test()
+    },
+
+    async ws_konek_donk() {
+      try {
+        // this.socket = new WebSocket(this.ws_url, null, {
+        //   headers: {
+        //     'X-Websocket-Key': 'SIMPELWEBSOCKET@2023'
+        //   }
+        // })
+
+        // return;
+
+        // jika sebelumnya sudah konek
+        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+          console.log('Koneksi sudah aktif.')
+          return
+        }
+
+        // konek ke server
+        this.socket = new WebSocket(this.ws_url)
+
+        // kalau ada error
+        this.socket.onerror = (error) => {
+          console.error('Terjadi kesalahan:', error)
+        }
+
+        // awal konek
+        this.socket.onopen = () => {
+          // console.clear()
+          console.log('Koneksi ke server berhasil dibuat')
+        }
+
+        // kalau ada pesan
+        this.socket.onmessage = (message) => {
+          // console.log('Pesan diterima:', message.data)
+          this.prosesSocketData(message)
+        }
+
+        // kalau ditutup
+        this.socket.onclose = (event) => {
+          if (event.code === 1000) {
+            // putus tp baik2
+            console.log('Koneksi ke server ditutup dengan sukses.')
+          } else {
+            // putus karena gak direstui
+            console.log('Koneksi ke server ditutup dengan kode:', event.code)
+            setTimeout(this.ws_konek_donk, 5000) // coba rujuk ulang setelah x detik
+          }
+        }
+      } catch (error) {
+        console.log('ERR :', error)
+
+        // jika error saat koneksi berjalan, putuskan koneksi yg berjalan
+        if (this.socket && this.socket?.readyState === WebSocket.OPEN) {
+          console.log('Koneksi sudah aktif. putusin aja')
+          this.socket.close()
+          return
+        }
+
+        // agar tiap ws tutup / gagal dia akan konek ulang setelah x detik
+        // setTimeout(this.ws_container(), 5000)
+      }
+    },
+
+    ws_test() {
+      console.log('TEST WS :', this.socket)
+    },
+
+    /***********************************/
+
+    getAppSetting() {
+      axios
+        .get('api/v1/setting/web', {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+          }
+        })
+        .then((res) => {
+          this.harbour_name = res.data.data.harbour_name
+          this.harbour_geo = res.data.data.geofences
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+
+    mapZoomAnimFix() {
+      L.Popup.prototype._animateZoom = function (e) {
+        if (!this._map) {
+          return
+        }
+        var pos = this._map._latLngToNewLayerPoint(this._latlng, e.zoom, e.center),
+          anchor = this._getAnchor()
+        L.DomUtil.setPosition(this._container, pos.add(anchor))
+      }
+
+      L.Tooltip.prototype._animateZoom = function (e) {
+        if (!this._map) {
+          return
+        }
+
+        var pos = this._map._latLngToNewLayerPoint(this._latlng, e.zoom, e.center)
+        this._setPosition(pos)
+      }
+
+      L.Tooltip.prototype._updatePosition = function (e) {
+        if (!this._map) {
+          return
+        }
+
+        var pos = this._map.latLngToLayerPoint(this._latlng)
+        this._setPosition(pos)
+      }
+
+      L.Marker.prototype._animateZoom = function (e) {
+        if (!this._map) {
+          return
+        }
+        var pos = this._map._latLngToNewLayerPoint(this._latlng, e.zoom, e.center).round()
+
+        this._setPos(pos)
+      }
+    }
   }
 }
 </script>
