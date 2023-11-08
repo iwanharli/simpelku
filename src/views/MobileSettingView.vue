@@ -180,6 +180,7 @@ import L from 'leaflet'
 import axios from 'axios'
 // import Swaler from 'sweetalert2'
 
+import OrganizationChart from 'primevue/organizationchart'
 import WaveComponent from '../components/Items/WaveItem.vue'
 import harbourMarker from '../../public/assets/img/harbour-marker.png'
 
@@ -200,10 +201,6 @@ export default {
       appGeofence: [],
       appMode: '',
       polygonLayer: null
-      // selectedMode: '',
-      // areas: [],
-      // drawingMode: false,
-      // areaName: ''
     }
   },
 
@@ -258,7 +255,7 @@ export default {
     },
 
     updateMobileSetting() {
-      const customHeaders = {
+      const config = {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
@@ -272,13 +269,36 @@ export default {
         interval: parseInt(this.appInterval),
         range: parseInt(this.appRange),
         apk_download_link: this.appUrl,
-        geofence: this.appGeofence
+        geofence: [
+          [-6.84803, 109.127111],
+          [-6.84493, 109.127213],
+          [-6.844399, 109.127412],
+          [-6.843839, 109.127916],
+          [-6.843522, 109.128222],
+          [-6.843405, 109.128479],
+          [-6.843397, 109.128805],
+          [-6.843378, 109.129482],
+          [-6.843815, 109.130108],
+          [-6.844419, 109.130499],
+          [-6.845571, 109.130567],
+          [-6.848934, 109.130598],
+          [-6.849089, 109.130019],
+          [-6.850875, 109.129794],
+          [-6.851462, 109.129584],
+          [-6.851276, 109.127807],
+          [-6.850367, 109.127907],
+          [-6.850528, 109.12923],
+          [-6.849406, 109.129368],
+          [-6.849238, 109.12804],
+          [-6.848195, 109.12814],
+          [-6.848085, 109.127142]
+        ]
       }
 
       console.log(updatedData)
 
       axios
-        .post('api/v1/setting/create-or-update', updatedData, customHeaders)
+        .post('api/v1/setting/create-or-update', updatedData, config)
         .then((response) => {
           console.log('Data updated successfully', response)
           location.reload()
@@ -294,7 +314,8 @@ export default {
   },
 
   components: {
-    WaveComponent
+    WaveComponent,
+    OrganizationChart
   }
 }
 </script>

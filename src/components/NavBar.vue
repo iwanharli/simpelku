@@ -17,14 +17,6 @@
 
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <ul class="navbar-nav flex-row align-items-center ms-auto">
-          
-          <!-- Search -->
-          <li class="nav-item navbar-search-wrapper me-2 me-xl-0">
-            <a class="nav-link search-toggler" href="javascript:void(0);">
-              <i class="ti ti-search ti-md"></i>
-            </a>
-          </li>
-          <!-- /Search -->
 
           <!-- Style Switcher -->
           <li class="nav-item me-2 me-xl-0">
@@ -64,17 +56,6 @@
             </button>
           </li>
         </ul>
-      </div>
-
-      <!-- Search Small Screens -->
-      <div class="navbar-search-wrapper search-input-wrapper container-xxl d-none">
-        <input
-          type="text"
-          class="form-control search-input border-0"
-          placeholder="Search..."
-          aria-label="Search..."
-        />
-        <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
       </div>
     </div>
   </nav>

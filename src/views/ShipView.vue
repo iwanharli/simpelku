@@ -17,27 +17,99 @@
         </div>
       </div>
 
-      <div class="card" v-else>
+      <div class="card" style="z-index: 1" v-else>
         <div
           class="card-header align-items-center"
           style="color: white; border-radius: 5px; padding: 10px !important"
         >
-          <h3
+          <div
             class="card-action-title mb-0"
             style="background: #b2bfff; padding: 10px; border-radius: 5px"
           >
-            <span class="badge bg-primary">KAPAL TERDAFTAR</span>
-            <p />
-            <input
-              type="text"
-              class="form-control search-input border-0 search-ship"
-              placeholder="Search..."
-              v-model="searchQuery"
-            />
-          </h3>
+            <div class="row">
+              <div class="col-xl-10">
+                <span class="badge bg-primary" style="font-size: x-large">KAPAL TERDAFTAR</span>
+              </div>
+              <div class="col-xl-2" style="padding-left: 100px; padding-top: 10px">
+                <button
+                  class="btn btn-warning"
+                  type="button"
+                  id="kapal_detail"
+                  @click="handleClick"
+                >
+                  <i class="ti ti-external-link me-sm-1"></i> Export
+                </button>
+              </div>
+              <div class="col-xl-12" style="margin-top: 20px">
+                <input
+                  type="text"
+                  class="form-control search-input border-0 search-ship"
+                  placeholder="(Kapal / Penanggung Jawab / Device ID / Terdaftar)"
+                  v-model="searchQuery"
+                />
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="card-datatable text-wrap" style="overflow-y: auto">
-          <table class="table table-striped">
+        <div class="card-datatable table-striped">
+          <DataTable
+            :value="filteredData"
+            :rows="10"
+            :rowsPerPageOptions="[10, 20, 50]"
+            paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+            currentPageReportTemplate="{first} to {last} of {totalRecords}"
+            stripedRows
+            paginator
+          >
+            <Column field="rowNumber" header="NO" sortable></Column>
+            <Column field="ship_name" header="KAPAL" sortable></Column>
+            <Column field="responsible_name" header="PENANGGUNG JAWAB" sortable></Column>
+            <Column field="device_id" header="DEVICE ID" style="width: 5%" sortable></Column>
+            <Column field="created_at" header="TERDAFTAR" style="width: 3%" sortable></Column>
+            <Column field="status" header="STATUS" style="width: 9%" sortable>
+              <template #body="statusData">
+                <div style="text-align: center">
+                  <Tag
+                    :value="statusData.data.status"
+                    severity="success"
+                    v-if="statusData.data.status === 'checkin'"
+                  />
+                  <Tag
+                    :value="statusData.data.status"
+                    severity="info"
+                    v-if="statusData.data.status === 'checkout'"
+                  />
+                  <Tag
+                    :value="statusData.data.status"
+                    severity="warning"
+                    v-if="statusData.data.status === 'out of scope'"
+                  />
+                </div>
+              </template>
+            </Column>
+            <Column style="width: 10%">
+              <template #body="statusData">
+                <div style="text-align: center">
+                  <RouterLink :to="{ name: 'detailKapal', params: { shipId: statusData.data.id } }">
+                    <button
+                      class="btn btn-xs btn-detail-kapal"
+                      type="button"
+                      id="kapal_detail"
+                      @click="handleClick"
+                    >
+                      <i class="ti ti-search me-sm-1"></i> DETAIL
+                    </button>
+                  </RouterLink>
+                </div>
+              </template>
+            </Column>
+
+            <template #footer>
+              TOTAL <b> {{ filteredData ? filteredData.length : 0 }} </b
+              ><small> kapal terdaftar. </small>
+            </template>
+          </DataTable>
+          <!-- <table class="table table-striped">
             <thead>
               <tr>
                 <th>No</th>
@@ -81,27 +153,7 @@
                 </td>
               </tr>
             </tbody>
-          </table>
-        </div>
-
-        <div class="col-lg-12">
-          <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-end" style="padding-right: 20px">
-              <li class="page-item prev">
-                <a class="page-link" href="javascript:void(0);"
-                  ><i class="ti ti-chevrons-left ti-xs"></i
-                ></a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link" href="javascript:void(0);">1</a>
-              </li>
-              <li class="page-item next">
-                <a class="page-link" href="javascript:void(0);"
-                  ><i class="ti ti-chevrons-right ti-xs"></i
-                ></a>
-              </li>
-            </ul>
-          </nav>
+          </table> -->
         </div>
       </div>
     </div>
@@ -114,12 +166,31 @@
 
 <script>
 import axios from 'axios'
-import Paginate from 'vuejs-paginate'
+// import VueJsonToCsv from 'vue-json-to-csv'
+
+import Button from 'primevue/button'
+import Tag from 'primevue/tag'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import ColumnGroup from 'primevue/columngroup' // optional
+import Row from 'primevue/row' // optional
+import InputText from 'primevue/inputtext'
+
 import WaveComponent from '../components/Items/WaveItem.vue'
-// import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 export default {
   name: 'detailKapal',
+  components: {
+    Tag,
+    Button,
+    DataTable,
+    Row,
+    Column,
+    ColumnGroup,
+    InputText,
+    WaveComponent
+  },
+
   data() {
     return {
       ships: [],
@@ -131,18 +202,31 @@ export default {
   computed: {
     filteredData() {
       const query = this.searchQuery.toLowerCase()
-      return this.ships.filter((ship) => {
-        if (ship.ship_name) {
-          return (
-            ship.ship_name.toLowerCase().includes(query) ||
-            ship.responsible_name.toLowerCase().includes(query) ||
-            ship.device_id.toLowerCase().includes(query) ||
-            ship.created_at.toLowerCase().includes(query) ||
-            ship.status.toLowerCase().includes(query)
-          )
-        }
-        return false
-      })
+
+      console.log('Query:', query)
+
+      return this.ships
+        .map((item, index) => {
+          const rowNumber = index + 1
+
+          if (item.ship_name) {
+            if (
+              item.ship_name.toLowerCase().includes(query) ||
+              item.responsible_name.toLowerCase().includes(query) ||
+              item.device_id.toLowerCase().includes(query) ||
+              item.created_at.toLowerCase().includes(query) ||
+              item.status.toLowerCase().includes(query)
+            ) {
+              return {
+                ...item,
+                rowNumber
+              }
+            }
+          }
+
+          return null
+        })
+        .filter((ship) => ship !== null)
     }
   },
 
@@ -158,6 +242,7 @@ export default {
           const datetimeString = ship.created_at // "2023-11-03 18:02:23"
           const parts = datetimeString.split(' ') // ["2023-11-03", "18:02:23"]
           ship.created_at = parts[0]
+
           return ship
         })
 
@@ -208,15 +293,11 @@ export default {
         return 'badge bg-label-danger' // Default class if none of the conditions match
       }
     }
-  },
-
-  components: {
-    WaveComponent
   }
 }
 </script>
 
-<style>
+<style module>
 @keyframes loading {
   40% {
     background-position: 100% 0;

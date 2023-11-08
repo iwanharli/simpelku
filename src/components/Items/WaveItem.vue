@@ -23,3 +23,12 @@
     </svg>
   </div>
 </template>
+
+<style scoped>
+.container-wave {
+  /* position: absolute; */
+}
+.wave_area {
+  z-index: 0 !important;
+}
+</style>

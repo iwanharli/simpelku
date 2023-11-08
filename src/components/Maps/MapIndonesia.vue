@@ -25,8 +25,8 @@ export default {
   setup() {
     // const { coords } = useGeolocation()
     const currPos = computed(() => ({
-      lat: -6.846155,
-      lng: 109.128892
+      lat: -1.592011,
+      lng: 116.838038
     }))
 
     // const otherPos = ref(null)
@@ -40,7 +40,7 @@ export default {
       await loader.load()
       new google.maps.Map(mapDiv.value, {
         center: currPos.value,
-        zoom: 16
+        zoom: 6
       })
       // clickListener = map.value.addListener(
       //   'click',
