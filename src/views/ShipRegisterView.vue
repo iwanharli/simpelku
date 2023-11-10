@@ -11,9 +11,9 @@
           role="tablist"
           style="display: flex; justify-content: center; border-radius: 20px; padding-top: 10px"
         >
-          <li class="nav-item" style="padding-right: 10px">
+          <li class="nav-item active" style="padding-right: 10px">
             <button
-              class="nav-link btn-header"
+              class="nav-link active btn-header"
               data-bs-toggle="tab"
               data-bs-target="#form-tabs-approved"
               role="tab"
@@ -22,9 +22,9 @@
               <i class="ti ti-check"></i> &nbsp; DISETUJUI
             </button>
           </li>
-          <li class="nav-item active" style="padding-right: 10px">
+          <li class="nav-item" style="padding-right: 10px">
             <button
-              class="nav-link active btn-header"
+              class="nav-link btn-header"
               data-bs-toggle="tab"
               data-bs-target="#form-tabs-pending"
               role="tab"
@@ -50,7 +50,7 @@
 
     <div class="tab-content">
       <!-- APPROVED -->
-      <div class="tab-pane fade" id="form-tabs-approved" role="tabpanel">
+      <div class="tab-pane fade active show" id="form-tabs-approved" role="tabpanel">
         <div class="col-xl-12 col-md-12 col-sm-12">
           <div class="card" style="z-index: 1">
             <div
@@ -170,7 +170,7 @@
       </div>
 
       <!-- PENDING -->
-      <div class="tab-pane fade active show" id="form-tabs-pending" role="tabpanel">
+      <div class="tab-pane fade" id="form-tabs-pending" role="tabpanel">
         <div class="col-xl-12 col-md-12 col-sm-12">
           <div class="card" style="z-index: 1">
             <div

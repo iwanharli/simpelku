@@ -49,6 +49,7 @@
     "@types/papaparse": "^5.3.11",
     "@vitejs/plugin-vue": "^4.4.0",
     "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/test-utils": "^2.4.1",
     "jsdom": "^22.1.0",
     "prettier": "^3.0.3",

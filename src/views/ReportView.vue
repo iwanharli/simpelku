@@ -248,7 +248,17 @@ export default {
           return null
         })
         .filter((report) => report !== null)
-    }
+    },
+
+    ReportDataToCSV() {
+      return this.filteredReportData.map(item => ({
+        ship_name: item.ship_name, 
+        ship_status: item.status,
+        ship_lat: item.lat,
+        ship_long: item.long,
+        log_date: item.log_date
+      }));
+    },
   },
 
   mounted() {
@@ -261,7 +271,8 @@ export default {
       .then((res) => {
         this.reports = res.data.data
 
-        console.log(this.reports)
+        // console.log(this.reports)
+        console.log("DATA REPORT FETCHED")
         this.isLoading = false
       })
       .catch((error) => {
@@ -271,22 +282,34 @@ export default {
 
   methods: {
     exportCSV() {
-      const csvData = Papa.unparse(this.filteredReportData)
-      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' })
+      const jsonFields  = ["ship_name", "ship_status", 'ship_lat', 'ship_long', 'log_date'];
+      const csvStr      = this.jsonToCSV(this.ReportDataToCSV, jsonFields);
 
-      const link = document.createElement('a')
-      const url = URL.createObjectURL(blob)
+      console.log(this.ReportDataToCSV)
 
-      link.setAttribute('href', url)
-      link.setAttribute('download', 'report.csv')
-      link.style.visibility = 'hidden'
+      // Download CSV
+      this.downloadCSV(csvStr);
+    },
 
-      document.body.appendChild(link)
-      link.click()
+    jsonToCSV(jsonArray, jsonFields) {
+      let csvStr = jsonFields.join(",") + "\n";
 
-      document.body.removeChild(link)
-      URL.revokeObjectURL(url)
-    }
+      jsonArray.forEach(element => {
+        const values = jsonFields.map(field => element[field] || ''); // Replace with the actual field names in your report data
+
+        csvStr += values.join(',') + "\n";
+      });
+
+      return csvStr;
+    },
+
+    downloadCSV(csvStr) {
+      const hiddenElement = document.createElement('a');
+      hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr);
+      hiddenElement.target = '_blank';
+      hiddenElement.download = 'laporan.csv';
+      hiddenElement.click();
+    },
   },
 
   components: {

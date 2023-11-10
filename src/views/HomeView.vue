@@ -114,7 +114,7 @@
   background-color: rgba(181, 226, 140, 0.8);
 }
 .marker-cluster-small div {
-  background-color: rgba(240, 159, 7, 0.8);
+  background-color: #605ac2;
 }
 .marker-cluster-medium {
   background-color: rgba(241, 211, 87, 0.8);
@@ -172,7 +172,7 @@
 
 @keyframes pulse-animation {
   0% {
-    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0 0px rgb(255, 187, 50);
   }
   100% {
     box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
