@@ -1,190 +1,373 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
-    <!-- LOADER -->
-    <div class="border-round border-1 surface-border p-4 surface-card" v-if="isLoading">
-      <div class="headline">
-        <h4 style="color: rgb(81, 0, 139)">Loading ...</h4>
-      </div>
-      <div class="tableWrapper">
-        <table class="table">
-          <tr>
-            <td class="loading">
-              <div class="bar"></div>
-            </td>
-          </tr>
-        </table>
+    <!-- MENU -->
+    <div class="col-xl-12 col-md-12 col-sm-12">
+      <div
+        class="card-header"
+        style="background: rgb(74, 71, 117); padding-top: 20px; border-radius: 20px"
+      >
+        <ul
+          class="nav nav-tabs card-header-tabs"
+          role="tablist"
+          style="display: flex; justify-content: center; border-radius: 20px; padding-top: 10px"
+        >
+          <li class="nav-item" style="padding-right: 10px">
+            <button
+              class="nav-link btn-header"
+              data-bs-toggle="tab"
+              data-bs-target="#form-tabs-approved"
+              role="tab"
+              aria-selected="true"
+            >
+              <i class="ti ti-check"></i> &nbsp; DISETUJUI
+            </button>
+          </li>
+          <li class="nav-item active" style="padding-right: 10px">
+            <button
+              class="nav-link active btn-header"
+              data-bs-toggle="tab"
+              data-bs-target="#form-tabs-pending"
+              role="tab"
+              aria-selected="false"
+            >
+              <i class="ti ti-alarm"></i> &nbsp; PENDING
+            </button>
+          </li>
+          <li class="nav-item" style="padding-right: 10px">
+            <button
+              class="nav-link btn-header"
+              data-bs-toggle="tab"
+              data-bs-target="#form-tabs-rejected"
+              role="tab"
+              aria-selected="false"
+            >
+              <i class="ti ti-ban"></i> &nbsp; DITOLAK
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
 
-    <div class="row" v-else>
-      <div class="col-xl-4 col-md-6">
-        <div class="card">
-          <div class="card-header align-items-center">
-            <h5 class="card-action-title head-pending mb-0">
-              <span class="badge bg-label-warning">PENGAJUAN PENDING</span>
-              <p />
-              <input
-                type="text"
-                class="form-control search-input border-0 search-pending"
-                placeholder="Search..."
-                v-model="searchQuery"
-              />
-            </h5>
-          </div>
-          <div class="card-body card-body-pending">
-            <table class="table table-striped">
-              <tbody>
-                <tr v-for="(plist, index) in pendingData" :key="index++">
-                  <th class="th-1 pending">
-                    <div class="pending-index">
-                      {{ index }}
-                    </div>
-                  </th>
-                  <th class="th-2 pending">
-                    <div style="height: 25px; width: 100%; display: flex; align-items: center">
-                      <i class="ti ti-ship"> </i> &nbsp; {{ plist.ship_name.toUpperCase() }} <br />
-                    </div>
-                    <div style="height: 25px; width: 100%; display: flex; align-items: center">
-                      <i class="ti ti-user"> </i> &nbsp; {{ plist.responsible_name }} <br />
-                    </div>
-                    <div style="height: 25px; display: flex; align-items: center">
-                      <i class="ti ti-phone"> </i> &nbsp; {{ plist.phone }} <br />
-                    </div>
-                    <div style="height: 25px; display: flex; align-items: center">
-                      <i class="ti ti-calendar"> </i> &nbsp; {{ plist.created_at }} <br />
-                    </div>
-                  </th>
-                  <th class="th-3 pending text-center">
-                    <a @click="pendingApproveSubmit(plist.id)">
-                      <button class="btn btn-xs btn-success waves-effect waves-light" type="button">
-                        <i class="ti ti-checks me-xs-1"></i>
-                      </button>
-                    </a>
-                    <p />
-                    <a @click="pendingDeclineSubmit(plist.id)">
-                      <button class="btn btn-xs btn-danger waves-effect waves-light" type="button">
-                        <i class="ti ti-ban me-xs-1"></i>
-                      </button>
-                    </a>
-                  </th>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top: 20px">
-          <div class="card-header align-items-center">
-            <h5 class="card-action-title head-rejected mb-0">
-              <span class="badge bg-label-danger">PENGAJUAN DITOLAK</span>
-              <p />
-              <input
-                type="text"
-                class="form-control search-input border-0 search-rejected"
-                placeholder="Search..."
-                v-model="searchQuery"
-              />
-            </h5>
-          </div>
-          <div class="card-body card-body-rejected">
-            <table class="table table-striped">
-              <tbody>
-                <tr v-for="(rlist, index) in rejectedData" :key="index++">
-                  <th class="th-1 rejected">
-                    <div class="rejected-index">
-                      {{ index }}
-                    </div>
-                  </th>
-                  <th class="th-2 rejected">
-                    <div style="height: 25px; width: 100%; display: flex; align-items: center">
-                      <i class="ti ti-ship"> </i> &nbsp; {{ rlist.ship_name.toUpperCase() }} <br />
-                    </div>
-                    <div style="height: 25px; width: 100%; display: flex; align-items: center">
-                      <i class="ti ti-user"> </i> &nbsp; {{ rlist.responsible_name }} <br />
-                    </div>
-                    <div style="height: 25px; display: flex; align-items: center">
-                      <i class="ti ti-phone"> </i> &nbsp; {{ rlist.phone }} <br />
-                    </div>
-                    <div style="height: 25px; display: flex; align-items: center">
-                      <i class="ti ti-calendar"> </i> &nbsp; {{ rlist.created_at }} <br />
-                    </div>
-                  </th>
-                  <th class="th-3 rejected text-center">
-                    <a
-                      :href="getWhatsAppLink(rlist.phone)"
+    <div class="tab-content">
+      <!-- APPROVED -->
+      <div class="tab-pane fade" id="form-tabs-approved" role="tabpanel">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+          <div class="card" style="z-index: 1">
+            <div
+              class="card-header align-items-center"
+              style="border-radius: 5px; padding: 10px !important"
+            >
+              <div
+                class="card-action-title mb-0"
+                style="background: rgb(90 178 194); padding: 10px; border-radius: 5px"
+              >
+                <div class="row">
+                  <div class="col-xl-10 col-md-12">
+                    <h2 class="title-pengajuan" style="">PENGAJUAN DISETUJUI</h2>
+                  </div>
+                  <div class="col-xl-2 cold-md-12 btn-export">
+                    <button
+                      style="display: inline-block"
+                      class="btn btn-warning"
                       type="button"
-                      class="btn rounded-pill btn-icon btn-label-success waves-effect"
-                      target="_blank"
+                      id="kapal_detail"
+                      @click="handleClick"
                     >
-                      <span class="ti ti-brand-whatsapp"></span>
-                    </a>
-                  </th>
-                </tr>
-              </tbody>
-            </table>
+                      <i class="ti ti-external-link me-sm-1"></i> Export
+                    </button>
+                  </div>
+                  <div class="col-xl-12" style="margin-top: 20px">
+                    <input
+                      type="text"
+                      class="form-control search-input border-0 search-ship"
+                      placeholder="Pencarian (Kapal / Penanggung Jawab / Device ID / No HP)"
+                      v-model="searchQuery"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-datatable table-striped">
+              <!-- SKELETON -->
+              <div v-if="isLoading">
+                <div v-for="row in 5" :key="row" class="row" style="padding: 10px">
+                  <div v-for="col in 6" :key="col" class="col-xl-{{ col === 4 ? 4 : 2 }}">
+                    <Skeleton class="border-round h-2rem" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- ISI -->
+              <div v-else>
+                <DataTable
+                  :value="addRowNumbers(approvedData)"
+                  :rows="5"
+                  :rowsPerPageOptions="[5, 10, 20, 50]"
+                  paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                  currentPageReportTemplate="{first} - {last} of {totalRecords}"
+                  paginator
+                  :filterBy="searchQuery"
+                >
+                  <Column
+                    field="rowNumber"
+                    header="NO"
+                    style="text-transform: uppercase; width: 2%"
+                    sortable
+                  ></Column>
+                  <Column
+                    field="ship_name"
+                    header="KAPAL"
+                    style="text-transform: uppercase; width: 20%"
+                    sortable
+                  ></Column>
+                  <Column
+                    field="responsible_name"
+                    header="PENANGGUNG JAWAB"
+                    style="text-transform: uppercase; width: 20%"
+                    sortable
+                  ></Column>
+                  <Column
+                    field="device_id"
+                    header="DEVICE ID"
+                    style="text-transform: uppercase; width: 23%"
+                    sortable
+                  ></Column>
+                  <Column
+                    field="phone"
+                    header="NOMOR HP"
+                    style="text-transform: uppercase; width: 15%"
+                    sortable
+                  >
+                  </Column>
+                  <Column style="text-transform: uppercase; width: 15%">
+                    <template #body="statusData">
+                      <a
+                        :href="getWhatsAppLink(statusData.data.phone)"
+                        type="button"
+                        class="btn btm-sm rounded-pill btn-icon btn-label-success waves-effect"
+                        target="_blank"
+                      >
+                        <span class="ti ti-brand-whatsapp"></span>
+                      </a>
+                      &nbsp;
+                      <a
+                        @click="fetchShipDetail(statusData.data.device_id)"
+                        type="button"
+                        class="btn btn-sm btn-primary"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasStart"
+                        aria-controls="offcanvasStart"
+                      >
+                        <i class="ti ti-search me-sm-1"></i> DETAIL
+                      </a>
+                    </template>
+                  </Column>
+                </DataTable>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="col-12 col-xl-8 col-sm-12 approved-mobile">
-        <div class="card">
-          <div class="card-header align-items-center">
-            <h5 class="card-action-title head-approved mb-0">
-              <span class="badge bg-label-success">PENGAJUAN DISETUJUI</span>
-              <p />
-              <input
-                type="text"
-                class="form-control search-input border-0 search-approved"
-                placeholder="Search..."
-                v-model="searchQuery"
-              />
-            </h5>
-          </div>
-          <div class="card-body card-body-approved">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Kapal</th>
-                  <th>Penanggung Jawab</th>
-                  <th>Nomor HP</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(aList, index) in approvedData" :key="index++">
-                  <th>{{ index++ }}</th>
-                  <th>{{ aList.ship_name }}</th>
-                  <th>{{ aList.responsible_name }}</th>
-                  <th>
-                    {{ aList.phone }}
-                  </th>
-                  <th></th>
-                  <th class="text-center">
-                    <a
-                      :href="getWhatsAppLink(aList.phone)"
+      <!-- PENDING -->
+      <div class="tab-pane fade active show" id="form-tabs-pending" role="tabpanel">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+          <div class="card" style="z-index: 1">
+            <div
+              class="card-header align-items-center"
+              style="border-radius: 5px; padding: 10px !important"
+            >
+              <div
+                class="card-action-title mb-0"
+                style="background: #d7a716; padding: 10px; border-radius: 5px"
+              >
+                <div class="row">
+                  <div class="col-xl-10">
+                    <h2 style="color: white; padding: 10px 10px 0px 10px; font-weight: bolder">
+                      PENGAJUAN PENDING
+                    </h2>
+                  </div>
+                  <div class="col-xl-2 cold-md-12 btn-export">
+                    <button
+                      style="display: inline-block"
+                      class="btn btn-warning"
                       type="button"
-                      class="btn rounded-pill btn-icon btn-label-success waves-effect"
+                      id="kapal_detail"
+                      @click="handleClick"
+                    >
+                      <i class="ti ti-external-link me-sm-1"></i> Export
+                    </button>
+                  </div>
+                  <div class="col-xl-12" style="margin-top: 20px">
+                    <input
+                      type="text"
+                      class="form-control search-input border-0 search-ship"
+                      placeholder="Pencarian (Kapal / Penanggung Jawab / Device ID / Terdaftar)"
+                      v-model="searchQuery"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-datatable table-striped">
+              <DataTable
+                :value="addRowNumbers(pendingData)"
+                :rows="5"
+                :rowsPerPageOptions="[5, 10, 20, 50]"
+                paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                currentPageReportTemplate="{first} - {last} of {totalRecords}"
+                paginator
+              >
+                <Column
+                  field="rowNumber"
+                  header="NO"
+                  style="text-transform: uppercase; width: 2%"
+                  sortable
+                ></Column>
+                <Column
+                  field="ship_name"
+                  header="KAPAL"
+                  style="text-transform: uppercase; width: 20%"
+                  sortable
+                ></Column>
+                <Column
+                  field="responsible_name"
+                  header="PENANGGUNG JAWAB"
+                  style="text-transform: uppercase; width: 20%"
+                  sortable
+                ></Column>
+                <Column
+                  field="device_id"
+                  header="DEVICE ID"
+                  style="text-transform: uppercase; width: 23%"
+                  sortable
+                ></Column>
+                <Column
+                  field="phone"
+                  header="NOMOR HP"
+                  style="text-transform: uppercase; width: 15%"
+                  sortable
+                >
+                </Column>
+                <Column style="width: 20%">
+                  <template #body="statusData">
+                    <a
+                      @click="pendingApproveSubmit(statusData.data.id)"
+                      class="btn btn-sm btn-success waves-effect waves-light"
+                      type="button"
+                    >
+                      <i class="ti ti-checks me-xs-1"></i> &nbsp; ACC
+                    </a>
+                    &nbsp;
+                    <a
+                      @click="pendingDeclineSubmit(statusData.data.id)"
+                      class="btn btn-sm btn-danger waves-effect waves-light"
+                      type="button"
+                    >
+                      <i class="ti ti-ban me-xs-1"></i> &nbsp; TOLAK
+                    </a>
+                  </template>
+                </Column>
+              </DataTable>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REJECTED -->
+      <div class="tab-pane fade" id="form-tabs-rejected" role="tabpanel">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+          <div class="card" style="z-index: 1">
+            <div
+              class="card-header align-items-center"
+              style="border-radius: 5px; padding: 10px !important"
+            >
+              <div
+                class="card-action-title mb-0"
+                style="background: #d44a38; padding: 10px; border-radius: 5px"
+              >
+                <div class="row">
+                  <div class="col-xl-10">
+                    <h2 style="color: white; padding: 10px 10px 0px 10px; font-weight: bolder">
+                      PENGAJUAN DITOLAK
+                    </h2>
+                  </div>
+                  <div class="col-xl-2 cold-md-12 btn-export">
+                    <button
+                      style="display: inline-block"
+                      class="btn btn-warning"
+                      type="button"
+                      id="kapal_detail"
+                      @click="handleClick"
+                    >
+                      <i class="ti ti-external-link me-sm-1"></i> Export
+                    </button>
+                  </div>
+                  <div class="col-xl-12" style="margin-top: 20px">
+                    <input
+                      type="text"
+                      class="form-control search-input border-0 search-ship"
+                      placeholder="Pencarian (Kapal / Penanggung Jawab / Device ID / Terdaftar)"
+                      v-model="searchQuery"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-datatable table-striped">
+              <DataTable
+                :value="addRowNumbers(rejectedData)"
+                :rows="5"
+                :rowsPerPageOptions="[5, 10, 20, 50]"
+                paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                currentPageReportTemplate="{first} - {last} of {totalRecords}"
+                paginator
+              >
+                <Column
+                  field="rowNumber"
+                  header="NO"
+                  style="text-transform: uppercase; width: 2%"
+                  sortable
+                ></Column>
+                <Column
+                  field="ship_name"
+                  header="KAPAL"
+                  style="text-transform: uppercase; width: 20%"
+                  sortable
+                ></Column>
+                <Column
+                  field="responsible_name"
+                  header="PENANGGUNG JAWAB"
+                  style="text-transform: uppercase; width: 15%"
+                  sortable
+                ></Column>
+                <Column
+                  field="device_id"
+                  header="DEVICE ID"
+                  style="text-transform: uppercase; width: 20%"
+                  sortable
+                ></Column>
+                <Column
+                  field="phone"
+                  header="NOMOR HP"
+                  style="text-transform: uppercase; width: 15%"
+                  sortable
+                >
+                </Column>
+                <Column style="width: 5%">
+                  <template #body="statusData">
+                    <a
+                      :href="getWhatsAppLink(statusData.data.phone)"
+                      type="button"
+                      class="btn btm-sm rounded-pill btn-icon btn-label-success waves-effect"
                       target="_blank"
                     >
                       <span class="ti ti-brand-whatsapp"></span>
                     </a>
-                    &nbsp; &nbsp;
-                    <a
-                      @click="fetchShipDetail(aList.device_id)"
-                      href=""
-                      type="button"
-                      class="btn btn-sm btn-primary"
-                      data-bs-toggle="offcanvas"
-                      data-bs-target="#offcanvasStart"
-                      aria-controls="offcanvasStart"
-                    >
-                      <i class="ti ti-search me-sm-1"></i> DETAIL
-                    </a>
-                  </th>
-                </tr>
-              </tbody>
-            </table>
+                  </template>
+                </Column>
+              </DataTable>
+            </div>
           </div>
         </div>
       </div>
@@ -196,7 +379,7 @@
     tabindex="-1"
     id="offcanvasStart"
     aria-labelledby="offcanvasStartLabel"
-    style="width: 730px; "
+    style="width: 730px"
   >
     <div class="offcanvas-body my-auto mx-0 flex-grow-0">
       <div class="card">
@@ -247,7 +430,7 @@
                       data-bs-toggle="collapse"
                       data-bs-target="#accordionWithIcon-2"
                       aria-expanded="false"
-                      style="background-color: rgba(0, 0, 0, 0.285);"
+                      style="background-color: rgba(0, 0, 0, 0.285)"
                     >
                       <i class="ti ti-history ti-xs me-2"></i>
                       HISTORY PAIRING
@@ -284,19 +467,25 @@
       </div>
     </div>
   </div>
+
+  <!--Hero area end-->
+  <WaveItem />
+  <!--Hero area end-->
 </template>
 
 <script>
 import axios from 'axios'
+import WaveItem from '../components/Items/WaveItem.vue'
 
 export default {
   name: 'pengajuanKapal',
   data() {
     return {
       dataList: [],
-      isLoading: true,
       shipDetail: [],
-      historyPairing: []
+      historyPairing: [],
+      searchQuery: '',
+      isLoading: true
     }
   },
 
@@ -317,35 +506,49 @@ export default {
   },
 
   methods: {
+    addRowNumbers(data) {
+      const query = this.searchQuery.toLowerCase()
+
+      // console.log(query)
+
+      return data
+        .filter((item) => {
+          // Add your custom filtering logic here based on the search query
+          return (
+            item.ship_name.toLowerCase().includes(query) ||
+            item.responsible_name.toLowerCase().includes(query) ||
+            item.device_id.toLowerCase().includes(query) ||
+            item.phone.toLowerCase().includes(query)
+          )
+        })
+        .map((item, index) => {
+          return {
+            ...item,
+            rowNumber: index + 1 // Start from 1
+          }
+        })
+    },
+
     async fetchData() {
       const config = { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } }
 
-      try {
-        const response = await axios.get('api/v1/ship/pairing-request', config)
-        this.dataList = response.data.data
+      await axios
+        .get('api/v1/ship/pairing-request', config)
+        .then((response) => {
+          this.dataList = response.data.data
 
-        this.isLoading = false
-        console.log('DATA APPROVAL WAS FETCHED')
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+
+          console.log('DATA APPROVAL WAS FETCHED')
+        })
+        .catch((error) => {
+          return
+        })
     },
 
-    async fetchShipDetail(device_id) {
-      const config = { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } }
-
-      try {
-        const response = await axios.get(`/api/v1/ship/pairing/detail/${device_id}`, config)
-        this.shipDetail = response.data.data
-        this.historyPairing = response.data.data.history_pairing
-
-        console.log('SHIP DETAIL WAS FETCHED')
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    },
-
-    async pendingApproveSubmit(id) {
+    pendingApproveSubmit(id) {
       const config = { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } }
 
       const updatedData = {
@@ -367,7 +570,7 @@ export default {
         })
     },
 
-    async pendingDeclineSubmit(id) {
+    pendingDeclineSubmit(id) {
       const config = {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -391,6 +594,23 @@ export default {
         })
     },
 
+    fetchShipDetail(deviceId) {
+      const config = { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } }
+
+      axios
+        .get(`/api/v1/ship/pairing/detail/${deviceId}`, config)
+        .then((res) => {
+          this.shipDetail = res.data.data
+          this.historyPairing = res.data.data.history_pairing
+
+          console.log('SHIP DETAIL WAS FETCHED')
+        })
+        .catch((error) => {
+          // console.log('Get detail failure. Retrying in 1 seconds...', error)
+          return
+        })
+    },
+
     getWhatsAppLink(phoneNumber) {
       // Hilangkan karakter "-" atau spasi
       phoneNumber = phoneNumber.replace(/[-\s]/g, '')
@@ -405,12 +625,40 @@ export default {
   },
 
   components: {
-    // WaveComponent
+    WaveItem
   }
 }
 </script>
 
-<style>
+<style scoped>
+.btn-header {
+  background-color: #ffffff00; /* Default background color */
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.7s; /* Smooth transition effect */
+  font-weight: bolder;
+  margin-right: 10px !important;
+}
+.btn-header.active {
+  color: white;
+  background-color: #7367f0;
+  font-weight: bolder;
+}
+
+.title-pengajuan {
+  color: white;
+  padding: 10px 10px 0px 10px;
+  font-weight: bolder;
+}
+
+.btn-export {
+  padding-left: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .container-mobile-order {
   display: flex;
   flex-wrap: wrap;
@@ -448,81 +696,10 @@ export default {
   .approved-mobile-order {
     order: 2;
   }
-}
 
-.search-pending::placeholder {
-  color: #bdb700; /* Replace with your desired color value */
-}
-
-.search-rejected::placeholder {
-  color: #ff3939; /* Replace with your desired color value */
-}
-
-.search-approved::placeholder {
-  color: #00b500; /* Replace with your desired color value */
-}
-
-.head-pending {
-  color: white;
-  background: #ffbf00;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.head-rejected {
-  color: white;
-  background: #f1533e;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.head-approved {
-  color: white;
-  background: #329820;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.card-body-pending {
-  max-height: 527px;
-  overflow-y: auto;
-}
-
-.card-body-rejected {
-  max-height: 530px;
-  overflow-y: auto;
-}
-
-.card-body-approved {
-  max-height: 1060px;
-  overflow-y: auto;
-}
-
-.card-body-pending::-webkit-scrollbar,
-.card-body-rejected::-webkit-scrollbar,
-.card-body-approved::-webkit-scrollbar {
-  width: 5px;
-}
-
-.card-body-pending::-webkit-scrollbar-track,
-.card-body-rejected::-webkit-scrollbar-track,
-.card-body-approved::-webkit-scrollbar {
-  background: rgba(0, 132, 255, 0.204);
-}
-
-.card-body-pending::-webkit-scrollbar-thumb {
-  background-color: rgb(162, 152, 63);
-  border-radius: 20px;
-}
-
-.card-body-rejected::-webkit-scrollbar-thumb {
-  background-color: rgb(162, 63, 63);
-  border-radius: 20px;
-}
-
-.card-body-approved::-webkit-scrollbar-thumb {
-  background-color: rgb(63, 162, 79);
-  border-radius: 20px;
+  .btn-export {
+    justify-content: flex-start !important;
+  }
 }
 
 /* table styling */

@@ -5,7 +5,7 @@
     style="z-index: 9999"
   >
     <div class="container-xxl">
-      <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
+      <div class="navbar-brand app-brand demo d-xl-flex py-0 me-4">
         <a href="/home" class="app-brand-link gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +66,7 @@
               fill="white"
             />
           </svg>
-          <span class="app-brand-text demo menu-text fw-bold" style="margin-left: -15px !important">
+          <span class="app-brand-text demo menu-text fw-bold title-pelabuhan" style="margin-left: -15px !important;">
             <span style="color: #a1b4ff">IMPEL</span> &nbsp;&nbsp;|&nbsp;&nbsp;
             {{ harbourName }}
             <small> {{ harbourCode ? '(' + harbourCode + ')' : '' }}</small>
@@ -211,6 +211,12 @@ export default {
 </script>
 
 <style>
+@media (max-width: 1201px) {
+    .title-pelabuhan {
+      display: none;
+    }
+  }
+
 a:hover {
   cursor: pointer;
 }

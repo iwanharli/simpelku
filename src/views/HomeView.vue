@@ -186,11 +186,6 @@
 import axios from 'axios'
 import { computed, onMounted, ref } from 'vue'
 import { useGeolocation } from '../useGeolocation'
-import { Loader } from '@googlemaps/js-api-loader'
-// import WebSocket from 'ws'
-// import WebSocket from 'isomorphic-ws'
-// import { w3cwebsocket as W3CWebSocket } from "websocket";
-// import { Carousel3d, Slide } from 'vue-carousel-3d'
 
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'

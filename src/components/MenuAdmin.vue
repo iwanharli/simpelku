@@ -4,12 +4,11 @@ import { RouterLink } from 'vue-router'
 
 <template>
   <aside
-    id="layout-menu"
-    class="layout-menu-horizontal menu-horizontal menu bg-menu-theme flex-grow-0"
-    style="z-index: 2"
+    class="layout-menu-horizontal menu-horizontal bg-menu-theme flex-grow-0 menu-mobile"
+    style="z-index: 2;"
   >
     <div class="container-xxl d-flex h-100">
-      <ul class="menu menu-inner">
+      <ul class="menu menu-inner" style="">
         <li
           @click="active = 'dashboard'"
           class="menu-item"
@@ -97,3 +96,14 @@ export default {
   }
 }
 </script>
+<style scoped>
+  @media (max-width: 1200px) {
+    .menu-mobile {
+      /* margin-top: 0px !important; */
+    }
+  }
+
+  .menu-mobile {
+    margin-top: 45px !important;
+  }
+</style>

@@ -1,208 +1,204 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="ship_content" style="background: rgba(135, 207, 255, 0.245); border-radius: 20px">
-      <!-- LOADER -->
-      <div class="border-round border-1 surface-border p-4 surface-card" v-if="isLoading">
-        <div class="headline">
-          <h4 style="color: rgb(81, 0, 139)">Loading ...</h4>
-        </div>
-        <div class="tableWrapper">
-          <table class="table">
-            <tr>
-              <td class="loading">
-                <div class="bar"></div>
-              </td>
-            </tr>
-          </table>
+    <div class="col-xl-12 col-md-12 col-sm-12">
+      <div class="card-header" style="background: #4a4775; padding-top: 20px; border-radius: 20px">
+        <ul
+          class="nav nav-tabs card-header-tabs"
+          role="tablist"
+          style="display: flex; justify-content: center; border-radius: 20px; padding-top: 10px"
+        >
+          <li class="nav-item" style="padding-right: 10px">
+            <button
+              class="nav-link active btn-header"
+              data-bs-toggle="tab"
+              data-bs-target="#form-tabs-labuh"
+              role="tab"
+              aria-selected="true"
+            >
+              <i class="ti ti-ship"></i> &nbsp; LOG LABUH
+            </button>
+          </li>
+          <li class="nav-item" style="padding-right: 10px">
+            <button
+              class="nav-link btn-header"
+              data-bs-toggle="tab"
+              data-bs-target="#form-tabs-fraud"
+              role="tab"
+              aria-selected="false"
+            >
+              <i class="ti ti-alarm"></i> &nbsp; LOG FRAUD / KECURANGAN
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tab-content">
+      <!-- LABUH -->
+      <div class="tab-pane fade active show" id="form-tabs-labuh" role="tabpanel">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+          <div class="card" style="z-index: 1">
+            <div
+              class="card-header align-items-center"
+              style="border-radius: 5px; padding: 10px !important"
+            >
+              <div
+                class="card-action-title mb-0"
+                style="background: #8379f2; padding: 10px; border-radius: 5px"
+              >
+                <div class="row">
+                  <div class="col-xl-10 col-md-12">
+                    <h2 class="title-history-labuh" style="">HISTORY LABUH KAPAL</h2>
+                  </div>
+                  <div class="col-xl-2 cold-md-12 btn-export">
+                    <button
+                      style="display: inline-block"
+                      class="btn btn-warning"
+                      type="button"
+                      @click="exportCSV"
+                    >
+                      <i class="ti ti-external-link me-sm-1"></i> Export
+                    </button>
+                  </div>
+                  <div class="col-xl-12" style="margin-top: 20px">
+                    <input
+                      type="text"
+                      class="form-control search-input border-0 search-ship"
+                      placeholder="Pencarian (Kapal / Penanggung Jawab / Device ID / No HP)"
+                      v-model="searchQuery"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-datatable table-striped">
+              <!-- SKELETON -->
+              <div v-if="isLoading">
+                <div v-for="row in 5" :key="row" class="row" style="padding: 10px">
+                  <div v-for="col in 6" :key="col" class="col-xl-{{ col === 4 ? 4 : 2 }}">
+                    <Skeleton class="border-round h-2rem" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- ISI -->
+              <div v-else>
+                <DataTable
+                  :value="filteredReportData"
+                  tableStyle="min-width: 50rem"
+                  style="z-index: 1"
+                  :rows="10"
+                  :rowsPerPageOptions="[10, 50, 100]"
+                  paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                  currentPageReportTemplate="{first} to {last} of {totalRecords}"
+                  stripedRows
+                  paginator
+                >
+                  <Column
+                    field="rowNumber"
+                    header="NO"
+                    style="width: 5%; text-transform: uppercase"
+                  ></Column>
+                  <Column
+                    field="ship_name"
+                    header="KAPAL"
+                    style="width: 20%; text-transform: uppercase"
+                    sortable
+                  ></Column>
+                  <Column
+                    field="status"
+                    header="STATUS"
+                    style="width: 15%; text-transform: uppercase"
+                    sortable
+                  >
+                    <template #body="statusData">
+                      <Tag
+                        :value="statusData.data.status"
+                        severity="success"
+                        v-if="statusData.data.status === 'checkin'"
+                        style="width: 100px"
+                      />
+                      <Tag
+                        :value="statusData.data.status"
+                        severity="danger"
+                        v-if="statusData.data.status === 'checkout'"
+                        style="width: 100px"
+                      />
+                      <Tag
+                        :value="statusData.data.status"
+                        severity="warning"
+                        v-if="statusData.data.status === 'out of scope'"
+                        style="width: 100px"
+                      />
+                    </template>
+                  </Column>
+                  <Column
+                    field="lat"
+                    header="LATITUDE"
+                    style="width: 15%; text-transform: uppercase"
+                    sortable
+                  ></Column>
+                  <Column
+                    field="long"
+                    header="LONGITUDE"
+                    style="width: 15%; text-transform: uppercase"
+                    sortable
+                  ></Column>
+                  <Column
+                    field="log_date"
+                    header="WAKTU LOG"
+                    style="width: 20%; text-transform: uppercase"
+                    sortable
+                  ></Column>
+                </DataTable>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="card" v-else>
-        <div style="background: red; height: 300px">
-          <span class="p-input-icon-right">
-            <i class="pi pi-spin pi-spinner" />
-            <InputText v-model="value2" />
-
-            <Knob v-model="value2" />
-          </span>
-        </div>
-
-        <div
-          class="card-header align-items-center"
-          style="color: white; border-radius: 5px; padding: 10px !important"
-        >
-          <div
-            class="card-action-title mb-0"
-            style="background: #b2dbff; padding: 10px; border-radius: 5px"
-          >
-            <div class="row">
-              <div class="col-xl-10">
-                <span class="badge bg-primary" style="font-size: x-large">LAPORAN LOG KAPAL</span>
-              </div>
-              <div
-                v-for="category of categories"
-                :key="category.key"
-                class="flex align-items-center"
-              >
-                <Checkbox
-                  v-model="selectedCategories"
-                  :inputId="category.key"
-                  name="category"
-                  :value="category.name"
-                />
-                <label :for="category.key">{{ category.name }}</label>
-              </div>
-              <div class="col-xl-2" style="padding-left: 100px; padding-top: 10px">
-                <button
-                  class="btn btn-warning"
-                  type="button"
-                  id="kapal_detail"
-                  @click="handleClick"
-                >
-                  <i class="ti ti-external-link me-sm-1"></i> Export
-                </button>
-              </div>
-            </div>
-            <p />
-            <input
-              type="text"
-              class="form-control search-input border-0 search-ship"
-              placeholder="Pencarian (Kapal / Status)"
-              v-model="searchQuery"
-            />
-          </div>
-        </div>
-        <DataTable
-          :value="filteredReportData"
-          tableStyle="min-width: 50rem"
-          style="z-index: 1"
-          :rows="10"
-          :rowsPerPageOptions="[10, 50, 100]"
-          paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-          currentPageReportTemplate="{first} to {last} of {totalRecords}"
-          stripedRows
-          paginator
-        >
-          <Column field="rowNumber" header="NO"></Column>
-          <Column field="ship_name" header="KAPAL" sortable></Column>
-          <Column field="status" header="STATUS" style="width: 9%" sortable>
-            <template #body="statusData">
-              <Tag
-                :value="statusData.data.status"
-                severity="success"
-                v-if="statusData.data.status === 'checkin'"
-              />
-              <Tag
-                :value="statusData.data.status"
-                severity="info"
-                v-if="statusData.data.status === 'checkout'"
-              />
-              <Tag
-                :value="statusData.data.status"
-                severity="warning"
-                v-if="statusData.data.status === 'out of scope'"
-              />
-            </template>
-          </Column>
-          <Column field="lat" header="LATITUDE" sortable></Column>
-          <Column field="long" header="LONGITUDE" sortable></Column>
-          <Column field="log_date" header="WAKTU LOG" sortable></Column>
-        </DataTable>
-
-        <!-- <div class="row mt-3">
-          <div class="col-xl-4 col-sm-6" style="padding: 15px; margin-left: 20px">
-            <button type="button" class="btn btn-lg btn-primary active waves-effect waves-light">
-              SEMUA
-            </button>
-            &nbsp;&nbsp;&nbsp;
-            <button class="btn btn-secondary btn-md waves-effect waves-light" type="button">
-              CHECKIN
-            </button>
-            &nbsp;&nbsp;&nbsp;
-            <button class="btn btn-secondary btn-md waves-effect waves-light" type="button">
-              CHECKOUT
-            </button>
-          </div>
-          <div class="col-xl-5 col-sm-6" style="padding: 15px; margin-left: 20px">
+      <!-- PENDING -->
+      <div class="tab-pane fade" id="form-tabs-fraud" role="tabpanel">
+        <div class="col-xl-12 col-md-6">
+          <div class="card" style="z-index: 1">
             <div
-              class="row"
-              style="
-                background: #b2bfff45;
-                color: white;
-                padding: 5px;
-                border-radius: 5px;
-                margin-right: 10px;
-              "
+              class="card-header align-items-center"
+              style="border-radius: 5px; padding: 10px !important"
             >
-              <div class="col-xl-4">
-                <input
-                  type="date"
-                  id="nameWithTitle"
-                  class="form-control"
-                  v-model="shipSelarMark"
-                />
-              </div>
-              <div class="col-xl-4">
-                <input
-                  type="date"
-                  id="nameWithTitle"
-                  class="form-control"
-                  v-model="shipSelarMark"
-                />
-              </div>
-              <div class="col-xl-4">
-                <div class="d-grid gap-2 col-lg-12 mx-auto">
-                  <button type="button" class="btn btn-md btn-primary waves-effect waves-light">
-                    SUBMIT
-                  </button>
+              <div
+                class="card-action-title mb-0"
+                style="background: #d44a38; padding: 10px; border-radius: 5px"
+              >
+                <div class="row">
+                  <div class="col-xl-10">
+                    <h2 style="color: white; padding: 10px 10px 0px 10px; font-weight: bolder">
+                      PENGAJUAN PENDING
+                    </h2>
+                  </div>
+                  <div class="col-xl-2 cold-md-12 btn-export">
+                    <button
+                      style="display: inline-block"
+                      class="btn btn-warning"
+                      type="button"
+                      id="kapal_detail"
+                      @click="handleClick"
+                    >
+                      <i class="ti ti-external-link me-sm-1"></i> Export
+                    </button>
+                  </div>
+                  <div class="col-xl-12" style="margin-top: 20px">
+                    <input
+                      type="text"
+                      class="form-control search-input border-0 search-ship"
+                      placeholder="Pencarian (Kapal / Penanggung Jawab / Device ID / Terdaftar)"
+                      v-model="searchQuery"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-xl-1 col-sm-6" style="padding: 15px; margin-left: 20px">
-            <div
-              class="row"
-              style="
-                /* background: #b2bfff45; */
-                color: white;
-                padding: 5px;
-                border-radius: 5px;
-                margin-right: 10px;
-              "
-            >
-              <button type="button" class="btn btn-sm btn-warning waves-effect">
-                <span class="ti-md ti ti-download me-1"></span>
-              </button>
-            </div>
-          </div>
-
-          <div class="col-xl-12 col-sm-6">
-            <div class="card-datatable text-wrap mt-2" style="overflow-y: auto">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>NAMA KAPAL</th>
-                    <th>STATUS</th>
-                    <th>LATITUDE</th>
-                    <th>LONGITUDE</th>
-                    <th>WAKTU LOG</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(report, index) in this.reports" :key="index++">
-                    <td width="1%">{{ index++ }}</td>
-                    <td>{{ report.ship_name }}</td>
-                    <td>{{ report.status }}</td>
-                    <td>{{ report.lat }}</td>
-                    <td>{{ report.long }}</td>
-                    <td>{{ report.log_date }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div> -->
+        </div>
       </div>
     </div>
 
@@ -214,18 +210,8 @@
 
 <script>
 import axios from 'axios'
-import { ref } from 'vue'
-
-import Knob from 'primevue/knob'
-import Checkbox from 'primevue/checkbox'
-import Button from 'primevue/button'
-import Tag from 'primevue/tag'
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
-import ColumnGroup from 'primevue/columngroup' // optional
-import Row from 'primevue/row' // optional
-import InputText from 'primevue/inputtext'
 import WaveComponent from '../components/Items/WaveItem.vue'
+import Papa from 'papaparse'
 
 export default {
   name: 'pageReport',
@@ -283,24 +269,67 @@ export default {
       })
   },
 
-  methods: {},
+  methods: {
+    exportCSV() {
+      const csvData = Papa.unparse(this.filteredReportData)
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' })
+
+      const link = document.createElement('a')
+      const url = URL.createObjectURL(blob)
+
+      link.setAttribute('href', url)
+      link.setAttribute('download', 'report.csv')
+      link.style.visibility = 'hidden'
+
+      document.body.appendChild(link)
+      link.click()
+
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+    }
+  },
 
   components: {
-    Knob,
-    Tag,
-    Button,
-    Checkbox,
-    DataTable,
-    Row,
-    Column,
-    ColumnGroup,
-    InputText,
     WaveComponent
   }
 }
 </script>
 
-<style module>
+<style scoped>
+.btn-header {
+  background-color: #ffffff00; /* Default background color */
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.7s; /* Smooth transition effect */
+  font-weight: bolder;
+  margin-right: 10px !important;
+}
+.btn-header.active {
+  color: white;
+  background-color: #7367f0;
+  font-weight: bolder;
+}
+
+.btn-export {
+  padding-left: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@media (max-width: 1200px) {
+  .btn-export {
+    justify-content: flex-start !important;
+  }
+}
+
+.title-history-labuh {
+  color: white;
+  padding: 10px 10px 0px 10px;
+  font-weight: bolder;
+}
+
 @keyframes loading {
   40% {
     background-position: 100% 0;
@@ -341,65 +370,6 @@ export default {
   50% {
     border-color: orange;
   }
-}
-
-.tableWrapper {
-  width: 100%;
-
-  .table {
-    margin: 0 auto;
-    text-align: left;
-    border-spacing: 0;
-    border: 1px solid rgba(255, 0, 0, 0);
-
-    tbody {
-      td {
-        span {
-          color: #fefefe;
-        }
-
-        &:last-child {
-          border-radius: 0 20px 20px 0;
-        }
-      }
-    }
-  }
-  .loading {
-    position: relative;
-
-    .bar {
-      background-color: #6687ff8a;
-      height: 14px;
-      border-radius: 7px;
-      width: 100%;
-    }
-
-    &:after {
-      position: absolute;
-      border-radius: 20px;
-      transform: translateY(-50%);
-      top: 50%;
-      left: 16px;
-      content: '';
-      display: block;
-      width: 100%;
-      height: 24px;
-      background-image: linear-gradient(
-        100deg,
-        rgba(255, 255, 255, 0),
-        rgba(255, 255, 255, 0.649) 60%,
-        rgba(255, 0, 0, 0) 80%
-      );
-      background-size: 200px 100px;
-      background-position: -100px 0;
-      background-repeat: no-repeat;
-      animation: loading 0.7s infinite;
-    }
-  }
-}
-
-.search-ship::placeholder {
-  color: #1cacff; /* Replace with your desired color value */
 }
 
 .pagination-container {

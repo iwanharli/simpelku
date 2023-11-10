@@ -1,10 +1,15 @@
 <template>
   <div class="container-xxl flex-grow-1 container-p-y">
     <!-- MAP -->
-    <MapShipDetail :shipCurrentPositionValue="shipCurrentPosition" />
+    <MapShipDetail
+      :shipCurLat="shipCurLat"
+      :shipCurLong="shipCurLong"
+      :shipOnGround="shipOnGround"
+    />
 
     <div class="row">
       <div class="col-xl-6 col-lg-5 col-md-5">
+
         <!-- SHIP DETAIL -->
         <div class="card mb-4">
           <div
@@ -184,10 +189,13 @@
 
 <script>
 import axios from 'axios'
+import { useToast } from 'primevue/usetoast'
+import { useField, useForm } from 'vee-validate'
 
 import MapShipDetail from '../components/Maps/MapShipDetail.vue'
 import ModalEditDetailKapal from '../components/Modal/ModalEditKapal.vue'
 import ModalFilterLogs from '../components/Modal/ModalFilterLogs.vue'
+
 // import ShipDetail from '../components/Items/ShipDetailItem.vue'
 // import ShipOwnerBiodata from '../components/Items/ShipOwnerItem.vue'
 // import ShipOverview from '../components/Items/ShipOverviewItem.vue'
@@ -200,7 +208,6 @@ export default {
     MapShipDetail,
     ModalEditDetailKapal,
     ModalFilterLogs
-    // WaveComponent
   },
 
   data() {
@@ -211,7 +218,9 @@ export default {
       shipBio: {},
       dockLogs: [],
       locationLogs: [],
-      shipCurrentPosition: null
+      shipCurLat: null,
+      shipCurLong: null,
+      shipOnGround: null
     }
   },
 
@@ -221,7 +230,42 @@ export default {
     this.getShipDetail(shipDetailId)
   },
 
+  setup() {
+    const { handleSubmit, resetForm } = useForm()
+    const { value, errorMessage } = useField('value', validateField)
+    const toast = useToast()
+
+    function validateField(value) {
+      if (!value) {
+        return 'Password is required.'
+      }
+
+      return true
+    }
+
+    const onSubmit = handleSubmit((values) => {
+      if (values.value && values.value.length > 0) {
+        toast.add({ severity: 'info', summary: 'Form Submitted', detail: values.value, life: 3000 })
+        resetForm()
+      }
+    })
+
+    return {
+      value,
+      errorMessage,
+      onSubmit
+    }
+  },
+
   methods: {
+    validateField(value) {
+      if (!value) {
+        return 'Password is required.'
+      }
+
+      return true
+    },
+
     getShipDetail(shipDetailId) {
       const config = {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
@@ -238,9 +282,15 @@ export default {
 
           this.shipCurLat = this.ship.current_lat
           this.shipCurLong = this.ship.current_long
+          this.shipOnGround = this.ship.on_ground
         })
         .catch((error) => {
-          console.log(error.response.data.meta.message)
+          console.log('Get ship detail failure. Retrying in 1 seconds...', error)
+
+          setTimeout(() => {
+            this.getShipDetail()
+          }, 1000)
+          return
         })
     },
 
@@ -276,9 +326,7 @@ export default {
         return 'badge bg-label-danger'
       }
     }
-  },
-
-  mounted() {}
+  }
 }
 </script>
 

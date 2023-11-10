@@ -1,37 +1,27 @@
 <template>
-  <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="ship_content" style="background: rgba(135, 207, 255, 0.245); border-radius: 20px">
-      <!-- LOADER -->
-      <div class="border-round border-1 surface-border p-4 surface-card" v-if="isLoading">
-        <div class="headline">
-          <h4 style="color: rgb(81, 0, 139)">Loading ...</h4>
-        </div>
-        <div class="tableWrapper">
-          <table class="table">
-            <tr>
-              <td class="loading">
-                <div class="bar"></div>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <div class="card" style="z-index: 1" v-else>
+  <div
+    class="container-fluid flex-grow-1 container-p-y"
+    style="margin-left: 70px; margin-right: 70px"
+  >
+    <div class="col-xl-12 col-md-11 col-sm-10">
+      <div class="card" style="z-index: 1">
         <div
           class="card-header align-items-center"
-          style="color: white; border-radius: 5px; padding: 10px !important"
+          style="border-radius: 5px; padding: 10px !important"
         >
           <div
             class="card-action-title mb-0"
-            style="background: #b2bfff; padding: 10px; border-radius: 5px"
+            style="background: #605ac2; padding: 10px; border-radius: 5px"
           >
             <div class="row">
               <div class="col-xl-10">
-                <span class="badge bg-primary" style="font-size: x-large">KAPAL TERDAFTAR</span>
+                <h2 style="color: white; padding: 10px 10px 0px 10px; font-weight: bolder">
+                  KAPAL TERDAFTAR
+                </h2>
               </div>
-              <div class="col-xl-2" style="padding-left: 100px; padding-top: 10px">
+              <div class="col-xl-2 cold-md-12 btn-export">
                 <button
+                  style="display: inline-block"
                   class="btn btn-warning"
                   type="button"
                   id="kapal_detail"
@@ -44,7 +34,7 @@
                 <input
                   type="text"
                   class="form-control search-input border-0 search-ship"
-                  placeholder="(Kapal / Penanggung Jawab / Device ID / Terdaftar)"
+                  placeholder="Pencarian (Kapal / Penanggung Jawab / Device ID / Terdaftar)"
                   v-model="searchQuery"
                 />
               </div>
@@ -52,143 +42,123 @@
           </div>
         </div>
         <div class="card-datatable table-striped">
-          <DataTable
-            :value="filteredData"
-            :rows="10"
-            :rowsPerPageOptions="[10, 20, 50]"
-            paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-            currentPageReportTemplate="{first} to {last} of {totalRecords}"
-            stripedRows
-            paginator
-          >
-            <Column field="rowNumber" header="NO" sortable></Column>
-            <Column field="ship_name" header="KAPAL" sortable></Column>
-            <Column field="responsible_name" header="PENANGGUNG JAWAB" sortable></Column>
-            <Column field="device_id" header="DEVICE ID" style="width: 5%" sortable></Column>
-            <Column field="created_at" header="TERDAFTAR" style="width: 3%" sortable></Column>
-            <Column field="status" header="STATUS" style="width: 9%" sortable>
-              <template #body="statusData">
-                <div style="text-align: center">
+          <!-- SKELETON -->
+          <div v-if="isLoading">
+            <div v-for="row in 5" :key="row" class="row" style="padding: 10px">
+              <div v-for="col in 6" :key="col" class="col-xl-{{ col === 4 ? 4 : 2 }}">
+                <Skeleton class="border-round h-2rem" />
+              </div>
+            </div>
+          </div>
+
+          <!-- ISI -->
+          <div v-else>
+            <DataTable
+              :value="filteredData"
+              :rows="10"
+              :rowsPerPageOptions="[10, 20, 50]"
+              paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+              currentPageReportTemplate="{first}-{last} of {totalRecords}"
+              paginator
+            >
+              <Column field="rowNumber" header="NO" sortable></Column>
+              <Column
+                field="ship_name"
+                header="KAPAL"
+                style="text-transform: uppercase"
+                sortable
+              ></Column>
+              <Column field="status" header="STATUS" style="text-transform: uppercase" sortable>
+                <template #body="statusData">
                   <Tag
                     :value="statusData.data.status"
                     severity="success"
+                    style="width: 100px"
                     v-if="statusData.data.status === 'checkin'"
+                    rounded
                   />
                   <Tag
                     :value="statusData.data.status"
                     severity="info"
+                    style="width: 100px"
                     v-if="statusData.data.status === 'checkout'"
+                    rounded
                   />
                   <Tag
                     :value="statusData.data.status"
                     severity="warning"
+                    style="width: 100px"
                     v-if="statusData.data.status === 'out of scope'"
+                    rounded
                   />
-                </div>
-              </template>
-            </Column>
-            <Column style="width: 10%">
-              <template #body="statusData">
-                <div style="text-align: center">
-                  <RouterLink :to="{ name: 'detailKapal', params: { shipId: statusData.data.id } }">
-                    <button
-                      class="btn btn-xs btn-detail-kapal"
-                      type="button"
-                      id="kapal_detail"
-                      @click="handleClick"
+                </template>
+              </Column>
+              <Column
+                field="responsible_name"
+                header="PENANGGUNG JAWAB"
+                style="text-transform: uppercase"
+                sortable
+              ></Column>
+              <Column
+                field="device_id"
+                header="DEVICE ID"
+                style="text-transform: uppercase; width: 40%"
+                sortable
+              ></Column>
+              <Column
+                field="created_at"
+                header="TERDAFTAR"
+                style="text-transform: uppercase"
+                sortable
+              ></Column>
+              <Column style="width: 10%">
+                <template #body="statusData">
+                  <div style="text-align: center">
+                    <RouterLink
+                      :to="{ name: 'detailKapal', params: { shipId: statusData.data.id } }"
                     >
-                      <i class="ti ti-search me-sm-1"></i> DETAIL
-                    </button>
-                  </RouterLink>
-                </div>
-              </template>
-            </Column>
-
-            <template #footer>
-              TOTAL <b> {{ filteredData ? filteredData.length : 0 }} </b
-              ><small> kapal terdaftar. </small>
-            </template>
-          </DataTable>
-          <!-- <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Kapal</th>
-                <th>Penanggung Jawab</th>
-                <th>Device ID</th>
-                <th>Terdaftar</th>
-                <th></th>
-                <th>Status Saat Ini</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(ship, index) in filteredData" :key="index++">
-                <td width="1%">{{ index++ }}</td>
-                <td>{{ ship.ship_name.toUpperCase() }}</td>
-                <td>{{ ship.responsible_name.toUpperCase() }}</td>
-                <td>{{ ship.device_id.toUpperCase() }}</td>
-                <td>{{ ship.created_at.toUpperCase() }}</td>
-                <td width="1%">
-                  <div class="avatar avatar-online" v-if="ship.on_ground === 0">
-                    <img src="../../../assets/img/sea.png" class="h-auto" />
-                  </div>
-                  <div class="avatar avatar-offline" v-else>
-                    <img src="../../../assets/img/no-connection.png" class="h-auto" />
-                  </div>
-                </td>
-                <td class="text-center">
-                  <span :class="getBadgeClass(ship.status)">{{
-                    formatShipStatus(ship.status)
-                  }}</span>
-                </td>
-                <td class="text-center">
-                  <a @click="handleClick">
-                    <RouterLink :to="{ name: 'detailKapal', params: { shipId: ship.id } }">
-                      <button class="btn btn-sm btn-detail-kapal" type="button" id="kapal_detail">
-                        <i class="ti ti-search me-sm-1"></i>
+                      <button
+                        class="btn btn-sm btn-primary"
+                        type="button"
+                        id="kapal_detail"
+                        @click="handleClick"
+                      >
+                        <i class="ti ti-search me-sm-1"></i> DETAIL
                       </button>
                     </RouterLink>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table> -->
+                  </div>
+                </template>
+              </Column>
+
+              <template #footer>
+                <div style="text-transform: lowercase !important">
+                  TOTAL <b> {{ filteredData ? filteredData.length : 0 }} </b
+                  ><small> kapal terdaftar. </small>
+                </div>
+              </template>
+            </DataTable>
+          </div>
         </div>
       </div>
     </div>
 
     <!--Hero area end-->
-    <WaveComponent />
+    <WaveItem />
     <!--Hero area end-->
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-// import VueJsonToCsv from 'vue-json-to-csv'
 
-import Button from 'primevue/button'
-import Tag from 'primevue/tag'
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
-import ColumnGroup from 'primevue/columngroup' // optional
-import Row from 'primevue/row' // optional
-import InputText from 'primevue/inputtext'
-
-import WaveComponent from '../components/Items/WaveItem.vue'
+import WaveItem from '../components/Items/WaveItem.vue'
+import LoaderItem from '../components/Items/LoaderItem.vue'
 
 export default {
   name: 'detailKapal',
   components: {
-    Tag,
-    Button,
-    DataTable,
-    Row,
-    Column,
-    ColumnGroup,
-    InputText,
-    WaveComponent
+    WaveItem,
+    LoaderItem
   },
 
   data() {
@@ -203,7 +173,7 @@ export default {
     filteredData() {
       const query = this.searchQuery.toLowerCase()
 
-      console.log('Query:', query)
+      // console.log('Query:', query)
 
       return this.ships
         .map((item, index) => {
@@ -243,11 +213,13 @@ export default {
           const parts = datetimeString.split(' ') // ["2023-11-03", "18:02:23"]
           ship.created_at = parts[0]
 
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+
           return ship
         })
-
-        this.isLoading = false
-        console.log(this.ships)
+        // console.log(this.ships)
       })
       .catch((error) => {
         console.error('Error: ' + error.response.data.meta.message)
@@ -297,7 +269,14 @@ export default {
 }
 </script>
 
-<style module>
+<style scoped>
+.btn-export {
+  padding-left: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 @keyframes loading {
   40% {
     background-position: 100% 0;
@@ -395,10 +374,6 @@ export default {
   }
 }
 
-.search-ship::placeholder {
-  color: #1cacff; /* Replace with your desired color value */
-}
-
 .pagination-container {
   display: flex;
   column-gap: 10px;
@@ -422,5 +397,11 @@ export default {
 }
 .active-page:hover {
   background-color: #2988c8;
+}
+
+@media (max-width: 1200px) {
+  .btn-export {
+    justify-content: flex-start !important;
+  }
 }
 </style>
