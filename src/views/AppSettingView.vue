@@ -16,7 +16,6 @@
                   data-bs-target="#form-tabs-pengaturan-aplikasi"
                   role="tab"
                   aria-selected="true"
-                  @click="destroyMap()"
                 >
                   <i class="ti ti-device-mobile-share"></i> &nbsp; APLIKASI
                 </button>
@@ -28,7 +27,7 @@
                   data-bs-target="#form-tabs-pengaturan-geofence"
                   role="tab"
                   aria-selected="false"
-                  @click="initializeMap()"
+                  @click="toggleMapTab"
                 >
                   <i class="ti ti-map-cog"></i> &nbsp; GEOFENCE
                 </button>
@@ -148,10 +147,6 @@
                     <input class="form-control typeahead" type="text" v-model="appUrl" />
                   </div>
                   <p></p>
-                  <!-- <div class="col-md-12" style="display: none">
-                    <label class="form-label"> GEOFENCE </label>
-                    <textarea class="form-control" rows="6" v-model="appGeofence"> </textarea>
-                  </div> -->
                   <div class="col-10">
                     <button class="btn btn-primary d-grid w-100" type="submit">
                       Simpan Perubahan
@@ -165,11 +160,36 @@
                 </form>
               </div>
             </div>
-            <!-- /FormValidation -->
 
-            <!-- Personal Info -->
             <div class="tab-pane fade" id="form-tabs-pengaturan-geofence" role="tabpanel">
-              <div id="map"></div>
+              <div class="col-md-12">
+                <Splitter style="height: 700px">
+                  <SplitterPanel
+                    class="flex align-items-center justify-content-center"
+                    :size="25"
+                    :minSize="10"
+                  >
+                    <div v-if="this.fixGeofence">
+                      {{ this.fixGeofence }}
+                    </div>
+                    <div v-else>GESER UNTUK <p />MELIHAT TITIK KOORDINAT</div>
+                  </SplitterPanel>
+                  <SplitterPanel class="flex align-items-center justify-content-center" :size="75">
+                    <div id="map" style="height: 100%; width: 100%"></div>
+                  </SplitterPanel>
+                </Splitter>
+
+                <div class="row" style="margin-top: 10px; margin-left: 10px; margin-right: 10px">
+                  <div class="col-10">
+                    <button class="btn btn-primary d-grid w-100" @click="">
+                      UBAH GEOFENCE LABUH
+                    </button>
+                  </div>
+                  <div class="col-2">
+                    <button class="btn btn-danger d-grid w-100" @click="">RESET</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -181,6 +201,7 @@
 </template>
 
 <script>
+import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import axios from 'axios'
 // import Swaler from 'sweetalert2'
@@ -205,13 +226,10 @@ export default {
       appVersion: '',
       appUrl: '',
       appGeofence: []
-      // polygonLayer: null
     }
   },
 
   mounted() {
-    // this.initializeMap()
-    // this.fetchAreas()
     this.getSettingApp()
   },
 
@@ -224,16 +242,34 @@ export default {
   },
 
   methods: {
-    initializeMap() {
-      this.map = L.map('map').setView([-6.847109, 109.128871], 16)
+    toggleMapTab() {
+      if (!this.mapInitialized) {
+        this.initializeMap()
+        this.mapInitialized = true
+      }
+    },
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19
-      }).addTo(this.map)
+    async initializeMap() {
+      this.fixGeofence = this.appGeofence.map((item) => [
+        parseFloat(item.lat),
+        parseFloat(item.long)
+      ])
 
-      this.areas = this.appGeofence
+      this.leaflet_map = L.map('map', {}).setView([0, 0], 5)
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxNativeZoom: 19,
+        maxZoom: 30
+      }).addTo(this.leaflet_map)
 
-      console.log('areas', this.areas)
+      const polygon = L.polygon(this.fixGeofence, {
+        color: 'red',
+        fillColor: '#A1B4FF',
+        fillOpacity: 0.5
+      }).addTo(this.leaflet_map)
+
+      this.leaflet_map.flyTo([-6.846599, 109.128841], 16, {
+        duration: 2
+      })
     },
 
     getSettingApp() {
@@ -256,7 +292,6 @@ export default {
 
           // console.clear()
           console.log('DATA SETTING FETCHED')
-          this.fetchAreas()
         })
         .catch((error) => {})
     },
@@ -296,12 +331,14 @@ export default {
     },
 
     resetSetting() {
+      // INITIAL RESET FORM
+
       this.harbourCode = 919191
       this.harbourName = 'PELABUHAN TEGALSARI'
       this.appMode = 'interval'
       this.appInterval = 30
       this.appRange = 2
-      this.appVersion = '3.0'
+      this.appVersion = '2.0'
       this.appUrl = 'google.com'
       this.appGeofence = ''
 
@@ -330,10 +367,5 @@ export default {
   color: white;
   background-color: #7367f0;
   font-weight: bolder;
-}
-
-#map {
-  height: 600px;
-  border-radius: 20px;
 }
 </style>
