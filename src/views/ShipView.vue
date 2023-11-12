@@ -25,7 +25,7 @@
                   class="btn btn-warning"
                   type="button"
                   id="kapal_detail"
-                  @click="handleClick"
+                  @click="exportShipToCSV"
                 >
                   <i class="ti ti-external-link me-sm-1"></i> Export
                 </button>
@@ -54,7 +54,7 @@
           <!-- ISI -->
           <div v-else>
             <DataTable
-              :value="filteredData"
+              :value="filteredShipData"
               :rows="10"
               :rowsPerPageOptions="[10, 20, 50]"
               paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
@@ -132,7 +132,7 @@
 
               <template #footer>
                 <div style="text-transform: lowercase !important">
-                  TOTAL <b> {{ filteredData ? filteredData.length : 0 }} </b
+                  TOTAL <b> {{ filteredShipData ? filteredShipData.length : 0 }} </b
                   ><small> kapal terdaftar. </small>
                 </div>
               </template>
@@ -170,7 +170,7 @@ export default {
   },
 
   computed: {
-    filteredData() {
+    filteredShipData() {
       const query = this.searchQuery.toLowerCase()
 
       console.log('qShip:', query)
@@ -197,7 +197,17 @@ export default {
           return null
         })
         .filter((ship) => ship !== null)
-    }
+    },
+
+    ShipToCSV() {
+      return this.filteredShipData.map((item) => ({
+        ship_name: item.ship_name,
+        responsible_name: item.responsible_name,
+        device_id: item.device_id,
+        created_at: item.created_at,
+        status: item.status
+      }))
+    },
   },
 
   mounted() {
@@ -218,7 +228,7 @@ export default {
           }, 1000)
 
           console.clear()
-          console.log("DATA SHIP FETCHED")
+          console.log('DATA SHIP FETCHED')
 
           return ship
         })
@@ -230,21 +240,56 @@ export default {
   },
 
   methods: {
-    async handleClick() {
-      this.showLoader = true
-      // loader start
-      let loader = this.$loading.show({
-        container: this.fullPage ? null : this.$refs.formContainer,
-        canCancel: false,
-        loader: 'bars',
-        color: '#000000',
-        backgroundColor: '#aad3dfa8'
+    // async exportShip() {
+    //   this.showLoader = true
+    //   // loader start
+    //   let loader = this.$loading.show({
+    //     container: this.fullPage ? null : this.$refs.formContainer,
+    //     canCancel: false,
+    //     loader: 'bars',
+    //     color: '#000000',
+    //     backgroundColor: '#aad3dfa8'
+    //   })
+
+    //   setTimeout(() => {
+    //     loader.hide()
+    //   }, 500)
+    //   // loader end
+    // },
+
+    exportShipToCSV() {
+      const jsonFields = ['ship_name', 'responsible_name', 'device_id', 'created_at', 'status']
+      const csvStr = this.jsonToCSV(this.ShipToCSV, jsonFields)
+
+      console.log('SHIP EXPORTED')
+
+      // Download CSV
+      this.downloadShipCSV(csvStr)
+    },
+
+    jsonToCSV(jsonArray, jsonFields) {
+      let csvStr = jsonFields.join(',') + '\n'
+
+      jsonArray.forEach((element) => {
+        const values = jsonFields.map((field) => element[field] || '') // Replace with the actual field names in your report data
+
+        csvStr += values.join(',') + '\n'
       })
 
-      setTimeout(() => {
-        loader.hide()
-      }, 500)
-      // loader end
+      return csvStr
+    },
+
+    downloadShipCSV(csvStr) {
+      const currentDate = new Date()
+      const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`
+
+      const hiddenElement = document.createElement('a')
+      hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStr)
+      hiddenElement.target = '_blank'
+      hiddenElement.download = `ship_list_${formattedDate}.csv`
+      hiddenElement.click()
     },
 
     // STYLING

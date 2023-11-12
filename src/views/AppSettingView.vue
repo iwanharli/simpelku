@@ -148,13 +148,18 @@
                     <input class="form-control typeahead" type="text" v-model="appUrl" />
                   </div>
                   <p></p>
-                  <div class="col-md-12" style="display: none">
+                  <!-- <div class="col-md-12" style="display: none">
                     <label class="form-label"> GEOFENCE </label>
                     <textarea class="form-control" rows="6" v-model="appGeofence"> </textarea>
-                  </div>
-                  <div class="col-12">
+                  </div> -->
+                  <div class="col-10">
                     <button class="btn btn-primary d-grid w-100" type="submit">
                       Simpan Perubahan
+                    </button>
+                  </div>
+                  <div class="col-2">
+                    <button class="btn btn-danger d-grid w-100" type="submit" @click="resetSetting">
+                      RESET
                     </button>
                   </div>
                 </form>
@@ -194,13 +199,13 @@ export default {
 
       harbourCode: '',
       harbourName: '',
+      appMode: '',
       appInterval: '',
       appRange: '',
       appVersion: '',
       appUrl: '',
-      appGeofence: [],
-      appMode: '',
-      polygonLayer: null
+      appGeofence: []
+      // polygonLayer: null
     }
   },
 
@@ -249,7 +254,7 @@ export default {
 
           this.appGeofence = res.data.data.geofences
 
-          console.clear()
+          // console.clear()
           console.log('DATA SETTING FETCHED')
           this.fetchAreas()
         })
@@ -274,8 +279,6 @@ export default {
         geofence: []
       }
 
-      console.log(updatedData)
-
       axios
         .post('api/v1/setting/create-or-update', updatedData, config)
         .then((response) => {
@@ -290,6 +293,19 @@ export default {
 
     updateSelectedMode(mode) {
       this.appMode = mode
+    },
+
+    resetSetting() {
+      this.harbourCode = 919191
+      this.harbourName = 'PELABUHAN TEGALSARI'
+      this.appMode = 'interval'
+      this.appInterval = 30
+      this.appRange = 2
+      this.appVersion = '3.0'
+      this.appUrl = 'google.com'
+      this.appGeofence = ''
+
+      console.log('FORM HAS BEEN RESET')
     }
   },
 
