@@ -35,7 +35,7 @@ const router = createRouter({
         {
           path: 'pengajuan-kapal',
           name: 'pengajuanKapal',
-          component: () => import('../views/ShipRegisterView.vue'),
+          component: () => import('../views/ShipApprovalView.vue'),
         },
         {
           path: 'laporan',
@@ -43,9 +43,9 @@ const router = createRouter({
           component: () => import('../views/ReportView.vue')
         },
         {
-          path: 'pengaturan-mobile',
-          name: 'pengaturan-mobile',
-          component: () => import('../views/MobileSettingView.vue')
+          path: 'pengaturan-aplikasi',
+          name: 'pengaturan-aplikasi',
+          component: () => import('../views/AppSettingView.vue')
         },
       ]
     },

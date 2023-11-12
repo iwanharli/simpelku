@@ -207,6 +207,7 @@ export default {
   mounted() {
     // this.initializeMap()
     // this.fetchAreas()
+    this.getSettingApp()
   },
 
   computed: {
@@ -215,30 +216,6 @@ export default {
         return this.appMode === value
       }
     }
-  },
-
-  created() {
-    axios
-      .get('api/v1/setting/web', {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-      })
-      .then((res) => {
-        this.harbourCode = res.data.data.harbour_code
-        this.harbourName = res.data.data.harbour_name
-        this.appMode = res.data.data.mode
-        this.appInterval = res.data.data.interval
-        this.appRange = res.data.data.range
-        this.appVersion = res.data.data.apk_min_version
-        this.appUrl = res.data.data.apk_min_download
-
-        this.appGeofence = res.data.data.geofences
-
-        console.log('Status : ' + res.data.meta.code + '\n' + res.data.meta.message)
-        this.fetchAreas()
-      })
-      .catch((error) => {})
   },
 
   methods: {
@@ -252,6 +229,31 @@ export default {
       this.areas = this.appGeofence
 
       console.log('areas', this.areas)
+    },
+
+    getSettingApp() {
+      axios
+        .get('api/v1/setting/web', {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+          }
+        })
+        .then((res) => {
+          this.harbourCode = res.data.data.harbour_code
+          this.harbourName = res.data.data.harbour_name
+          this.appMode = res.data.data.mode
+          this.appInterval = res.data.data.interval
+          this.appRange = res.data.data.range
+          this.appVersion = res.data.data.apk_min_version
+          this.appUrl = res.data.data.apk_min_download
+
+          this.appGeofence = res.data.data.geofences
+
+          console.clear()
+          console.log('DATA SETTING FETCHED')
+          this.fetchAreas()
+        })
+        .catch((error) => {})
     },
 
     updateMobileSetting() {
@@ -269,30 +271,7 @@ export default {
         interval: parseInt(this.appInterval),
         range: parseInt(this.appRange),
         apk_download_link: this.appUrl,
-        geofence: [
-          [-6.84803, 109.127111],
-          [-6.84493, 109.127213],
-          [-6.844399, 109.127412],
-          [-6.843839, 109.127916],
-          [-6.843522, 109.128222],
-          [-6.843405, 109.128479],
-          [-6.843397, 109.128805],
-          [-6.843378, 109.129482],
-          [-6.843815, 109.130108],
-          [-6.844419, 109.130499],
-          [-6.845571, 109.130567],
-          [-6.848934, 109.130598],
-          [-6.849089, 109.130019],
-          [-6.850875, 109.129794],
-          [-6.851462, 109.129584],
-          [-6.851276, 109.127807],
-          [-6.850367, 109.127907],
-          [-6.850528, 109.12923],
-          [-6.849406, 109.129368],
-          [-6.849238, 109.12804],
-          [-6.848195, 109.12814],
-          [-6.848085, 109.127142]
-        ]
+        geofence: []
       }
 
       console.log(updatedData)
@@ -301,7 +280,8 @@ export default {
         .post('api/v1/setting/create-or-update', updatedData, config)
         .then((response) => {
           console.log('Data updated successfully', response)
-          location.reload()
+
+          this.getSettingApp()
         })
         .catch((error) => {
           console.error('Error updating data:', error)

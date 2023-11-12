@@ -11,7 +11,7 @@
         >
           <div
             class="card-action-title mb-0"
-            style="background: #605ac2; padding: 10px; border-radius: 5px"
+            style="background: rgb(131, 121, 242); padding: 10px; border-radius: 5px"
           >
             <div class="row">
               <div class="col-xl-10">
@@ -173,7 +173,7 @@ export default {
     filteredData() {
       const query = this.searchQuery.toLowerCase()
 
-      // console.log('Query:', query)
+      console.log('qShip:', query)
 
       return this.ships
         .map((item, index) => {
@@ -216,6 +216,9 @@ export default {
           setTimeout(() => {
             this.isLoading = false
           }, 1000)
+
+          console.clear()
+          console.log("DATA SHIP FETCHED")
 
           return ship
         })
@@ -275,103 +278,6 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-}
-
-@keyframes loading {
-  40% {
-    background-position: 100% 0;
-  }
-  100% {
-    background-position: 100% 1;
-  }
-}
-
-.headline {
-  text-align: center;
-  margin-bottom: 20px;
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-  white-space: nowrap; /* Keeps the content on a single line */
-  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: 0.15em; /* Adjust as needed */
-  animation:
-    typing 1s steps(40, end),
-    blink-caret 0.75s step-end infinite;
-}
-
-/* The typing effect */
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 30%;
-  }
-}
-
-/* The typewriter cursor effect */
-@keyframes blink-caret {
-  from,
-  to {
-    border-color: transparent;
-  }
-  50% {
-    border-color: orange;
-  }
-}
-
-.tableWrapper {
-  width: 100%;
-
-  .table {
-    margin: 0 auto;
-    text-align: left;
-    border-spacing: 0;
-    border: 1px solid rgba(255, 0, 0, 0);
-
-    tbody {
-      td {
-        span {
-          color: #fefefe;
-        }
-
-        &:last-child {
-          border-radius: 0 20px 20px 0;
-        }
-      }
-    }
-  }
-  .loading {
-    position: relative;
-
-    .bar {
-      background-color: #6687ff8a;
-      height: 14px;
-      border-radius: 7px;
-      width: 100%;
-    }
-
-    &:after {
-      position: absolute;
-      border-radius: 20px;
-      transform: translateY(-50%);
-      top: 50%;
-      left: 16px;
-      content: '';
-      display: block;
-      width: 100%;
-      height: 24px;
-      background-image: linear-gradient(
-        100deg,
-        rgba(255, 255, 255, 0),
-        rgba(255, 255, 255, 0.649) 60%,
-        rgba(255, 0, 0, 0) 80%
-      );
-      background-size: 200px 100px;
-      background-position: -100px 0;
-      background-repeat: no-repeat;
-      animation: loading 0.7s infinite;
-    }
-  }
 }
 
 .pagination-container {

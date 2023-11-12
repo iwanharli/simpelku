@@ -56,10 +56,6 @@ export default {
         })
         .catch((error) => {
           console.log('Get geofence failure. Retrying in 1 seconds...', error)
-
-          setTimeout(() => {
-            this.getGeofence()
-          }, 1000)
           return
         })
     },

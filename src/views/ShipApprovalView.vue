@@ -4,7 +4,7 @@
     <div class="col-xl-12 col-md-12 col-sm-12">
       <div
         class="card-header"
-        style="background: rgb(74, 71, 117); padding-top: 20px; border-radius: 20px"
+        style="background: rgb(138 129 255); padding-top: 20px; border-radius: 20px"
       >
         <ul
           class="nav nav-tabs card-header-tabs"
@@ -59,7 +59,7 @@
             >
               <div
                 class="card-action-title mb-0"
-                style="background: rgb(90 178 194); padding: 10px; border-radius: 5px"
+                style="background: rgb(131, 121, 242); padding: 10px; border-radius: 5px"
               >
                 <div class="row">
                   <div class="col-xl-10 col-md-12">
@@ -71,7 +71,7 @@
                       class="btn btn-warning"
                       type="button"
                       id="kapal_detail"
-                      @click="handleClick"
+                      @click="exportData(filteredApproval(approvedData), 'approved')"
                     >
                       <i class="ti ti-external-link me-sm-1"></i> Export
                     </button>
@@ -100,7 +100,7 @@
               <!-- ISI -->
               <div v-else>
                 <DataTable
-                  :value="addRowNumbers(approvedData)"
+                  :value="filteredApproval(approvedData)"
                   :rows="5"
                   :rowsPerPageOptions="[5, 10, 20, 50]"
                   paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
@@ -179,7 +179,7 @@
             >
               <div
                 class="card-action-title mb-0"
-                style="background: #d7a716; padding: 10px; border-radius: 5px"
+                style="background: rgb(131, 121, 242); padding: 10px; border-radius: 5px"
               >
                 <div class="row">
                   <div class="col-xl-10">
@@ -193,7 +193,7 @@
                       class="btn btn-warning"
                       type="button"
                       id="kapal_detail"
-                      @click="handleClick"
+                      @click="exportData(filteredApproval(pendingData), 'pending')"
                     >
                       <i class="ti ti-external-link me-sm-1"></i> Export
                     </button>
@@ -211,12 +211,13 @@
             </div>
             <div class="card-datatable table-striped">
               <DataTable
-                :value="addRowNumbers(pendingData)"
+                :value="filteredApproval(pendingData)"
                 :rows="5"
                 :rowsPerPageOptions="[5, 10, 20, 50]"
                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                 currentPageReportTemplate="{first} - {last} of {totalRecords}"
                 paginator
+                :filterBy="searchQuery"
               >
                 <Column
                   field="rowNumber"
@@ -284,7 +285,7 @@
             >
               <div
                 class="card-action-title mb-0"
-                style="background: #d44a38; padding: 10px; border-radius: 5px"
+                style="background: rgb(131, 121, 242); padding: 10px; border-radius: 5px"
               >
                 <div class="row">
                   <div class="col-xl-10">
@@ -298,7 +299,7 @@
                       class="btn btn-warning"
                       type="button"
                       id="kapal_detail"
-                      @click="handleClick"
+                      @click="exportData(filteredApproval(rejectedData), 'rejected')"
                     >
                       <i class="ti ti-external-link me-sm-1"></i> Export
                     </button>
@@ -316,12 +317,13 @@
             </div>
             <div class="card-datatable table-striped">
               <DataTable
-                :value="addRowNumbers(rejectedData)"
+                :value="filteredApproval(rejectedData)"
                 :rows="5"
                 :rowsPerPageOptions="[5, 10, 20, 50]"
                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                 currentPageReportTemplate="{first} - {last} of {totalRecords}"
                 paginator
+                :filterBy="searchQuery"
               >
                 <Column
                   field="rowNumber"
@@ -476,6 +478,7 @@
 <script>
 import axios from 'axios'
 import WaveItem from '../components/Items/WaveItem.vue'
+import * as XLSX from 'xlsx'
 
 export default {
   name: 'pengajuanKapal',
@@ -506,10 +509,10 @@ export default {
   },
 
   methods: {
-    addRowNumbers(data) {
+    filteredApproval(data) {
       const query = this.searchQuery.toLowerCase()
 
-      // console.log(query)
+      // console.log("qApproval : ", query)
 
       return data
         .filter((item) => {
@@ -541,7 +544,8 @@ export default {
             this.isLoading = false
           }, 1000)
 
-          console.log('DATA APPROVAL WAS FETCHED')
+          console.clear()
+          console.log('DATA APPROVAL FETCHED')
         })
         .catch((error) => {
           return
@@ -621,6 +625,38 @@ export default {
       }
 
       return `https://wa.me/${phoneNumber}?text=`
+    },
+
+    exportData(data, status) {
+      const jsonFields = ['ship_name', 'responsible_name', 'device_id', 'phone']
+
+      // diganti sek formate nang csv
+      const csvStr = this.convertToCSV(data, jsonFields)
+      console.log(csvStr)
+
+      // setting blob
+      const blob = new Blob([csvStr], { type: 'text/csv;charset=utf-8;' })
+
+      // setup sek
+      const currentDate = new Date()
+      const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`
+      const fileName = `report_${status}_${formattedDate}.csv`
+
+      const link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = fileName
+
+      //download dong
+      link.click()
+      window.URL.revokeObjectURL(link.href)
+    },
+
+    convertToCSV(data, fields) {
+      const header = fields.join(',')
+      const rows = data.map((item) => fields.map((field) => item[field] || '').join(','))
+      return [header, ...rows].join('\n')
     }
   },
 

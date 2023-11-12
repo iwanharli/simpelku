@@ -66,9 +66,12 @@
               fill="white"
             />
           </svg>
-          <span class="app-brand-text demo menu-text fw-bold title-pelabuhan" style="margin-left: -15px !important;">
-            <span style="color: #a1b4ff">IMPEL</span> &nbsp;&nbsp;|&nbsp;&nbsp;
-            {{ harbourName }}
+          <span
+            class="app-brand-text demo menu-text fw-bold title-pelabuhan"
+            style="margin-left: -15px !important"
+          >
+            <span style="color: #a1b4ff;">IMPEL</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+            {{ harbourName.toUpperCase() ? harbourName.toUpperCase() : 'PELABUHAN' }}
             <small> {{ harbourCode ? '(' + harbourCode + ')' : '' }}</small>
           </span>
         </a>
@@ -84,7 +87,9 @@
           </li> -->
           <!-- Style Switcher -->
           <li class="nav-item me-2 me-xl-0">
-            <span class="fw-semibold d-block" v-if="userData">SELAMAT DATANG, <b>{{ userData.name.toUpperCase() }}</b></span>
+            <span class="fw-semibold d-block" v-if="userData"
+              >SELAMAT DATANG, <b>{{ userData.name.toUpperCase() }}</b></span
+            >
           </li>
 
           <!-- User -->
@@ -161,35 +166,42 @@ export default {
     }
   },
 
-  created() {
-    const router = useRouter()
-
-    axios
-      .get('api/v1/setting/web', {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-      })
-      .then((res) => {
-        this.mobileSettings = res.data.data
-
-        this.harbourCode = this.mobileSettings.harbour_code
-        this.harbourName = this.mobileSettings.harbour_name
-
-        // console.log('Status : ' + res.data.meta.code + '\n' + res.data.meta.message)
-        // console.log(this.mobileSettings)
-      })
-      .catch((error) => {
-        console.log('Error : ' + error.response.data.meta.message)
-
-        if (error.response.data.meta.message === 'Unauthorized') {
-          localStorage.setItem('authenticated', false.toString())
-          localStorage.removeItem('token')
-
-          router.push({ name: 'login' })
-        }
-      })
+  mounted() {
+    this.getTitle()
   },
+
+  methods: {
+    async getTitle() {
+      axios
+        .get('api/v1/setting/web', {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+          }
+        })
+        .then((res) => {
+          this.harbourCode = res.data.data.harbour_code
+          this.harbourName = res.data.data.harbour_name
+
+          // console.log('Status : ' + res.data.meta.code + '\n' + res.data.meta.message)
+          // console.log(this.mobileSettings)
+        })
+        .catch((error) => {
+          const router = useRouter()
+          console.log('Error Get Title: ' + error)
+
+          setTimeout(this.getTitle, 1000)
+
+          if (error.response.data.meta.message === 'Unauthorized') {
+            localStorage.setItem('authenticated', false.toString())
+            localStorage.removeItem('token')
+
+            router.push({ name: 'login' })
+          }
+        })
+    }
+  },
+
+  created() {},
 
   setup() {
     const router = useRouter()
@@ -212,10 +224,10 @@ export default {
 
 <style>
 @media (max-width: 1201px) {
-    .title-pelabuhan {
-      display: none;
-    }
+  .title-pelabuhan {
+    display: none;
   }
+}
 
 a:hover {
   cursor: pointer;

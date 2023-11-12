@@ -184,12 +184,13 @@
 /* eslint-disable no-undef */
 
 import axios from 'axios'
-import { computed, onMounted, ref } from 'vue'
-import { useGeolocation } from '../useGeolocation'
+import '../services/MapServices.js'
 
-import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 import 'leaflet.markercluster'
+import markerKapal from '../assets/img/ship-marker.png'
+import markerNelayan from '../assets/img/fisherman-marker.png'
 
 // AIzaSyB-KuyteYp1DYW8KdRT6L1M7nB_GfAER00
 const GOOGLE_MAPS_API_KEY = 'AIzaSyB-KuyteYp1DYW8KdRT6L1M7nB_GfAER00xxxxxxxxxx'
@@ -206,41 +207,10 @@ export default {
       ship_collection: [],
       socket: null,
       ws_url: 'ws://103.139.192.254:9016/api/v1/dashboard/ship-monitor/open-websocket',
-      harbour_name: 'PEL A BUHAN',
+      harbour_name: 'PELABUHAN',
       harbour_geo: []
       // ws_url: "ws://localhost:8080",
     }
-  },
-
-  setup() {
-    const { coords } = useGeolocation()
-    const currPos = computed(() => ({
-      lat: -6.846155,
-      lng: 109.128892
-    }))
-
-    // const otherPos = ref(null)
-    // const loader = new Loader({ apiKey: GOOGLE_MAPS_API_KEY })
-
-    // let clickListener = null
-
-    // onMounted(async () => {
-    //   await loader.load()
-    //   new google.maps.Map(mapDiv.value, {
-    //     center: currPos.value,
-    //     zoom: 16
-    //   })
-    //   // clickListener = map.value.addListener(
-    //   //   'click',
-    //   //   ({ latLng: { lat, lng } }) =>
-    //   //   (otherPos.value = { lat: lat(), lng: lng() })
-    //   // )
-    // })
-    // onMounted(async () => {
-    //   if (clickListener) clickListener.remove()
-    // })
-
-    // return { currPos, mapDiv }
   },
 
   mounted() {
@@ -264,7 +234,7 @@ export default {
 
   methods: {
     async akuPeta() {
-      console.log('peta', L, [this.center.lat, this.center.lng])
+      console.log('PETA', L, [this.center.lat, this.center.lng])
 
       this.mapZoomAnimFix()
 
@@ -305,24 +275,30 @@ export default {
           this.leaflet_markers[ship.ship_id].setLatLng([ship.geo[1], ship.geo[0]])
 
           console.log(
-            'update marker kapal',
+            '> UP MARKER \t',
             ship.ship_id,
             ship.ship_name,
-            ' - koordinat ',
-            ship.geo
+            '\n> KOORDINAT \t',
+            ship.geo,
+            '\n> ON GROUND \t',
+            ship.on_ground
           )
         } else {
           // Jika marker belum ada, buat marker baru dan tambahkan ke LayerGroup
 
-          var myIcon = L.icon({
-            iconUrl:
-              'https://raw.githubusercontent.com/iconic/open-iconic/master/png/map-marker-8x.png',
-            iconSize: [32, 32],
+          var iconKapal = L.icon({
+            iconUrl: markerKapal,
+            iconSize: [32, 42],
             iconAnchor: [16, 32]
           })
 
+          var iconNelayan = L.icon({
+            iconUrl: markerNelayan,
+            iconSize: [35, 50]
+          })
+          
           var marker = L.marker([ship.geo[1], ship.geo[0]], {
-            icon: myIcon
+            icon: ship.on_ground === 1 ? iconNelayan : iconKapal
           })
             .bindTooltip(ship.ship_name)
             .addTo(this.leaflet_layerGroups)
@@ -344,7 +320,11 @@ export default {
     },
 
     clickZoom(e) {
-      this.leaflet_map.setView(e.target.getLatLng(), 25)
+      // showModalDetail()
+
+      this.leaflet_map.flyTo(e.target.getLatLng(), 25, {
+        duration: 3
+      })
     },
 
     resetMap() {
@@ -358,7 +338,7 @@ export default {
       var json_data = JSON.parse(data)
 
       // console.clear()
-      console.log(json_data)
+      // console.log(json_data)
 
       json_data.forEach((ship) => {
         this.markerEditor(ship)
@@ -386,7 +366,7 @@ export default {
 
     async ws_container() {
       await this.ws_konek_donk()
-      await this.ws_test()
+      // await this.ws_test()
     },
 
     async ws_konek_donk() {

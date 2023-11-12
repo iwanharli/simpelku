@@ -1,0 +1,3 @@
+<template>
+    MAP DASHBOARD
+</template>

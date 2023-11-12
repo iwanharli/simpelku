@@ -258,14 +258,6 @@ export default {
   },
 
   methods: {
-    validateField(value) {
-      if (!value) {
-        return 'Password is required.'
-      }
-
-      return true
-    },
-
     getShipDetail(shipDetailId) {
       const config = {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
@@ -283,6 +275,8 @@ export default {
           this.shipCurLat = this.ship.current_lat
           this.shipCurLong = this.ship.current_long
           this.shipOnGround = this.ship.on_ground
+
+          console.log("DATA SHIP DETAIL FETCHED")
         })
         .catch((error) => {
           console.log('Get ship detail failure. Retrying in 1 seconds...', error)

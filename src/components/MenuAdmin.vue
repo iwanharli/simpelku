@@ -46,14 +46,14 @@ import { RouterLink } from 'vue-router'
         </li>
 
         <li
-          @click="active = 'pengaturan-mobile'"
+          @click="active = 'pengaturan-aplikasi'"
           class="menu-item"
-          :class="{ active: isActiveMobileSettingRoute }"
+          :class="{ active: isActiveAppSettingRoute }"
           style="margin-left: 30px;"
         >
-          <RouterLink to="/pengaturan-mobile" class="menu-link menu-toggle" id="pengaturan">
+          <RouterLink to="/pengaturan-aplikasi" class="menu-link menu-toggle" id="pengaturan">
             <i class="menu-icon tf-icons ti ti-settings"></i>
-            <div data-i18n="Pengaturan Mobile">Pengaturan</div>
+            <div data-i18n="Pengaturan Aplikasi">Pengaturan</div>
           </RouterLink>
         </li>
       </ul>
@@ -86,8 +86,8 @@ export default {
       return this.$route.path === '/laporan'
     },
 
-    isActiveMobileSettingRoute() {
-      return this.$route.path === '/pengaturan-mobile'
+    isActiveAppSettingRoute() {
+      return this.$route.path === '/pengaturan-aplikasi'
     },
 
     isActiveShipRegisterRoute() {
