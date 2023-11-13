@@ -28,6 +28,7 @@
                   id="emailLogin"
                   name="email"
                   placeholder="Masukkan email Anda"
+                  autofocus
                 />
               </div>
               <div class="mb-3 form-password-toggle">

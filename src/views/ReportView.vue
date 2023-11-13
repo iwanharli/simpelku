@@ -80,6 +80,7 @@
             <div class="card-datatable table-striped">
               <!-- SKELETON -->
               <div v-if="isLoading">
+                <ProgressBar mode="indeterminate" style="height: 10px"></ProgressBar>
                 <div v-for="row in 5" :key="row" class="row" style="padding: 10px">
                   <div v-for="col in 6" :key="col" class="col-xl-{{ col === 4 ? 4 : 2 }}">
                     <Skeleton class="border-round h-2rem" />
@@ -210,6 +211,7 @@
             <div class="card-datatable table-striped">
               <!-- SKELETON -->
               <div v-if="isLoading">
+                <ProgressBar mode="indeterminate" style="height: 10px"></ProgressBar>
                 <div v-for="row in 5" :key="row" class="row" style="padding: 10px">
                   <div v-for="col in 6" :key="col" class="col-xl-{{ col === 4 ? 4 : 2 }}">
                     <Skeleton class="border-round h-2rem" />
@@ -298,7 +300,6 @@
 <script>
 import axios from 'axios'
 import WaveComponent from '../components/Items/WaveItem.vue'
-
 
 export default {
   name: 'pageReport',
@@ -399,10 +400,12 @@ export default {
         .then((res) => {
           this.dockingReports = res.data.data
 
-          // console.log(this.reports)
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+
           console.clear()
           console.log('DATA DOCKING FETCHED')
-          this.isLoading = false
         })
         .catch((error) => {
           setTimeout(this.getShipDocking, 1000)
@@ -421,10 +424,15 @@ export default {
         .then((res) => {
           this.fraudReports = res.data.data
 
+          this.isLoading = true
+
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+
           // console.log(this.fraudReports)
           console.clear()
           console.log('DATA FRAUD FETCHED')
-          this.isLoading = false
         })
         .catch((error) => {
           setTimeout(this.getShipDocking, 1000)

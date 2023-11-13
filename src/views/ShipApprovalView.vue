@@ -90,6 +90,8 @@
             <div class="card-datatable table-striped">
               <!-- SKELETON -->
               <div v-if="isLoading">
+                <ProgressBar mode="indeterminate" style="height: 10px"></ProgressBar>
+
                 <div v-for="row in 5" :key="row" class="row" style="padding: 10px">
                   <div v-for="col in 6" :key="col" class="col-xl-{{ col === 4 ? 4 : 2 }}">
                     <Skeleton class="border-round h-2rem" />

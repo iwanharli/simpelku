@@ -70,18 +70,18 @@
                   <td>
                     <template v-if="log.is_mocked === 1">
                       <div class="avatar" v-if="log.on_ground === 0">
-                        <img src="../../../assets/img/fraud2.png" class="h-auto" />
+                        <img src="/src/assets/img/fraud2.png" class="h-auto" />
                       </div>
                     </template>
                     <template v-else>
                       <template v-if="log.on_ground === 1">
                         <div class="avatar">
-                          <img src="../../../assets/img/no-connection.png" class="h-auto" />
+                          <img src="/src/assets/img/no-connection.png" class="h-auto" />
                         </div>
                       </template>
                       <template v-else>
                         <div class="avatar">
-                          <img src="../../../assets/img/sea.png" class="h-auto" />
+                          <img src="/src/assets/img/sea.png" class="h-auto" />
                         </div>
                       </template>
                     </template>

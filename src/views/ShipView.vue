@@ -1,7 +1,7 @@
 <template>
   <div
     class="container-fluid flex-grow-1 container-p-y"
-    style="margin-left: 70px; margin-right: 70px"
+    style="margin-left: 70px; margin-right: 70px; z-index: 1;"
   >
     <div class="col-xl-12 col-md-11 col-sm-10">
       <div class="card" style="z-index: 1">
@@ -44,6 +44,8 @@
         <div class="card-datatable table-striped">
           <!-- SKELETON -->
           <div v-if="isLoading">
+            <ProgressBar mode="indeterminate" style="height: 10px"></ProgressBar>
+
             <div v-for="row in 5" :key="row" class="row" style="padding: 10px">
               <div v-for="col in 6" :key="col" class="col-xl-{{ col === 4 ? 4 : 2 }}">
                 <Skeleton class="border-round h-2rem" />
@@ -207,7 +209,7 @@ export default {
         created_at: item.created_at,
         status: item.status
       }))
-    },
+    }
   },
 
   mounted() {

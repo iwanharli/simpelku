@@ -70,9 +70,13 @@
             class="app-brand-text demo menu-text fw-bold title-pelabuhan"
             style="margin-left: -15px !important"
           >
-            <span style="color: #a1b4ff;">IMPEL</span> &nbsp;&nbsp;|&nbsp;&nbsp;
-            {{ harbourName.toUpperCase() ? harbourName.toUpperCase() : 'PELABUHAN' }}
-            <small> {{ harbourCode ? '(' + harbourCode + ')' : '' }}</small>
+            <span style="color: #a1b4ff">IMPEL</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+            <span v-if="harbourName">
+              {{ harbourName.toUpperCase() }}
+              &nbsp;
+              <small> {{ harbourCode ? '(' + harbourCode + ')' : '' }}</small>
+            </span>
+            <span v-html="formattedHarbourName" v-else></span>
           </span>
         </a>
       </div>
@@ -100,7 +104,7 @@
               data-bs-toggle="dropdown"
             >
               <div class="avatar avatar-online">
-                <img src="../../assets/img/user2.png" class="h-auto rounded-circle" />
+                <img src="/src/assets/img/user2.png" class="h-auto rounded-circle" />
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -109,7 +113,7 @@
                   <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                       <div class="avatar avatar-online">
-                        <img src="../../assets/img/user2.png" class="h-auto rounded-circle" />
+                        <img src="/src/assets/img/user2.png" class="h-auto rounded-circle" />
                       </div>
                     </div>
                     <div class="flex-grow-1">
@@ -163,6 +167,14 @@ export default {
     return {
       harbourCode: '',
       harbourName: ''
+    }
+  },
+
+  computed: {
+    formattedHarbourName() {
+      const icon = '<i class="pi pi-spin pi-spinner" style="font-size: 1rem"></i>'
+      const formattedName = 'PELABUHAN'
+      return formattedName + ' ' + icon
     }
   },
 

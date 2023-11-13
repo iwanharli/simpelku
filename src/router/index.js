@@ -47,6 +47,11 @@ const router = createRouter({
           name: 'pengaturan-aplikasi',
           component: () => import('../views/AppSettingView.vue')
         },
+        {
+          path: 'debugMaps',
+          name: 'debugMaps',
+          component: () => import('../views/test/mapsTest.vue')
+        },
       ]
     },
   ]
