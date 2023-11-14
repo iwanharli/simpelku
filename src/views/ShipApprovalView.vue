@@ -480,7 +480,6 @@
 <script>
 import axios from 'axios'
 import WaveItem from '../components/Items/WaveItem.vue'
-import * as XLSX from 'xlsx'
 
 export default {
   name: 'pengajuanKapal',
@@ -550,7 +549,17 @@ export default {
           console.log('DATA APPROVAL FETCHED')
         })
         .catch((error) => {
-          return
+          setTimeout(this.fetchData, 1000)
+
+          console.error('Error: ' + error.response.data.meta.message)
+
+          if (error.response.data.meta.message === 'Unauthorized') {
+            localStorage.setItem('authenticated', false.toString())
+            localStorage.removeItem('token')
+
+            window.location.reload()
+            router.push({ name: 'login' })
+          }
         })
     },
 

@@ -1,5 +1,5 @@
 <template>
-  <div ref="mapDiv" style="position: absolute; height: 94vh; width: 100vw; margin-top:10px" />
+  <div ref="mapDiv" style="position: absolute; height: 95vh; width: 100vw; margin-top:20px" />
 </template>
 
 <script>

@@ -3,7 +3,7 @@
   <div class="container-fluid flex-grow-1 container-p-y" style="position: relative">
     <!-- STATISTIK KAPAL  -->
     <div class="row" style="position: absolute; bottom: 15px; width: 70% !important; z-index: 999">
-      <div class="col-xl-2 col-md-6 col-sm-12">
+      <div class="col-xl-2 col-md-6 col-sm-6">
         <div class="card text-white bg-success mb-3">
           <div class="card-body">
             <div class="d-flex align-items-start justify-content-between">
@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-2 col-md-6 col-sm-12">
+      <div class="col-xl-2 col-md-6 col-sm-6">
         <div class="card bg-warning text-white mb-3">
           <div class="card-body">
             <div class="d-flex align-items-start justify-content-between">
@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-2 col-md-6 col-sm-12">
+      <div class="col-xl-2 col-md-6 col-sm-6">
         <div class="card bg-primary text-white mb-3">
           <div class="card-body">
             <div class="d-flex align-items-start justify-content-between">
@@ -58,7 +58,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-2 col-md-6 col-sm-12">
+      <div class="col-xl-2 col-md-6 col-sm-6">
         <div class="card bg-danger text-white mb-3">
           <div class="card-body">
             <div class="d-flex align-items-start justify-content-between">
@@ -82,7 +82,7 @@
     <div
       ref="mapDiv"
       id="map"
-      style="position: absolute; height: 89.5vh; width: 100vw; margin-left: -25px; margin-top: -25px;="
+      style="position: absolute; height: 90vh; width: 100vw; margin-left: -25px; margin-top: -25px;="
     ></div>
 
     <button id="btnResetMap" @click="resetMap"><i class="ti ti-home-2"></i></button>
@@ -184,7 +184,6 @@
 /* eslint-disable no-undef */
 
 import axios from 'axios'
-import '../services/MapServices.js'
 
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -238,8 +237,12 @@ export default {
 
       this.mapZoomAnimFix()
 
+      const tileOcean = 'https://api.maptiler.com/maps/ocean/{z}/{x}/{y}.png?key=ufCf3dbMdr7VkfVI6gjQ'
+      const tileTopo = 'https://api.maptiler.com/maps/topo-v2/256/{z}/{x}/{y}.png?key=ufCf3dbMdr7VkfVI6gjQ'
+      const street = 'https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=ufCf3dbMdr7VkfVI6gjQ'
+
       this.leaflet_map = L.map('map', {}).setView([this.center.lat, this.center.lng], 13)
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      L.tileLayer(street, {
         maxNativeZoom: 19,
         maxZoom: 30,
         noWrap: true,

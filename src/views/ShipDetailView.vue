@@ -5,6 +5,7 @@
       :shipCurLat="shipCurLat"
       :shipCurLong="shipCurLong"
       :shipOnGround="shipOnGround"
+      :location-logs="locationLogs"
     />
 
     <div class="row">

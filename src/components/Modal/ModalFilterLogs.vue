@@ -15,14 +15,9 @@
                 <div class="col-md-12 col-12 mb-4">
                   <label for="dateRangePicker" class="form-label">Masukkan Tanggal</label>
                   <div class="input-group input-daterange" id="bs-datepicker-daterange">
-                    <input
-                      type="text"
-                      id="dateRangePicker"
-                      placeholder="MM/DD/YYYY"
-                      class="form-control"
-                    />
+                    <input type="date" placeholder="MM/DD/YYYY" class="form-control" />
                     <span class="input-group-text">to</span>
-                    <input type="text" placeholder="MM/DD/YYYY" class="form-control" />
+                    <input type="date" placeholder="MM/DD/YYYY" class="form-control" />
                   </div>
                 </div>
                 <div class="row">

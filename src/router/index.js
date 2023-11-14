@@ -48,6 +48,11 @@ const router = createRouter({
           component: () => import('../views/AppSettingView.vue')
         },
         {
+          path: 'verification',
+          name: 'verifikasi',
+          component: () => import('../views/VerificationView.vue')
+        },
+        {
           path: 'debugMaps',
           name: 'debugMaps',
           component: () => import('../views/test/mapsTest.vue')

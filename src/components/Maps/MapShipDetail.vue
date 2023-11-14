@@ -2,8 +2,43 @@
   <div class="row">
     <div class="col-12">
       <div class="card mb-4">
-        <div style="height: 600px">
-          <div id="map" style="height: 100%; width: 100%"></div>
+        <div style="position: relative; height: 800px">
+          <div id="map" style="height: 100%; width: 100%; z-index: 0"></div>
+          <div
+            class="col-xl-6 col-md-12 cols-sm-6 mx-auto"
+            style="
+              position: absolute;
+              top: 95%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              z-index: 1;
+            "
+          >
+            <div class="row" style="background:rgba(0, 0, 0, 0.453); padding:10px; border-radius:10px;">
+              <div class="col-xl-8">
+                <div class="input-group input-daterange" id="bs-datepicker-daterange">
+                  <input
+                    type="date"
+                    placeholder="MM/DD/YYYY"
+                    class="form-control"
+                    v-model="dateStart"
+                  />
+                  <span class="input-group-text">to</span>
+                  <input
+                    type="date"
+                    placeholder="MM/DD/YYYY"
+                    class="form-control"
+                    v-model="dateEnd"
+                  />
+                </div>
+              </div>
+              <div class="col-xl-4">
+                <button class="btn btn-primary d-grid w-100" type="submit" @click="onSubmit()">
+                  Lihat History
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -22,21 +57,25 @@ export default {
 
   data() {
     return {
-      latlngs: []
+      latlngs: [],
+      dateStart: null,
+      dateEnd: null,
+      polyline: null
     }
   },
 
   props: {
-    shipCurLat: Number, // Specify the data type if you know it
+    shipCurLat: Number,
     shipCurLong: Number,
-    shipOnGround: Number
+    shipOnGround: Number,
+    locationLogs: Number
   },
 
   mounted() {
     this.getGeofence(),
       setTimeout(() => {
         this.mapShipDetail()
-      }, 100)
+      }, 200)
   },
 
   methods: {
@@ -61,7 +100,7 @@ export default {
     },
 
     async mapShipDetail() {
-      this.leaflet_map = L.map('map', {}).setView([this.shipCurLat, this.shipCurLong], 5)
+      this.leaflet_map = L.map('map', {}).setView([this.shipCurLat, this.shipCurLong], 18)
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxNativeZoom: 19,
         maxZoom: 30
@@ -74,6 +113,9 @@ export default {
       }).addTo(this.leaflet_map)
 
       this.leaflet_map.fitBounds(polygon.getBounds()) // initial center polgon
+      this.leaflet_map.flyTo([this.shipCurLat, this.shipCurLong], 18, {
+        duration: 3
+      })
 
       var iconKapal = L.icon({
         iconUrl: markerKapal,
@@ -87,10 +129,48 @@ export default {
 
       var icon = this.shipOnGround === 1 ? iconNelayan : iconKapal
       L.marker([this.shipCurLat, this.shipCurLong], { icon: icon }).addTo(this.leaflet_map)
+    },
 
-      this.leaflet_map.flyTo([this.shipCurLat, this.shipCurLong], 18, {
-        duration: 3
+    async onSubmit() {
+      console.log(this.dateStart)
+      console.log(this.dateEnd)
+
+      const filteredLogs = this.locationLogs.filter((log) => {
+        const dateLog = log.created_at.split(' ')[0]
+        return (
+          (!this.dateStart || dateLog >= this.dateStart) &&
+          (!this.dateEnd || dateLog <= this.dateEnd)
+        )
       })
+
+      console.log('logList', filteredLogs)
+
+      var iconKapal = L.icon({
+        iconUrl: markerKapal,
+        iconSize: [15, 30]
+      })
+
+      const iconNelayan = L.divIcon({
+        html: '<i class="pi pi-circle-fill" style="font-size: 1rem; color:black"></i>',
+        iconSize: [5, 5], // Set the size of the icon
+        className: 'custom-icon-class' // Optional: Add a custom class for styling
+      })
+
+      const markers = []
+
+      this.locationLogs.forEach((filteredLogs) => {
+        const { lat, long, on_ground } = filteredLogs
+        const icon = on_ground === 1 ? iconNelayan : iconKapal
+
+        const marker = L.marker([parseFloat(lat), parseFloat(long)], { icon: icon })
+        markers.push(marker)
+        marker.addTo(this.leaflet_map)
+      })
+
+      this.polyline = L.polyline(
+        markers.map((marker) => marker.getLatLng()),
+        { color: 'blue' }
+      ).addTo(this.leaflet_map)
     }
   }
 }

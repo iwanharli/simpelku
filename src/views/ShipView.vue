@@ -1,7 +1,7 @@
 <template>
   <div
     class="container-fluid flex-grow-1 container-p-y"
-    style="margin-left: 70px; margin-right: 70px; z-index: 1;"
+    style="margin-left: 70px; margin-right: 70px; z-index: 1"
   >
     <div class="col-xl-12 col-md-11 col-sm-10">
       <div class="card" style="z-index: 1">
@@ -152,7 +152,6 @@
 
 <script>
 import axios from 'axios'
-
 import WaveItem from '../components/Items/WaveItem.vue'
 import LoaderItem from '../components/Items/LoaderItem.vue'
 
@@ -213,7 +212,29 @@ export default {
   },
 
   mounted() {
-    axios
+    this.getShipFetch()
+  },
+
+  methods: {
+    // async exportShip() {
+    //   this.showLoader = true
+    //   // loader start
+    //   let loader = this.$loading.show({
+    //     container: this.fullPage ? null : this.$refs.formContainer,
+    //     canCancel: false,
+    //     loader: 'bars',
+    //     color: '#000000',
+    //     backgroundColor: '#aad3dfa8'
+    //   })
+
+    //   setTimeout(() => {
+    //     loader.hide()
+    //   }, 500)
+    //   // loader end
+    // },
+
+    async getShipFetch() {
+      axios
       .get('api/v1/ship/list', {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -237,32 +258,24 @@ export default {
         // console.log(this.ships)
       })
       .catch((error) => {
+        setTimeout(this.getShipFetch, 1000)
         console.error('Error: ' + error.response.data.meta.message)
+
+        if (error.response.data.meta.message === 'Unauthorized') {
+          localStorage.setItem('authenticated', false.toString())
+          localStorage.removeItem('token')
+
+          window.location.reload()
+          router.push({ name: 'login' })
+        }
       })
-  },
-
-  methods: {
-    // async exportShip() {
-    //   this.showLoader = true
-    //   // loader start
-    //   let loader = this.$loading.show({
-    //     container: this.fullPage ? null : this.$refs.formContainer,
-    //     canCancel: false,
-    //     loader: 'bars',
-    //     color: '#000000',
-    //     backgroundColor: '#aad3dfa8'
-    //   })
-
-    //   setTimeout(() => {
-    //     loader.hide()
-    //   }, 500)
-    //   // loader end
-    // },
+    },
 
     exportShipToCSV() {
       const jsonFields = ['ship_name', 'responsible_name', 'device_id', 'created_at', 'status']
       const csvStr = this.jsonToCSV(this.ShipToCSV, jsonFields)
 
+      console.clear()
       console.log('SHIP EXPORTED')
 
       // Download CSV

@@ -411,6 +411,14 @@ export default {
           setTimeout(this.getShipDocking, 1000)
 
           console.log('ERROR GET SHIP DOCKING : ' + error)
+
+          if (error.response.data.meta.message === 'Unauthorized') {
+            localStorage.setItem('authenticated', false.toString())
+            localStorage.removeItem('token')
+
+            window.location.reload()
+            router.push({ name: 'login' })
+          }
         })
     },
 

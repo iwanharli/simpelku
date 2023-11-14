@@ -83,13 +83,6 @@
 
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <ul class="navbar-nav flex-row align-items-center ms-auto">
-          <!-- Style Switcher -->
-          <!-- <li class="nav-item me-2 me-xl-0">
-            <a class="nav-link style-switcher-toggle hide-arrow" href="javascript:void(0);">
-              <i class="ti ti-md ti-moon-stars"></i>
-            </a>
-          </li> -->
-          <!-- Style Switcher -->
           <li class="nav-item me-2 me-xl-0">
             <span class="fw-semibold d-block" v-if="userData"
               >SELAMAT DATANG, <b>{{ userData.name.toUpperCase() }}</b></span
@@ -194,18 +187,19 @@ export default {
           this.harbourCode = res.data.data.harbour_code
           this.harbourName = res.data.data.harbour_name
 
-          // console.log('Status : ' + res.data.meta.code + '\n' + res.data.meta.message)
-          // console.log(this.mobileSettings)
+          // console.log("Title Fetched")
         })
         .catch((error) => {
           const router = useRouter()
-          console.log('Error Get Title: ' + error)
+          console.log('CONNECTION TIMEOUT: ' + error)
 
           setTimeout(this.getTitle, 1000)
 
           if (error.response.data.meta.message === 'Unauthorized') {
             localStorage.setItem('authenticated', false.toString())
             localStorage.removeItem('token')
+
+            window.location.reload();
 
             router.push({ name: 'login' })
           }

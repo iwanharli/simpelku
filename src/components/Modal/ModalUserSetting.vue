@@ -105,7 +105,7 @@ export default {
           this.profile = res.data.data
         })
         .catch((error) => {
-          console.log(error.response.data.meta.message)
+          return
         })
     },
 

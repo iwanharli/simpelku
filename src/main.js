@@ -159,10 +159,6 @@ import TreeTable from 'primevue/treetable';
 import TriStateCheckbox from 'primevue/tristatecheckbox';
 import VirtualScroller from 'primevue/virtualscroller';
 
-
-
-import Papa from 'papaparse';
-
 const app = createApp(App)
 
 app.use(createPinia());
@@ -267,8 +263,5 @@ app.component('TreeSelect', TreeSelect);
 app.component('TreeTable', TreeTable);
 app.component('TriStateCheckbox', TriStateCheckbox);
 app.component('VirtualScroller', VirtualScroller);
-
-app.use(Papa);
-
 
 app.mount('#app')

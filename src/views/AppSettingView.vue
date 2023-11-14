@@ -1,5 +1,8 @@
 <template>
-  <div :class="{ 'container-xxl': !isGeofenceTab, 'container-fluid': isGeofenceTab }" style="z-index: 1;">
+  <div
+    class="container-fluid flex-grow-1 container-p-y"
+    style="z-index: 1; margin-left: 150px; margin-right: 150px"
+  >
     <div class="row">
       <div class="col">
         <div class="card mb-3">
@@ -37,14 +40,14 @@
           </div>
 
           <div class="tab-content">
-            <!-- STANDART -->
+            <!-- FORM -->
             <div
               class="tab-pane fade active show"
               id="form-tabs-pengaturan-aplikasi"
               role="tabpanel"
             >
-              <div class="col-12">
-                <form class="row g-3" @submit.prevent="updateMobileSetting">
+              <div class="col-xl-10 mx-auto">
+                <form class="row g-4" @submit.prevent="updateMobileSetting">
                   <div class="col-md-12" style="color: black; text-align: right">
                     <div class="card-action-element">
                       <button
@@ -166,14 +169,14 @@
             <!-- GEOFENCE -->
             <div class="tab-pane fade" id="form-tabs-pengaturan-geofence" role="tabpanel">
               <div class="col-xl-12">
-                <Splitter style="height: 880px">
+                <Splitter style="height: 820px">
                   <SplitterPanel
                     class="flex align-items-center justify-content-center scrollbar"
-                    :size="25"
+                    :size="33"
                     style="overflow-y: auto; max-width: 1000px"
                   >
                     <div v-if="this.fixGeofence">
-                      <div class="card" style="margin-top: 250px">
+                      <div class="card" style="margin-top: 520px">
                         <table class="table">
                           <thead>
                             <tr>
@@ -203,11 +206,8 @@
                   </SplitterPanel>
                 </Splitter>
 
-                <div
-                  class="row justify-content-end"
-                  style="margin-top: 10px; margin-left: 10px; margin-right: 10px"
-                >
-                  <div class="col-9">
+                <div class="row justify-content-end" style="margin-top: 10px; margin-right: 10px">
+                  <div class="col-8">
                     <button class="btn btn-primary d-grid w-100" @click="onSaveButtonClick()">
                       UBAH GEOFENCE LABUH
                     </button>
@@ -233,7 +233,7 @@ import * as L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import '@geoman-io/leaflet-geoman-free'
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css'
-import 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js'
+// import 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js'
 // import Swaler from 'sweetalert2'
 
 import OrganizationChart from 'primevue/organizationchart'
@@ -243,7 +243,6 @@ import harbourMarker from '/src/assets/img/harbour-marker.png'
 export default {
   data() {
     return {
-      isGeofenceTab: false,
       map: null,
       mobileSettings: {},
       harbourCode: '',
@@ -273,8 +272,6 @@ export default {
 
   methods: {
     toggleMapTab() {
-      this.isGeofenceTab = !this.isGeofenceTab;
-
       if (!this.mapInitialized) {
         this.initializeMap()
         this.mapInitialized = true
@@ -292,7 +289,7 @@ export default {
         // console.log(`Index: ${index}, Lat: ${latitude}, Long: ${longitude}`)
       })
 
-      const latlng = [-6.846599, 109.128841]
+      const latlng = [-6.847556, 109.128828]
       const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxNativeZoom: 19,
         maxZoom: 30,
@@ -317,7 +314,7 @@ export default {
         drawCircle: false,
         drawCircleMarker: false,
         drawText: false,
-        cutPolygon: false
+        cutPolygon: true
       })
 
       const p1 = L.polygon(this.fixGeofence, {
@@ -358,6 +355,18 @@ export default {
         this.transformedArray = [{ long: '0', lat: '0' }]
       })
 
+      layerGroup.on('pm:cut', (e) => {
+        console.log(e.originalLayer._latlngs[0])
+
+        const cuttedPolygon = e.layer._latlngs[0]
+        // layerGroup.bindPopup(`<p>${JSON.stringify(editedPolygon)}</p>`)
+
+        this.transformedArray = cuttedPolygon.map((coordinate) => ({
+          long: `${coordinate.lng}`,
+          lat: `${coordinate.lat}`
+        }))
+      })
+
       layerGroup.pm.enable({
         allowSelfIntersection: false
       })
@@ -365,7 +374,6 @@ export default {
 
     onSaveButtonClick() {
       this.toggleMapTab()
-      this.isGeofenceTab = !this.isGeofenceTab;
       console.log(this.transformedArray)
 
       const updatedData = {
@@ -413,10 +421,22 @@ export default {
 
           this.appGeofence = res.data.data.geofences
 
-          // console.clear()
+          console.clear()
           console.log('DATA SETTING FETCHED')
         })
-        .catch((error) => {})
+        .catch((error) => {
+          setTimeout(this.getSettingApp, 1000)
+
+          console.error('Error: ' + error.response.data.meta.message)
+
+          if (error.response.data.meta.message === 'Unauthorized') {
+            localStorage.setItem('authenticated', false.toString())
+            localStorage.removeItem('token')
+
+            window.location.reload()
+            router.push({ name: 'login' })
+          }
+        })
     },
 
     updateMobileSetting() {
