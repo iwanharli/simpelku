@@ -4,9 +4,7 @@ import { RouterView } from 'vue-router'
 
 <template>
   <!-- <h1>Welcome, {{ userStore.user }}</h1> -->
-  <div
-    class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu gradient-bg"
-  >
+  <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu gradient-bg">
     <div class="layout-container">
       <!-- Navbar -->
       <NavbarAdmin v-bind:userData="user" />
@@ -23,6 +21,7 @@ import { RouterView } from 'vue-router'
           </div>
         </div>
       </div>
+
       <!--/ Layout container -->
     </div>
   </div>
@@ -31,7 +30,8 @@ import { RouterView } from 'vue-router'
   <div class="layout-overlay layout-menu-toggle"></div>
 
   <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-  <!-- <div class="drag-target"></div> -->
+  <div class="drag-target"></div>
+
 </template>
 
 <script>
@@ -70,6 +70,7 @@ export default {
 </script>
 
 <style>
+
 .gradient-bg {
   background: linear-gradient(-45deg, #cdd7a6, #a6e1ff, #a4e7ff, rgba(112, 116, 255, 0.808));
   background-size: 400% 400%;

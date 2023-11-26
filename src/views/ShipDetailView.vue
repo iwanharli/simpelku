@@ -1,5 +1,5 @@
 <template>
-  <div class="container-xxl flex-grow-1 container-p-y">
+  <div class="container-xxl flex-grow-1 container-p-y mobile">
     <!-- MAP -->
     <MapShipDetail
       :shipCurLat="shipCurLat"
@@ -9,10 +9,12 @@
     />
 
     <div class="row">
-      <div class="col-xl-6 col-lg-5 col-md-5">
-
+      <div
+        class="col-xl-6 col-lg-5 col-md-5"
+        style="height: auto; overflow-y: auto; z-index: 1 !important"
+      >
         <!-- SHIP DETAIL -->
-        <div class="card mb-4">
+        <div class="card card-action mb-4 navbar-dropdown dropdown">
           <div
             class="card-header align-items-center"
             style="color: white; text-align: center; border-radius: 5px"
@@ -24,7 +26,7 @@
               DETAIL KAPAL
             </h5>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="overflow: auto">
             <table class="table" style="margin-top: 10px">
               <tbody>
                 <tr>
@@ -119,8 +121,6 @@
                   <th>Tanggal Terdaftar</th>
                   <td>{{ formatShipStatus(ship.created_at) }}</td>
                 </tr>
-
-                <ModalEditDetailKapal />
               </tbody>
             </table>
           </div>
@@ -128,7 +128,7 @@
       </div>
 
       <!-- SHIP LOG -->
-      <div class="col-xl-6 col-lg-7 col-md-7">
+      <div class="col-xl-6 col-lg-7 col-md-7" style="z-index: 1 !important">
         <div class="card card-action mb-4 navbar-dropdown dropdown">
           <div class="card-header align-items-center" style="color: white; text-align: center">
             <h5
@@ -137,7 +137,7 @@
             >
               HISTORY KELUAR MASUK KAPAL
             </h5>
-            <div class="card-action-element">
+            <!-- <div class="card-action-element">
               <button
                 class="btn btn-primary"
                 type="button"
@@ -146,7 +146,7 @@
               >
                 <i class="ti ti-filter-bolt"></i>
               </button>
-            </div>
+            </div> -->
           </div>
           <div
             class="card-body pb-0 scrollbar"
@@ -181,9 +181,10 @@
         </div>
       </div>
 
-      <ModalFilterLogs :dock-logs="dockLogs" :location-logs="locationLogs" />
+      <ModalEditDetailKapal />
+      <!-- <ModalFilterLogs :dock-logs="dockLogs" :location-logs="locationLogs" /> -->
     </div>
-
+    <WaveItem />
     <!--/ Content -->
   </div>
 </template>
@@ -193,14 +194,14 @@ import axios from 'axios'
 import { useToast } from 'primevue/usetoast'
 import { useField, useForm } from 'vee-validate'
 
-import MapShipDetail from '../components/Maps/MapShipDetail.vue'
-import ModalEditDetailKapal from '../components/Modal/ModalEditKapal.vue'
-import ModalFilterLogs from '../components/Modal/ModalFilterLogs.vue'
+import WaveItem from '@/components/Items/WaveItem.vue'
+import MapShipDetail from '@/components/Maps/MapShipDetail.vue'
+import ModalEditDetailKapal from '@/components/Modal/ModalEditKapal.vue'
+// import ModalFilterLogs from '@/components/Modal/ModalFilterLogs.vue'
 
 // import ShipDetail from '../components/Items/ShipDetailItem.vue'
 // import ShipOwnerBiodata from '../components/Items/ShipOwnerItem.vue'
 // import ShipOverview from '../components/Items/ShipOverviewItem.vue'
-// import WaveComponent from '../components/WaveItem.vue'
 
 export default {
   name: 'detailKapal',
@@ -208,7 +209,8 @@ export default {
   components: {
     MapShipDetail,
     ModalEditDetailKapal,
-    ModalFilterLogs
+    // ModalFilterLogs,
+    WaveItem
   },
 
   data() {
@@ -277,7 +279,7 @@ export default {
           this.shipCurLong = this.ship.current_long
           this.shipOnGround = this.ship.on_ground
 
-          console.log("DATA SHIP DETAIL FETCHED")
+          console.log('DATA SHIP DETAIL FETCHED')
         })
         .catch((error) => {
           console.log('Get ship detail failure. Retrying in 1 seconds...', error)
@@ -341,5 +343,11 @@ export default {
   background-color: #7367f0;
   border-radius: 20px;
   /* border: 3px solid rgb(89, 0, 255); */
+}
+
+@media only screen and (max-width: 994px) {
+  .mobile {
+    margin-top: 70px;
+  }
 }
 </style>

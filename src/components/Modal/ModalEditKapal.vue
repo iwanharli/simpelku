@@ -4,7 +4,7 @@
     id="modalEditDetailKapal"
     aria-labelledby="modalToggleLabel"
     tabindex="-1"
-    style="display: none; background-color: rgba(0, 109, 164, 0.23)"
+    style="display: none; background-color: rgba(0, 109, 164, 0.23);"
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">

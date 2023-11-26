@@ -1,9 +1,8 @@
 <template>
   <div
-    class="container-fluid flex-grow-1 container-p-y"
-    style="margin-left: 70px; margin-right: 70px; z-index: 1"
+    class="container-fluid flex-grow-1 container-p-y mobile"
   >
-    <div class="col-xl-12 col-md-11 col-sm-10">
+    <div class="col-xl-12 col-md-12 col-sm-12">
       <div class="card" style="z-index: 1">
         <div
           class="card-header align-items-center"
@@ -143,16 +142,13 @@
         </div>
       </div>
     </div>
-
-    <!--Hero area end-->
     <WaveItem />
-    <!--Hero area end-->
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import WaveItem from '../components/Items/WaveItem.vue'
+import WaveItem from '@/components/Items/WaveItem.vue'
 import LoaderItem from '../components/Items/LoaderItem.vue'
 
 export default {
@@ -370,4 +366,10 @@ export default {
     justify-content: flex-start !important;
   }
 }
+
+@media only screen and (max-width: 994px) {
+    .mobile {
+      margin-top: 100px;
+    }
+  }
 </style>

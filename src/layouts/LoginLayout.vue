@@ -3,7 +3,7 @@
   <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
     <div class="layout-container">
       <!-- Navbar -->
-      <NavBar />
+      <NavBarDefault />
       <!-- / Navbar -->
 
       <!-- Layout container -->
@@ -38,7 +38,7 @@
 <script>
 
 //components
-import NavBar from '../components/NavBar.vue'
+import NavBarDefault from '../components/NavbarDefault.vue'
 import ModalLogin from '../components/Modal/ModalLogin.vue'
 import ModalForgotPassword from '../components/Modal/ModalForgotPassword.vue'
 import MapIndonesia from '../components/Maps/MapIndonesia.vue'
@@ -46,7 +46,7 @@ import MapIndonesia from '../components/Maps/MapIndonesia.vue'
 export default {
   name: 'LandingPage',
   components: {
-    NavBar,
+    NavBarDefault,
     ModalLogin,
     ModalForgotPassword,
     MapIndonesia,

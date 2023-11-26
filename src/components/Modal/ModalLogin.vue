@@ -22,7 +22,7 @@
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input
-                  v-model="email"
+                  v-model="userData.email"
                   type="text"
                   class="form-control"
                   id="emailLogin"
@@ -46,7 +46,7 @@
                 </div>
                 <div class="input-group input-group-merge">
                   <input
-                    v-model="password"
+                    v-model="userData.password"
                     type="password"
                     id="password"
                     class="form-control"
@@ -72,20 +72,22 @@
 
 <script>
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'LoginPage',
   data() {
     return {
-      email: '',
-      password: ''
+      userData: {
+        email: '',
+        password: ''
+      }
     }
   },
 
   methods: {
     async handleSubmit() {
       this.showLoader = true
-      // loader start
       let loader = this.$loading.show({
         container: this.fullPage ? null : this.$refs.formContainer,
         canCancel: false,
@@ -97,40 +99,45 @@ export default {
       setTimeout(() => {
         loader.hide()
       }, 1000)
-      // loader end
 
-      try {
-        const response = await axios.post('api/v1/user/login', {
-          email: this.email,
-          password: this.password
+      await axios
+        .post('api/v1/user/login', this.userData)
+        .then((response) => {
+          console.log(response)
+          console.clear('')
+          console.log('Login successful!')
+
+          console.log('⚙ \t', response.status)
+          console.log('🚀 \t', response.data.data.token_jwt)
+          console.log('👽 \t', response.data.data.data_user.name)
+          console.log('✨ \t', response.data.data.data_user.email)
+
+          localStorage.setItem('authenticated', true)
+          localStorage.setItem('token', response.data.data.token_jwt)
+          localStorage.setItem('name', response.data.data.data_user.name)
+          localStorage.setItem('email', response.data.data.data_user.email)
+
+          this.$router.push({ name: 'home' })
+
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer
+              toast.onmouseleave = Swal.resumeTimer
+            }
+          })
+          Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully'
+          })
         })
-
-        localStorage.setItem('token', response.data.data.token_jwt)
-        this.$router.push({ name: 'home' })
-        localStorage.setItem('authenticated', true)
-
-        console.log('Bearer ' + localStorage.getItem('token'))
-      } catch (error) {
-
-        if (error.response.status === 400) {
-          console.log(error.response.data.meta.code)
-          console.log(error.response.data.meta.message)
-
-        } else if (error.response.status === 422) {
-          console.log(error.response.data.meta.code)
-          console.log(error.response.data.meta.message)
-
-          if (this.email === null) {
-            console.log(error.response.data.data.errors[0])
-          } else if (this.password === null) {
-            console.log(error.response.data.data.errors[1])
-          } else {
-            console.log(error.response.data.data.errors[0])
-            console.log(error.response.data.data.errors[1])
-          }
-
-        }
-      }
+        .catch((error) => {
+          console.error('Failed to login:', error)
+        })
     }
   }
 }

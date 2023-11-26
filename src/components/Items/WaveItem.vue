@@ -25,10 +25,11 @@
 </template>
 
 <style scoped>
-.container-wave {
-  /* position: absolute; */
-}
 .wave_area {
   z-index: 0 !important;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 </style>

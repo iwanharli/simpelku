@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router'
 <template>
   <aside
     class="layout-menu-horizontal menu-horizontal bg-menu-theme flex-grow-0 menu-mobile"
-    style="z-index: 2;"
+    style="z-index: 0;"
   >
     <div class="container-xxl d-flex h-100">
       <ul class="menu menu-inner" style="">

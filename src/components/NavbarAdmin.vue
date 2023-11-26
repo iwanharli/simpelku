@@ -2,7 +2,7 @@
   <nav
     class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme"
     id="layout-navbar"
-    style="z-index: 9999"
+    style="z-index: 5"
   >
     <div class="container-xxl">
       <div class="navbar-brand app-brand demo d-xl-flex py-0 me-4">
@@ -144,7 +144,7 @@
     </div>
   </nav>
 
-  <ModalUserSetting />
+  <ModalUserSetting/>
 </template>
 
 <script lang="ts">

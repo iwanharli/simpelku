@@ -2,7 +2,7 @@
   <nav
     class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme"
     id="layout-navbar border-primary"
-    style="z-index: 9999"
+    style="z-index: 1"
   >
     <div class="container-xxl">
       <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">

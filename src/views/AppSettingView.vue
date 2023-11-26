@@ -1,7 +1,7 @@
 <template>
   <div
-    class="container-fluid flex-grow-1 container-p-y"
-    style="z-index: 1; margin-left: 150px; margin-right: 150px"
+    class="container-fluid flex-grow-1 container-p-y mobile"
+    style="z-index: 1"
   >
     <div class="row">
       <div class="col">
@@ -202,7 +202,7 @@
                       <SplitterPanel class="flex align-items-center justify-content-center">
                         <div
                           id="map"
-                          style="height: 100%; width: 100%; min-height: 740px;"
+                          style="height: 100%; width: 100%; min-height: 740px"
                           ref="map"
                           @ready="initializeMap"
                         ></div>
@@ -244,7 +244,7 @@ import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css'
 // import Swaler from 'sweetalert2'
 
 import OrganizationChart from 'primevue/organizationchart'
-import WaveComponent from '../components/Items/WaveItem.vue'
+import WaveComponent from '@/components/Items/WaveItem.vue'
 import harbourMarker from '/src/assets/img/harbour-marker.png'
 
 export default {
@@ -533,6 +533,12 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (max-width: 994px) {
+  .mobile {
+    margin-top: 70px;
+  }
+}
+
 .blink_me {
   animation: blinker 2s linear infinite;
 }

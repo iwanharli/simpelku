@@ -1,8 +1,8 @@
 <template>
   <!-- STATISTIK KAPAL  -->
-  <div class="container-fluid flex-grow-1 container-p-y" style="position: relative">
+  <div class="container-fluid flex-grow-1 container-p-y" style="position: relative; z-index: 1;">
     <!-- STATISTIK KAPAL  -->
-    <div class="row" style="position: absolute; bottom: 15px; width: 70% !important; z-index: 999">
+    <div class="row" style="position: absolute; bottom: 15px; width: 70% !important; ">
       <div class="col-xl-2 col-md-6 col-sm-6">
         <div class="card text-white bg-success mb-3">
           <div class="card-body">

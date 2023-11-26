@@ -1,5 +1,5 @@
 <template>
-  <div class="container-xxl flex-grow-1 container-p-y">
+  <div class="container-xxl flex-grow-1 container-p-y mobile" style="z-index: 1 !important">
     <!-- MENU -->
     <div class="col-xl-12 col-md-12 col-sm-12">
       <div
@@ -479,7 +479,7 @@
 
 <script>
 import axios from 'axios'
-import WaveItem from '../components/Items/WaveItem.vue'
+import WaveItem from '@/components/Items/WaveItem.vue'
 
 export default {
   name: 'pengajuanKapal',
@@ -678,6 +678,11 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (max-width: 994px) {
+  .mobile {
+    margin-top: 70px;
+  }
+}
 .btn-header {
   background-color: #ffffff00; /* Default background color */
   padding: 10px 20px;

@@ -5,7 +5,7 @@
         <div style="position: relative; height: 800px">
           <div id="map" style="height: 100%; width: 100%; z-index: 0"></div>
           <div
-            class="col-xl-6 col-md-12 cols-sm-6 mx-auto"
+            class="col-xl-6 col-md-6 cols-sm-12 mx-auto"
             style="
               position: absolute;
               top: 95%;
@@ -15,7 +15,7 @@
             "
           >
             <div class="row" style="background:rgba(0, 0, 0, 0.453); padding:10px; border-radius:10px;">
-              <div class="col-xl-8">
+              <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12">
                 <div class="input-group input-daterange" id="bs-datepicker-daterange">
                   <input
                     type="date"
@@ -32,7 +32,7 @@
                   />
                 </div>
               </div>
-              <div class="col-xl-4">
+              <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
                 <button class="btn btn-primary d-grid w-100" type="submit" @click="onSubmit()">
                   Lihat History
                 </button>

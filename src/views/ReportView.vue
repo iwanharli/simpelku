@@ -1,5 +1,5 @@
 <template>
-  <div class="container-xxl flex-grow-1 container-p-y">
+  <div class="container-xxl flex-grow-1 container-p-y mobile">
     <!-- MENU -->
     <div class="col-xl-12 col-md-12 col-sm-12">
       <div
@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <div class="tab-content">
+    <div class="tab-content" style="z-index: 1">
       <!-- LABUH -->
       <div class="tab-pane fade active show" id="form-tabs-labuh" role="tabpanel">
         <div class="col-xl-12 col-md-12 col-sm-12">
@@ -299,7 +299,7 @@
 
 <script>
 import axios from 'axios'
-import WaveComponent from '../components/Items/WaveItem.vue'
+import WaveComponent from '@/components/Items/WaveItem.vue'
 
 export default {
   name: 'pageReport',
@@ -516,6 +516,12 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (max-width: 994px) {
+  .mobile {
+    margin-top: 70px;
+  }
+}
+
 .btn-header {
   background-color: #ffffff00; /* Default background color */
   padding: 10px 20px;
