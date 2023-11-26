@@ -223,12 +223,14 @@ export default {
   },
 
   unmounted() {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      console.log('Ada koneksi nyambung, yukk putus aja.')
+    console.log("tutup")
+    this.socket.close()
+    // if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+    //   console.log('Ada koneksi nyambung, yukk putus aja.')
 
-      this.socket.close()
-      return
-    }
+    //   this.socket.close()
+    //   return
+    // }
   },
 
   methods: {
@@ -416,7 +418,7 @@ export default {
           } else {
             // putus karena gak direstui
             console.log('Koneksi ke server ditutup dengan kode:', event.code)
-            setTimeout(this.ws_konek_donk, 5000) // coba rujuk ulang setelah x detik
+            // setTimeout(this.ws_konek_donk, 5000) // coba rujuk ulang setelah x detik
           }
         }
       } catch (error) {

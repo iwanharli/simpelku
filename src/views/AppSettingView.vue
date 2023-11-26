@@ -169,14 +169,15 @@
             <!-- GEOFENCE -->
             <div class="tab-pane fade" id="form-tabs-pengaturan-geofence" role="tabpanel">
               <div class="col-xl-12">
-                <Splitter style="height: 820px">
+                <Splitter style="height: 800px">
                   <SplitterPanel
                     class="flex align-items-center justify-content-center scrollbar"
-                    :size="33"
-                    style="overflow-y: auto; max-width: 1000px"
+                    :size="20"
+                    :minSize="10"
+                    style="overflow-y: auto; max-width: 500px"
                   >
                     <div v-if="this.fixGeofence">
-                      <div class="card" style="margin-top: 520px">
+                      <div class="card" style="margin-top: 20px">
                         <table class="table">
                           <thead>
                             <tr>
@@ -196,22 +197,28 @@
                       </div>
                     </div>
                   </SplitterPanel>
-                  <SplitterPanel class="flex align-items-center justify-content-center" :size="75">
-                    <div
-                      id="map"
-                      style="height: 100%; width: 100%"
-                      ref="map"
-                      @ready="initializeMap"
-                    ></div>
+                  <SplitterPanel>
+                    <Splitter layout="vertical">
+                      <SplitterPanel class="flex align-items-center justify-content-center">
+                        <div
+                          id="map"
+                          style="height: 100%; width: 100%; min-height: 740px;"
+                          ref="map"
+                          @ready="initializeMap"
+                        ></div>
+                      </SplitterPanel>
+                      <SplitterPanel>
+                        <div class="col-12">
+                          <button class="btn btn-primary d-grid w-100" @click="onSaveButtonClick()">
+                            UBAH GEOFENCE LABUH
+                          </button>
+                        </div>
+                      </SplitterPanel>
+                    </Splitter>
                   </SplitterPanel>
                 </Splitter>
 
-                <div class="row justify-content-end" style="margin-top: 10px; margin-right: 10px">
-                  <div class="col-8">
-                    <button class="btn btn-primary d-grid w-100" @click="onSaveButtonClick()">
-                      UBAH GEOFENCE LABUH
-                    </button>
-                  </div>
+                <div class="row justify-content-end" style="margin-top: 10px">
                   <!-- <div class="col-2">
                     <button class="btn btn-danger d-grid w-100" @click="resetSetting">RESET</button>
                   </div> -->
@@ -421,7 +428,7 @@ export default {
 
           this.appGeofence = res.data.data.geofences
 
-          console.clear()
+          // console.clear()
           console.log('DATA SETTING FETCHED')
         })
         .catch((error) => {
@@ -500,6 +507,8 @@ export default {
         { long: '109.12814', lat: '-6.848195' },
         { long: '109.127142', lat: '-6.848085' }
       ]
+
+      console.log(coordinate)
 
       this.harbourCode = 919191
       this.harbourName = 'PELABUHAN TEGALSARI'
