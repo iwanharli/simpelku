@@ -1,5 +1,5 @@
 <template>
-  <div class="containerPage2">
+  <div class="containerPage bg-secondary p-5" style="padding-top: 40px !important">
     <b-row>
       <b-col xl="12" style="border-radius: 20px" v-if="shipCurLat !== 0">
         <MapDetail :shipCurLat="shipCurLat" :shipCurLong="shipCurLong" :shipOnGround="shipOnGround" :location-logs="locationLogs" />

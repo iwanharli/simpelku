@@ -29,7 +29,7 @@
           <router-link class="nav-link" :to="{ name: 'admin.approval' }" :class="{ active: $route.name === 'admin.approval' }"> <i class="menu-icon tf-icons ti ti-checklist"></i> PENGAJUAN </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" :to="{ name: 'admin.report' }" :class="{ active: $route.name === 'admin.report' }"> <i class="menu-icon tf-icons ti ti-layout-grid-add"></i> LAPORAN </router-link>
+          <!-- <router-link class="nav-link" :to="{ name: 'admin.report' }" :class="{ active: $route.name === 'admin.report' }"> <i class="menu-icon tf-icons ti ti-layout-grid-add"></i> LAPORAN </router-link> -->
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{ name: 'admin.setting' }" :class="{ active: $route.name === 'admin.setting' }"> <i class="menu-icon tf-icons ti ti-settings"></i> PENGATURAN </router-link>

@@ -2,13 +2,6 @@
   <nav :class="`nav navbar navbar-expand-xl navbar-light iq-navbar ${headerNavbar}`">
     <div class="container-fluid navbar-inner">
       <slot></slot>
-      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon">
-          <span class="mt-2 navbar-toggler-bar bar1"></span>
-          <span class="navbar-toggler-bar bar2"></span>
-          <span class="navbar-toggler-bar bar3"></span>
-        </span>
-      </button> -->
       <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
         <li class="nav-item dropdown">
           <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -19,7 +12,7 @@
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><router-link class="dropdown-item" :to="{ name: 'admin.user-profile' }">Profile</router-link></li>
+            <li><router-link class="dropdown-item" :to="{ name: 'admin.user-profile' }">User Profile</router-link></li>
             <li><hr class="dropdown-divider" /></li>
             <li><router-link class="dropdown-item" :to="{ name: 'auth.login' }">Logout</router-link></li>
           </ul>

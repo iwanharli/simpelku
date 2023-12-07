@@ -1,5 +1,5 @@
 <template>
-  <div id="map" style="position: relative; height: 980px; width: auto;"></div>
+  <div id="map" style="position: relative; height: 980px; width: auto"></div>
 </template>
 <script>
 import L from "leaflet"
@@ -56,6 +56,7 @@ export default {
       L.tileLayer(street, {
         maxNativeZoom: 19,
         maxZoom: 30,
+        minZoom: 5,
         noWrap: true,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(this.leaflet_map)
@@ -87,10 +88,9 @@ export default {
           // Jika marker sudah ada, perbarui posisinya
           this.leaflet_markers[ship.ship_id].setLatLng([ship.geo[1], ship.geo[0]])
 
-          console.log("> UP MARKER \t", ship.ship_id, ship.ship_name, "\n> KOORDINAT \t", ship.geo, "\n> ON GROUND \t", ship.on_ground)
+          // console.log("> UP MARKER \t", ship.ship_id, ship.ship_name, "\n> KOORDINAT \t", ship.geo, "\n> ON GROUND \t", ship.on_ground)
         } else {
           // Jika marker belum ada, buat marker baru dan tambahkan ke LayerGroup
-
           var iconKapal = L.icon({
             iconUrl: markerKapal,
             iconSize: [32, 42],
@@ -102,10 +102,12 @@ export default {
             iconSize: [35, 50]
           })
 
+          console.log(ship)
+
           var marker = L.marker([ship.geo[1], ship.geo[0]], {
             icon: ship.on_ground === 1 ? iconNelayan : iconKapal
           })
-            .bindTooltip(ship.ship_name)
+            .bindPopup(this.createTablePopup(ship))
             .addTo(this.leaflet_layerGroups)
             .on("click", this.clickZoom)
 
@@ -122,6 +124,29 @@ export default {
       } catch (error) {
         console.log("error add marker", error)
       }
+    },
+
+    createTablePopup(ship) {
+      const tableContent = `
+        <table class="custom-tooltip">
+            <tr>
+                <th style="font-weight: bolder;  width: 70px;">Kapal</th>
+                <td style="text-transform: uppercase;">${ship.ship_name}</td>
+            </tr>
+            <tr>
+                <th style="font-weight: bolder;  width: 70px;">Device ID</th>
+                <td >${ship.device_id.substring(0, 15)} ...</td>
+            </tr>
+            <tr>
+              <th colspan=2>
+                <RouterLink :to="{ name: 'admin.shipDetail', params: { shipId: ship.ship_id } }">
+                  <button class="btn btn-sm btn-primary" type="button" id="kapal_detail" style="width: 100%;"><i class="ti ti-search me-sm-1"></i> DETAIL KAPAL </button>
+                </RouterLink>
+              </th>
+            </tr>
+        </table>
+    `
+      return tableContent
     },
 
     clickZoom(e) {
@@ -163,7 +188,7 @@ export default {
           console.log("Status : " + res.data.meta.code + "\n" + res.data.meta.message)
         })
         .catch((error) => {
-          console.log("Error : " + error.response.data.meta.message)
+          // console.log("Error : " + error.response.data.meta.message)
         })
     },
 
@@ -294,6 +319,12 @@ export default {
 
         this._setPos(pos)
       }
+    },
+
+    navigateToShipDetail(id) {
+      console.log(id)
+
+      // this.$router.push({ name: 'admin.shipDetail', params: { shipId: id } })
     }
   }
 }
@@ -374,6 +405,25 @@ export default {
 }
 .marker-cluster span {
   line-height: 30px;
+}
+
+.custom-tooltip {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: white;
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 200px;
+}
+
+/* Optional: Style for the button */
+.btn-primary {
+  margin-top: 10px;
+}
+
+.leaflet-control-container {
+  z-index: 0;
 }
 
 @keyframes pulse-animation {

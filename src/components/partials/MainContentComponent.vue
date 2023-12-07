@@ -75,4 +75,12 @@ export default {
   scrollbar-color: #888 #f1f1f1;
   scrollbar-width: thin;
 }
+
+.wave_area {
+  z-index: 0 !important;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
 </style>

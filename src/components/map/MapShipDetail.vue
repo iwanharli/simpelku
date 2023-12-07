@@ -1,8 +1,8 @@
 <template>
-  <div style="position: relative; height: 500px; border-radius: 20px">
-    <div id="map" style="height: 100%; width: 100%; border-radius: 20px; z-index: 0;"></div>
+  <div style="position: relative; height: 800px">
+    <div id="map" style="height: 100%; width: 100%; border-radius: 10px; z-index: 0"></div>
 
-    <div class="col-xl-6 col-md-6 cols-sm-12 mx-auto" style="position: absolute; top: 90%; left: 50%; transform: translate(-50%, -50%); z-index: 1">
+    <div class="col-xl-6 col-md-6 cols-sm-12 mx-auto" style="position: absolute; top: 92%; left: 50%; transform: translate(-50%, -50%); z-index: 1">
       <div class="row" style="background: rgba(0, 0, 0, 0.453); padding: 10px; border-radius: 10px">
         <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12">
           <div class="input-group input-daterange" id="bs-datepicker-daterange">
@@ -12,7 +12,7 @@
           </div>
         </div>
         <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
-          <button class="btn btn-secondary d-grid w-100" type="submit" @click="onSubmit()">Lihat History</button>
+          <button class="btn btn-secondary d-grid w-100" type="submit" @click="filterHistory()">Lihat History</button>
         </div>
       </div>
     </div>
@@ -20,9 +20,13 @@
 </template>
 
 <script>
-import axios from "axios"
 import markerKapal from "@/assets/images/ship-marker.png"
 import markerNelayan from "@/assets/images/fisherman-marker.png"
+import markerStart from "@/assets/images/start.png"
+import markerFinish from "@/assets/images/finish.png"
+
+import axios from "axios"
+import Swal from "sweetalert2"
 import "leaflet/dist/leaflet.css"
 import L from "leaflet"
 
@@ -30,10 +34,24 @@ export default {
   name: "MapShipDetail",
 
   data() {
+    // Function to format date as YYYY-MM-DD
+    const formatDate = (date) => {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, "0")
+      const day = String(date.getDate()).padStart(2, "0")
+      return `${year}-${month}-${day}`
+    }
+
+    // Get the current date
+    const currentDate = new Date()
+
+    // Calculate the date for a week ago
+    const weekAgoDate = new Date(currentDate)
+    weekAgoDate.setDate(weekAgoDate.getDate() - 7)
+
     return {
-      // latlngs: [],
-      dateStart: null,
-      dateEnd: null,
+      dateStart: formatDate(weekAgoDate),
+      dateEnd: formatDate(currentDate),
       polyline: null
     }
   },
@@ -71,11 +89,12 @@ export default {
     },
 
     async mapShipDetail() {
-      if (!this.leaflet_map) {
+      if (this.fixGeofence && !this.leaflet_map) {
         this.leaflet_map = L.map("map", {}).setView([this.shipCurLat, this.shipCurLong], 18)
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxNativeZoom: 19,
-          maxZoom: 30
+          maxZoom: 30,
+          minZoom: 5
         }).addTo(this.leaflet_map)
 
         var polygon = L.polygon(this.fixGeofence, {
@@ -108,44 +127,112 @@ export default {
       }
     },
 
-    async onSubmit() {
+    async filterHistory() {
       console.log(this.dateStart)
       console.log(this.dateEnd)
 
-      const filteredLogs = this.locationLogs.filter((log) => {
-        const dateLog = log.created_at.split(" ")[0]
-        return (!this.dateStart || dateLog >= this.dateStart) && (!this.dateEnd || dateLog <= this.dateEnd)
-      })
+      if (this.locationLogs) {
+        const filteredLogs = this.locationLogs.filter((log) => {
+          const dateLog = log.created_at.split(" ")[0]
+          return (!this.dateStart || dateLog >= this.dateStart) && (!this.dateEnd || dateLog <= this.dateEnd)
+        })
 
-      console.log("logList", filteredLogs)
+        console.log("logList", filteredLogs)
 
-      var iconKapal = L.icon({
-        iconUrl: markerKapal,
-        iconSize: [15, 30]
-      })
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-center",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer
+            toast.onmouseleave = Swal.resumeTimer
+          }
+        })
+        Toast.fire({
+          icon: "success",
+          title: `Get ${filteredLogs.length} items`
+        })
 
-      const iconNelayan = L.divIcon({
-        html: '<i class="pi pi-circle-fill" style="font-size: 1rem; color:black"></i>',
-        iconSize: [5, 5], // Set the size of the icon
-        className: "custom-icon-class" // Optional: Add a custom class for styling
-      })
+        const firstLog = filteredLogs[filteredLogs.length - 1]
+        const lastLog = firstLog
 
-      const markers = []
+        console.log("📍START", firstLog)
+        console.log("🚩END", lastLog)
 
-      this.locationLogs.forEach((filteredLogs) => {
-        const { lat, long, on_ground } = filteredLogs
-        const icon = on_ground === 1 ? iconNelayan : iconKapal
+        const iconKapal = L.icon({
+          iconUrl: markerKapal,
+          iconSize: [35, 50]
+        })
 
-        const marker = L.marker([parseFloat(lat), parseFloat(long)], { icon: icon })
-        markers.push(marker)
-        marker.addTo(this.leaflet_map)
-      })
+        const iconNelayan = L.icon({
+          iconUrl: markerNelayan,
+          iconSize: [35, 50]
+        })
 
-      this.polyline = L.polyline(
-        markers.map((marker) => marker.getLatLng()),
-        { color: "blue" }
-      ).addTo(this.leaflet_map)
+        const markers = []
+
+        // Iterate over the filteredLogs array
+        filteredLogs.forEach((log) => {
+          const { lat, long, on_ground } = log
+          const icon = on_ground === 1 ? iconNelayan : iconKapal
+
+          const marker = L.marker([parseFloat(lat), parseFloat(long)], { icon: icon })
+          markers.push(marker)
+          marker.addTo(this.leaflet_map)
+
+          marker.on("click", () => {
+            this.leaflet_map.flyTo([parseFloat(lat), parseFloat(long)], 18, {
+              duration: 1
+            })
+          })
+        })
+
+        if (markers.length > 0) {
+          // Get the first and last markers
+          const firstMarker = markers[0]
+          const lastMarker = markers[markers.length - 1]
+
+          // Change the icons of the first and last markers
+          lastMarker.setIcon(L.icon({ iconUrl: markerStart, iconSize: [70, 70] }))
+          firstMarker.setIcon(L.icon({ iconUrl: markerFinish, iconSize: [70, 70] }))
+
+          // Set a high z-index offset for both markers
+          lastMarker.setZIndexOffset(1000)
+          firstMarker.setZIndexOffset(1001)
+        }
+
+        // Create a polyline using the coordinates of the markers
+        L.polyline(
+          markers.map((marker) => marker.getLatLng()),
+          { dashArray: "5, 5", color: "blue" } // Customize the dashed line appearance
+        ).addTo(this.leaflet_map)
+      } else {
+        console.error("💥 LOG NULL / UNDEFINED:")
+
+        const Toast = Swal.mixin({
+          toast: true,
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer
+            toast.onmouseleave = Swal.resumeTimer
+          }
+        })
+        Toast.fire({
+          icon: "warning",
+          title: "Log Kapal Kosong"
+        })
+      }
     }
   }
 }
 </script>
+
+<style>
+.custom-icon-class {
+  font-size: 20px;
+}
+</style>

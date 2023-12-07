@@ -1,147 +1,45 @@
 <template>
-  <!-- Sidebar Component Start Here-->
-  <default-sidebar>
-    <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
-      <side-menu title="Home" :static-item="true"></side-menu>
-      <side-menu isTag="router-link" title="Dashboard" icon="view-grid" :route="{ to: 'admin.dashboard' }"></side-menu>
+  <button data-trigger="navbar_main" class="d-xl-none btn btn-primary rounded-pill p-1 pt-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+    <svg width="20px" height="20px" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"></path>
+    </svg>
+  </button>
 
-      <side-menu title="Menu Style" icon="adjustment" toggle-id="menu-style" :caret-icon="true" :route="{ popup: 'false', to: 'menu-style' }" @onClick="toggle" :active="currentRoute.includes('menu-style')">
-        <b-collapse tag="ul" class="sub-nav" id="menu-style" accordion="sidebar-menu" :visible="currentRoute.includes('menu-style')">
-          <side-menu title="Horizontal" icon="circle" :icon-size="10" icon-type="solid" miniTitle="H" :route="{ to: 'admin.dashboard' }"></side-menu>
-        </b-collapse>
-      </side-menu>
-      <side-menu title="Design System" icon="wallet" :route="{ to: 'design-system.main' }">
-        <template #title>
-          Design System
-          <b-badge variant="success" pill>UI</b-badge>
-        </template>
-      </side-menu>
-      <li><hr class="hr-horizontal" /></li>
-      <side-menu title="PAGES" :static-item="true"></side-menu>
-      <side-menu title="Special Pages" icon="document" toggle-id="special-pages" :caret-icon="true" :route="{ popup: 'false', to: 'special-pages' }" @onClick="toggle" :active="currentRoute.includes('special-pages')">
-        <b-collapse tag="ul" class="sub-nav" id="special-pages" accordion="sidebar-menu" :visible="currentRoute.includes('special-pages')">
-          <side-menu isTag="router-link" title="Billing" icon="circle" :icon-size="10" icon-type="solid" miniTitle="B" :route="{ to: 'admin.billing' }"></side-menu>
-          <side-menu isTag="router-link" title="Calender" icon="circle" :icon-size="10" icon-type="solid" miniTitle="C" :route="{ to: 'admin.calender' }"></side-menu>
-          <side-menu isTag="router-link" title="Kanban" icon="circle" :icon-size="10" icon-type="solid" miniTitle="K" :route="{ to: 'admin.kanban' }"></side-menu>
-          <side-menu isTag="router-link" title="Pricing" icon="circle" :icon-size="10" icon-type="solid" miniTitle="P" :route="{ to: 'admin.pricing' }"></side-menu>
-          <side-menu isTag="router-link" title="Timeline" icon="circle" :icon-size="10" icon-type="solid" miniTitle="T" :route="{ to: 'admin.timeline' }"></side-menu>
-          <side-menu isTag="router-link" title="RTL Support" icon="circle" :icon-size="10" icon-type="solid" miniTitle="R" :route="{ to: 'admin.rtlsupport' }"></side-menu>
-        </b-collapse>
-      </side-menu>
-      <side-menu title="Authentication" icon="shield-check" toggle-id="auth-skins" :caret-icon="true" :route="{ popup: 'false', to: 'auth' }" @onClick="toggle" :active="currentRoute.includes('auth')">
-        <b-collapse tag="ul" class="sub-nav" id="auth-skins" accordion="sidebar-menu" :visible="currentRoute.includes('auth')">
-          <side-menu isTag="router-link" title="Login" icon="circle" :icon-size="10" icon-type="solid" miniTitle="L" :route="{ to: 'auth.login' }"></side-menu>
-          <side-menu isTag="router-link" title="Register" icon="circle" :icon-size="10" icon-type="solid" miniTitle="R" :route="{ to: 'auth.register' }"></side-menu>
-          <side-menu isTag="router-link" title="Confirm Mail" icon="circle" :icon-size="10" icon-type="solid" miniTitle="CM" :route="{ to: 'auth.varify-email' }"></side-menu>
-          <side-menu isTag="router-link" title="Lock Screen" icon="circle" :icon-size="10" icon-type="solid" miniTitle="LS" :route="{ to: 'auth.lock-screen' }"></side-menu>
-          <side-menu isTag="router-link" title="Recover Password" icon="circle" :icon-size="10" icon-type="solid" miniTitle="RP" :route="{ to: 'auth.reset-password' }"></side-menu>
-        </b-collapse>
-      </side-menu>
-      <side-menu title="Users" icon="user-group" toggle-id="users" :caret-icon="true" :route="{ popup: 'false', to: 'user' }" @onClick="toggle" :active="currentRoute.includes('user')">
-        <b-collapse tag="ul" class="sub-nav" id="users" accordion="sidebar-menu" :visible="currentRoute.includes('user')">
-          <side-menu isTag="router-link" title="User Profile" icon="circle" :icon-size="10" icon-type="solid" miniTitle="UP" :route="{ to: 'admin.user-profile' }"></side-menu>
-          <side-menu isTag="router-link" title="User Add" icon="circle" :icon-size="10" icon-type="solid" miniTitle="UA" :route="{ to: 'admin.user-add' }"></side-menu>
-          <side-menu isTag="router-link" title="User List" icon="circle" :icon-size="10" icon-type="solid" miniTitle="UL" :route="{ to: 'admin.user-list' }"></side-menu>
-        </b-collapse>
-      </side-menu>
-      <side-menu title="Utilities" icon="bookmark" toggle-id="utilities" :caret-icon="true" :route="{ popup: 'false', to: 'errors' }" @onClick="toggle" :active="currentRoute.includes('errors')">
-        <b-collapse tag="ul" class="sub-nav" id="utilities" accordion="sidebar-menu" :visible="currentRoute.includes('errors')">
-          <side-menu title="Error 404" icon="circle" :icon-size="10" icon-type="solid" miniTitle="404" :route="{ to: 'errors.404' }"></side-menu>
-          <side-menu title="Error 500" icon="circle" :icon-size="10" icon-type="solid" miniTitle="500" :route="{ to: 'errors.500' }"></side-menu>
-          <side-menu title="Maintenance" icon="circle" :icon-size="10" icon-type="solid" miniTitle="M" :route="{ to: 'errors.maintenance' }"></side-menu>
-        </b-collapse>
-      </side-menu>
-      <li><hr class="hr-horizontal" /></li>
-      <side-menu title="ELEMENTS" :static-item="true"></side-menu>
-      <side-menu title="Components" icon="brief-case"></side-menu>
-      <side-menu title="Widgets" icon="offer" toggle-id="widgets" :caret-icon="true" :route="{ popup: 'false', to: 'widget' }" @onClick="toggle" :active="currentRoute.includes('widget')">
-        <b-collapse tag="ul" class="sub-nav" id="widgets" accordion="sidebar-menu" :visible="currentRoute.includes('widget')">
-          <side-menu isTag="router-link" title="Widgets Basic" icon="circle" :icon-size="10" icon-type="solid" miniTitle="WB" :route="{ to: 'admin.widget-basic' }"></side-menu>
-          <side-menu isTag="router-link" title="Widgets Chart" icon="circle" :icon-size="10" icon-type="solid" miniTitle="WC" :route="{ to: 'admin.widget-chart' }"></side-menu>
-          <side-menu isTag="router-link" title="Widgets Card" icon="circle" :icon-size="10" icon-type="solid" miniTitle="WC" :route="{ to: 'admin.widget-card' }"></side-menu>
-        </b-collapse>
-      </side-menu>
-      <side-menu title="Maps" icon="location" toggle-id="maps" :caret-icon="true" :route="{ popup: 'false', to: 'maps' }" @onClick="toggle" :active="currentRoute.includes('maps')">
-        <b-collapse tag="ul" class="sub-nav" id="maps" accordion="sidebar-menu" :visible="currentRoute.includes('maps')">
-          <side-menu isTag="router-link" title="Google" icon="circle" :icon-size="10" icon-type="solid" miniTitle="G" :route="{ to: 'admin.map-google' }"></side-menu>
-          <side-menu isTag="router-link" title="Vector" icon="circle" :icon-size="10" icon-type="solid" miniTitle="V" :route="{ to: 'admin.map-vector' }"></side-menu>
-        </b-collapse>
-      </side-menu>
-      <side-menu title="Form" icon="file" toggle-id="form" :caret-icon="true" :route="{ popup: 'false', to: 'form' }" @onClick="toggle" :active="currentRoute.includes('form')">
-        <b-collapse tag="ul" class="sub-nav" id="form" accordion="sidebar-menu" :visible="currentRoute.includes('form')">
-          <side-menu isTag="router-link" title="Elements" icon="circle" :icon-size="10" icon-type="solid" miniTitle="E" :route="{ to: 'admin.elements' }"></side-menu>
-          <side-menu isTag="router-link" title="Wizard" icon="circle" :icon-size="10" icon-type="solid" miniTitle="W" :route="{ to: 'admin.wizard' }"></side-menu>
-          <side-menu isTag="router-link" title="Validation" icon="circle" :icon-size="10" icon-type="solid" miniTitle="V" :route="{ to: 'admin.validation' }"></side-menu>
-        </b-collapse>
-      </side-menu>
-      <side-menu title="Table" icon="table" toggle-id="table" :caret-icon="true" :route="{ popup: 'false', to: 'table' }" @onClick="toggle" :active="currentRoute.includes('table')">
-        <b-collapse tag="ul" class="sub-nav" id="table" accordion="sidebar-menu" :visible="currentRoute.includes('table')">
-          <side-menu isTag="router-link" title="Bootstrap Table" icon="circle" :icon-size="10" icon-type="solid" miniTitle="BS" :route="{ to: 'admin.bootstrap-table' }"></side-menu>
-          <side-menu isTag="router-link" title="Datatable" icon="circle" :icon-size="10" icon-type="solid" miniTitle="DT" :route="{ to: 'admin.data-table' }"></side-menu>
-        </b-collapse>
-      </side-menu>
-      <side-menu title="Icons" icon="i" toggle-id="icons" :caret-icon="true" :route="{ popup: 'false', to: 'icons' }" @onClick="toggle" :active="currentRoute.includes('icons')">
-        <b-collapse tag="ul" class="sub-nav" id="icons" accordion="sidebar-menu" :visible="currentRoute.includes('icons')">
-          <side-menu isTag="router-link" title="Solid" icon="circle" :icon-size="10" icon-type="solid" miniTitle="S" :route="{ to: 'admin.icons.solid' }"></side-menu>
-          <side-menu isTag="router-link" title="Outlined" icon="circle" :icon-size="10" icon-type="solid" miniTitle="O" :route="{ to: 'admin.icons.outlined' }"></side-menu>
-          <side-menu isTag="router-link" title="Dual Tone" icon="circle" :icon-size="10" icon-type="solid" miniTitle="DT" :route="{ to: 'admin.icons.dual-tone' }"></side-menu>
-        </b-collapse>
-      </side-menu>
-    </ul>
-  </default-sidebar>
-  <!-- Sidebar Component End Here-->
+  <div class="offcanvas offcanvas-start d-xl-none d-md-block" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas-header">
+      <div class="navbar-brand ms-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="61" height="40" viewBox="0 0 61 58" fill="none">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M53.4649 20.2188L30.6945 1.35718L7.92407 20.2188L18.8518 29.2697L7.92407 38.3235L30.6945 57.1851L53.4649 38.3235L42.5372 29.2726L53.4649 20.2188Z" fill="#7367f0" />
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M46.8043 32.8048L42.5372 29.2726L45.4478 26.8627L26.8776 14.5522L28.4753 10.788L43.8385 12.2931L43.8792 12.2815L30.6945 1.35718L7.92407 20.2188L14.5847 25.7375L18.8518 29.2697L15.9412 31.6796L34.5114 43.9901L32.9137 47.7543L17.5505 46.2492L17.5098 46.2637L30.6945 57.1851L53.4649 38.3235L46.8043 32.8048Z" fill="black" fill-opacity="0.14902" />
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4905 9.18718L43.8966 12.2931L30.6945 1.35718L7.92407 20.2188L27.4905 9.18718Z" fill="#8379f2" />
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M28.7774 9.43078L32.9137 3.19578L30.6945 1.35718L7.92407 20.2188L27.4905 9.18718L28.7774 9.43078Z" fill="black" fill-opacity="0.14902" />
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M33.9537 49.358L17.5505 46.2492L30.7498 57.1851L53.5231 38.3235L33.9537 49.358Z" fill="#8379f2 " />
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M33.9537 49.358L32.6175 49.1028L28.4956 55.3175L30.7497 57.1851L52.1287 39.4748L53.3604 38.4134L33.9537 49.358Z" fill="black" fill-opacity="0.14902" />
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M7.92407 20.2188L36.2281 43.6653L30.6945 57.1851L53.4649 38.3235L25.1609 14.877L30.6945 1.35718L7.92407 20.2188Z" fill="#A1B4FF" />
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M30.6946 1.35718L24.0369 9.91508L17.3472 18.4469L17.3211 18.1975C19.5752 20.0651 21.8293 21.9327 24.0659 23.8177L30.7905 29.464L37.483 35.1451L44.1582 40.8465L44.3092 40.9741L44.1843 41.1249L37.4598 49.1724L30.6946 57.1851L37.2652 49.0129L43.8764 40.8726L43.9026 41.151L37.1664 35.5192L30.4448 29.87L23.758 24.1831C21.5214 22.2923 19.305 20.3841 17.0887 18.473L16.9551 18.357L17.0655 18.2236L23.8626 9.77878L30.6946 1.35718Z" fill="white" />
+        </svg>
+        <h4>IMPEL</h4>
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <router-link class="nav-link" :to="{ name: 'admin.dashboard' }" :class="{ active: $route.name === 'admin.dashboard' }"> DASHBOARD </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" :to="{ name: 'admin.ship' }" :class="{ active: $route.name === 'admin.ship' }"> KAPAL </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" :to="{ name: 'admin.approval' }" :class="{ active: $route.name === 'admin.approval' }"> PENGAJUAN </router-link>
+        </li>
+        <li class="nav-item">
+          <!-- <router-link class="nav-link" :to="{ name: 'admin.report' }" :class="{ active: $route.name === 'admin.report' }"> LAPORAN </router-link> -->
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" :to="{ name: 'admin.setting' }" :class="{ active: $route.name === 'admin.setting' }"> PENGATURAN </router-link>
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
-
-<!-- <script>
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
-import DefaultSidebar from '@/components/custom/sidebar/DefaultSidebar.vue'
-import SideMenu from '@/components/custom/nav/SideMenu.vue'
-export default {
-  components: { DefaultSidebar, SideMenu },
-  setup() {
-    const visible = ref(false)
-    const currentRoute = useRoute()
-    const openMenu = () => {
-      visible.value = !visible.value
-    }
-    const checkActive = (route) => {
-      if (currentRoute.name === route) {
-        return true
-      }
-      if (route.includes(currentRoute.name)) {
-        return true
-      }
-    }
-
-    return { visible, openMenu, checkActive }
-  },
-  methods: {}
-}
-</script> -->
-<script setup>
-import DefaultSidebar from '@/components/custom/sidebar/DefaultSidebar.vue'
-import SideMenu from '@/components/custom/nav/SideMenu.vue'
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
-const currentRoute = ref('')
-const route = useRoute()
-const toggle = (route) => {
-  if (route === currentRoute.value && route.includes('.')) {
-    const menu = currentRoute.value.split('.')
-    return (currentRoute.value = menu[menu.length - 2])
-  }
-  if (route !== currentRoute.value && currentRoute.value.includes(route)) {
-    return (currentRoute.value = '')
-  }
-  if (route !== currentRoute.value) {
-    return (currentRoute.value = route)
-  }
-  if (route === currentRoute.value) {
-    return (currentRoute.value = '')
-  }
-  return (currentRoute.value = '')
-}
-toggle(route.name)
-</script>
-<style></style>

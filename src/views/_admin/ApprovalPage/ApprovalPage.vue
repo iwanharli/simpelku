@@ -1,5 +1,5 @@
 <template>
-  <div class="containerPage2">
+  <div class="containerPage bg-secondary p-5" style="padding-top: 40px !important;">
     <b-row>
       <b-col xl="12" lg="12" md="12" sm="12" class="mb-3">
         <div class="card-header" style="border-radius: 20px; font-weight: bolder">

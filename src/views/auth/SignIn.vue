@@ -21,10 +21,13 @@
                     </div>
                   </div>
                   <div class="col-lg-12">
-                    <div class="form-group">
-                      <label for="password" class="form-label">Password</label>
-                      <input v-model="userData.password" type="password" class="form-control" id="password" aria-describedby="password" placeholder=" " />
-                    </div>
+                    <label for="password" class="form-label">Password</label>
+                    <b-input-group size="md" class="mb-2">
+                      <b-form-input v-model="userData.password" :type="showPassword ? 'text' : 'password'" class="form-control" id="password" aria-describedby="password"></b-form-input>
+                      <b-input-group-append is-text>
+                        <b-form-checkbox switch class="mr-n2" @click="togglePasswordVisibility"> </b-form-checkbox>
+                      </b-input-group-append>
+                    </b-input-group>
                   </div>
                 </div>
                 <div class="d-flex justify-content-center mt-5">
@@ -47,7 +50,7 @@
         </div>
       </b-col>
       <div class="col-md-6 d-md-block d-none bg-primary p-0 vh-100 overflow-hidden">
-        <img src="@/assets/images/auth/01.png" class="img-fluid gradient-main animated-scaleX" alt="images" loading="lazy" />
+        <img src="@/assets/images/login.png" class="img-fluid gradient-main animated-scaleX" alt="images" loading="lazy" />
       </div>
     </b-row>
   </section>
@@ -64,7 +67,8 @@ export default {
       userData: {
         email: "",
         password: ""
-      }
+      },
+      showPassword: false
     }
   },
 
@@ -79,7 +83,7 @@ export default {
         })
 
         // console.log(response)
-        console.clear('')
+        console.clear("")
         console.log("Login successful!")
         console.log("⚙ \t", response.status)
         console.log("🚀 \t", response.data.data.token_jwt)
@@ -121,10 +125,12 @@ export default {
           icon: "error",
           confirmButtonText: "😪 COBA LAGI"
         })
-
-        this.userData.email = '',
-        this.userData.password = ''
+        ;(this.userData.email = ""), (this.userData.password = "")
       }
+    },
+
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="containerPage2">
+  <div class="containerPage bg-secondary" style="padding-top: 40px !important">
     <b-row>
       <b-col xl="12" lg="12" md="12" sm="12" class="mb-3">
         <div class="card-header" style="border-radius: 20px; font-weight: bolder">
@@ -113,12 +113,12 @@
 
 <script>
 import axios from "axios"
+import Swal from "sweetalert2"
+
 import * as L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import "@geoman-io/leaflet-geoman-free"
 import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css"
-// import 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js'
-// import Swaler from 'sweetalert2'
 
 import markerKapal from "@/assets/images/ship-marker.png"
 import markerNelayan from "@/assets/images/fisherman-marker.png"
@@ -126,7 +126,7 @@ import markerNelayan from "@/assets/images/fisherman-marker.png"
 export default {
   data() {
     return {
-      map: null,
+      // map: null,
       mobileSettings: {},
       harbourCode: "",
       harbourName: "",
@@ -158,8 +158,6 @@ export default {
       if (!this.mapInitialized) {
         this.initializeMap()
         this.mapInitialized = true
-
-        console.log("aa")
       }
     },
 
@@ -175,6 +173,7 @@ export default {
       const tiles = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxNativeZoom: 19,
         maxZoom: 30,
+        minZoom: 10,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       })
 
@@ -277,6 +276,23 @@ export default {
         })
         .then((response) => {
           console.log("Data updated successfully", response)
+
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer
+              toast.onmouseleave = Swal.resumeTimer
+            }
+          })
+          Toast.fire({
+            icon: "success",
+            title: "Berhasil Ubah Geofence"
+          })
+
           this.getSettingApp()
         })
         .catch((error) => {
@@ -308,15 +324,7 @@ export default {
         .catch((error) => {
           setTimeout(this.getSettingApp, 1000)
 
-          console.error("Error: " + error.response.data.meta.message)
-
-          if (error.response.data.meta.message === "Unauthorized") {
-            localStorage.setItem("authenticated", false.toString())
-            localStorage.removeItem("token")
-
-            window.location.reload()
-            router.push({ name: "login" })
-          }
+          // console.error("Error: " + error.response.data.meta.message)
         })
     },
 
