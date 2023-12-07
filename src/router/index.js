@@ -31,7 +31,7 @@ const adminRoutes = (prefix) => [
     path: 'dashboard',
     name: prefix + '.dashboard',
     meta: { auth: true, name: 'HomeAdmin', isBanner: true },
-    component: () => import('@/views/_admin/DashboardPage2.vue')
+    component: () => import('@/views/_admin/DashboardPage.vue')
   },
 
   // SHIP 

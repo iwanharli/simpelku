@@ -1,11 +1,15 @@
 <template>
-  <div id="map" style="position: relative; height: 980px; width: auto"></div>
+  <div id="map" style="position: relative; height: 980px; width: auto">
+    <div id="map" style="z-index: 0"></div>
+    <div id="shipDetailsDiv" class="bg-white" style="z-index: 10000; width: fit-content; position: absolute; right: 0px; bottom: 0px; border-radius: 20px 0px 0px 0px; border: 3px solid rgba(0, 0, 0, 0.288)"></div>
+  </div>
 </template>
 <script>
 import L from "leaflet"
 import axios from "axios"
 import "leaflet/dist/leaflet.css"
 import "leaflet.markercluster"
+
 import markerKapal from "@/assets/images/ship-marker.png"
 import markerNelayan from "@/assets/images/fisherman-marker.png"
 
@@ -22,7 +26,8 @@ export default {
       socket: null,
       ws_url: "ws://103.139.192.254:9016/api/v1/dashboard/ship-monitor/open-websocket",
       harbour_name: "PELABUHAN",
-      harbour_geo: []
+      harbour_geo: [],
+      selectedShip: []
       // ws_url: "ws://localhost:8080",
     }
   },
@@ -107,9 +112,50 @@ export default {
           var marker = L.marker([ship.geo[1], ship.geo[0]], {
             icon: ship.on_ground === 1 ? iconNelayan : iconKapal
           })
-            .bindPopup(this.createTablePopup(ship))
             .addTo(this.leaflet_layerGroups)
-            .on("click", this.clickZoom)
+            // .on("click", this.clickZoom)
+            .on("click", function () {
+              var currentUrl = window.location.href.replace("dashboard", "ship")
+
+              console.log(currentUrl)
+              document.getElementById("shipDetailsDiv").innerHTML = ""
+
+              const shipDetail = document.createElement("div")
+
+              shipDetail.innerHTML = `
+              <div class='table-responsive p-5'>
+                <table id="basic-table" class="table mb-0" role="grid">
+                  <tr class='bg-soft-secondary' style='color:red;'>
+                    <td class='text-center' style='font-weight: bolder;' colspan=2><h5>DETAIL KAPAL</h5></td>
+                  </tr>
+                  <tr>
+                    <td style='font-weight: bolder;'>ID</td>
+                    <td>${ship.ship_id}</td>
+                  </tr>
+                  <tr>
+                    <td style='font-weight: bolder;'>KAPAL</td>
+                    <td>${ship.ship_name}</td>
+                  </tr>
+                  <tr>
+                    <td style='font-weight: bolder;'>DEVICE</td>
+                    <td>${ship.device_id}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <a href="${currentUrl}/${ship.ship_id}" class="btn btn-sm btn-primary" type="button" style='width:100%'>
+                        <i class="ti ti-search me-sm-1"></i> DETAIL
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              `
+
+              document.getElementById("shipDetailsDiv").appendChild(shipDetail)
+              document.getElementById("shipDetailsDiv").style.display = "block"
+
+              console.log(document.getElementById("shipDetailsDiv"))
+            })
 
           this.leaflet_markers[ship.ship_id] = marker
 
@@ -126,27 +172,9 @@ export default {
       }
     },
 
-    createTablePopup(ship) {
-      const tableContent = `
-        <table class="custom-tooltip">
-            <tr>
-                <th style="font-weight: bolder;  width: 70px;">Kapal</th>
-                <td style="text-transform: uppercase;">${ship.ship_name}</td>
-            </tr>
-            <tr>
-                <th style="font-weight: bolder;  width: 70px;">Device ID</th>
-                <td >${ship.device_id.substring(0, 15)} ...</td>
-            </tr>
-            <tr>
-              <th colspan=2>
-                <RouterLink :to="{ name: 'admin.shipDetail', params: { shipId: ship.ship_id } }">
-                  <button class="btn btn-sm btn-primary" type="button" id="kapal_detail" style="width: 100%;"><i class="ti ti-search me-sm-1"></i> DETAIL KAPAL </button>
-                </RouterLink>
-              </th>
-            </tr>
-        </table>
-    `
-      return tableContent
+    goToShipDetail() {
+      // Use Vue Router to navigate to ship detail page
+      this.$router.push({ name: "admin.shipDetail", params: { shipId: this.ship.ship_id } })
     },
 
     clickZoom(e) {
