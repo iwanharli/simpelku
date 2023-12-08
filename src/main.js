@@ -12,6 +12,8 @@ import BootstrapVue3 from 'bootstrap-vue-3'
 import CounterUp from 'vue3-autocounter'
 import 'aos/dist/aos.css'
 
+import '@/assets/custom-vue/css/custom.css'
+
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

@@ -5,9 +5,9 @@
         <b-row class="justify-content-center">
           <b-col md="10">
             <b-card class="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card iq-auth-form">
-              <div class="navbar-brand d-flex align-items-center mb-5 text-primary">
+              <div class="navbar-brand d-flex align-items-end mb-5 text-primary">
                 <brand-logo></brand-logo>
-                <h4 class="logo-title ms-3 mb-0" data-setting="app_name">SIMPEL</h4>
+                <h2 class="logo-title ms-3 mb-0 simpel-text" data-setting="app_name">SIMPEL</h2>
               </div>
               <h2 class="mb-2 text-center">MASUK</h2>
               <p class="text-center">Login to stay connected.</p>
@@ -118,7 +118,6 @@ export default {
       } catch (error) {
         localStorage.setItem("authenticated", false)
         console.error("Login failed:", error.message)
-
         Swal.fire({
           title: "Error!",
           text: "Email / Password anda salah!",

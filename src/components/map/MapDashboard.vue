@@ -1,7 +1,7 @@
 <template>
-  <div id="map" style="position: relative; height: 980px; width: auto">
-    <div id="map" style="z-index: 0"></div>
-    <div id="shipDetailsDiv" class="bg-white" style="z-index: 10000; width: fit-content; position: absolute; right: 0px; bottom: 0px; border-radius: 20px 0px 0px 0px; border: 3px solid rgba(0, 0, 0, 0.288)"></div>
+  <div id="map" class="simpel-map-container">
+    <div id="map"></div>
+    <div id="shipDetailsDiv" class="simpel-ship-detail"></div>
   </div>
 </template>
 <script>
@@ -61,7 +61,7 @@ export default {
       L.tileLayer(street, {
         maxNativeZoom: 19,
         maxZoom: 30,
-        minZoom: 5,
+        minZoom: 12,
         noWrap: true,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(this.leaflet_map)
@@ -98,7 +98,7 @@ export default {
           // Jika marker belum ada, buat marker baru dan tambahkan ke LayerGroup
           var iconKapal = L.icon({
             iconUrl: markerKapal,
-            iconSize: [32, 42],
+            iconSize: [22, 42],
             iconAnchor: [16, 32]
           })
 

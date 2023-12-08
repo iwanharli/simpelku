@@ -2,7 +2,6 @@
   <default-navbar>
     <!-- SIDEBAR  -->
     <SidebarComponent />
-
     <!-- MENU  -->
     <MenuComponent />
   </default-navbar>
