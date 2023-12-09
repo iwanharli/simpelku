@@ -1,30 +1,57 @@
 .simpel-text {
-    font-family: Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    letter-spacing: 1px;
-    font-size: 40px;
+  font-family: Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  letter-spacing: 1px;
+  font-size: 40px;
 }
 
 .simpel-nav {
-    border-radius: 10px;
-    width: 100%;
+  border-radius: 10px;
+  width: 100%;
 }
 
 .simpel-map-container {
-    height: 80vh;
+  height: 80vh;
 }
 
 .boxed {
-    background: url('../../app/bg-simpel.png');
+  background: url("../../app/bg-simpel.png");
 }
 
 .simpel-ship-detail {
-    z-index: 999;
-    width: fit-content;
-    min-width: 500px;
+  z-index: 999;
+  width: fit-content;
+  min-width: 500px;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  transition: 0.3s ease;
+  background: #fff;
+  border-top-left-radius: 20px;
+}
+
+body {
+  /* display: none !important; */
+}
+
+.nav-item:not() {
+  background: #3a57e8 !important;
+}
+
+.nav-item:hover > a {
+  background: #5a77f7 !important;
+  color: #fff !important;
+}
+
+.dropdown-asu{
+    background: white;
+    display: none;
+}
+
+.nav-item:hover .dropdown-asu{
     position: absolute;
-    right: 0px;
-    bottom: 0px;
-    transition: 0.3s ease;
-    background: #fff;
-    border-top-left-radius: 20px;
+    display: inline-block;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    border-radius: 0 0 5px 5px;
 }

@@ -33,7 +33,6 @@ export default {
   },
 
   mounted() {
-    this.getAppSetting()
     this.getStatistics()
 
     setTimeout(() => {
@@ -51,13 +50,14 @@ export default {
     async akuPeta() {
       console.log("PETA", L, [this.center.lat, this.center.lng])
 
-      this.mapZoomAnimFix()
+      await this.mapZoomAnimFix()
 
       const tileOcean = "https://api.maptiler.com/maps/ocean/{z}/{x}/{y}.png?key=ufCf3dbMdr7VkfVI6gjQ"
       const tileTopo = "https://api.maptiler.com/maps/topo-v2/256/{z}/{x}/{y}.png?key=ufCf3dbMdr7VkfVI6gjQ"
       const street = "https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=ufCf3dbMdr7VkfVI6gjQ"
 
-      this.leaflet_map = L.map("map", {}).setView([this.center.lat, this.center.lng], 13)
+      this.leaflet_map = await L.map("map", {}).setView([this.center.lat, this.center.lng], 13)
+
       L.tileLayer(street, {
         maxNativeZoom: 19,
         maxZoom: 30,
@@ -74,10 +74,11 @@ export default {
       // this.leaflet_layerGroups = L.layerGroup().addTo(this.leaflet_map)
       this.leaflet_layerGroups = L.markerClusterGroup().addTo(this.leaflet_map)
 
-      this.harbourEditor(this.harbour_geo)
+      this.getAppSetting()
     }, // end func
 
     async harbourEditor(geofence) {
+      console.log("===============================", geofence)
       var fix_geofence = geofence.map((item) => [item.lat, item.long])
 
       var polygon = L.polygon(fix_geofence, {
@@ -305,6 +306,8 @@ export default {
         .then((res) => {
           this.harbour_name = res.data.data.harbour_name
           this.harbour_geo = res.data.data.geofences
+
+          this.harbourEditor(this.harbour_geo)
         })
         .catch((error) => {
           console.log(error)
