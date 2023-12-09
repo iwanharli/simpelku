@@ -7,14 +7,16 @@
           <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="@/assets/images/user2.png" alt="User-Profile" class="img-fluid avatar avatar-50 avatar-rounded" />
             <div class="caption ms-3 d-none d-md-block">
-              <h6 class="mb-0 caption-title">{{ uname }}</h6>
-              <p class="mb-0 caption-sub-title">Administrators</p>
+              <h6 class="caption-title mb-0" style="font-weight: bolder">{{ uname }}</h6>
+              <small class="caption-sub-title mb-0 mt-0" :class="{ 'bg-danger': urole === 'superadmin', 'bg-info': urole === 'admin' }" style="text-transform: uppercase; border-radius: 5px; color: white; padding: 5px">
+                {{ urole }}
+              </small>
             </div>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="border: 2px solid rgb(125, 125, 125)">
             <!-- <li><router-link class="dropdown-item" :to="{ name: 'admin.user-profile' }">User Profile</router-link></li> -->
             <!-- <li><hr class="dropdown-divider" /></li> -->
-            <li><router-link class="dropdown-item" :to="{ name: 'auth.login' }">Logout</router-link></li>
+            <li class="bg-soft-warning"><router-link class="dropdown-item text-dark" :to="{ name: 'auth.login' }" style="font-weight: bolder;">Logout</router-link></li>
           </ul>
         </li>
       </ul>
@@ -67,7 +69,8 @@ export default {
       isHidden,
       carts,
       emit,
-      uname: localStorage.getItem("uname")
+      uname: localStorage.getItem("uname"),
+      urole: localStorage.getItem("urole")
     }
   }
 }

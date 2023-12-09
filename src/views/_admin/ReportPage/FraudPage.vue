@@ -1,6 +1,6 @@
 <template>
   <div class="containerPage bg-secondary p-5" style="padding-top: 40px !important">
-    <div class="card">
+    <div class="card" data-aos="fade-down" data-aos-delay="110">
       <b-card-header class="bg-danger text-light pb-4">
         <div class="header-title">
           <b-row>
@@ -106,9 +106,23 @@
 <script>
 import axios from "axios"
 import Swal from "sweetalert2"
+import AOS from "aos"
+import { onMounted, ref } from "vue"
 
 export default {
   name: "FraudPage",
+  setup() {
+    onMounted(() => {
+      AOS.init({
+        disable: function () {
+          var maxWidth = 996
+          return window.innerWidth < maxWidth
+        },
+        once: true,
+        duration: 800
+      })
+    })
+  },
 
   data() {
     return {

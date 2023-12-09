@@ -19,7 +19,7 @@
   <!-- Theme Scheme color customizer -->
   <color-customizer />
   <!-- Theme Scheme color customizer End -->
-  <div class="d-grid gap-3 grid-cols-2 mb-4">
+  <!-- <div class="d-grid gap-3 grid-cols-2 mb-4">
     <radio-input btn-name="theme_scheme_direction" :img-component="true" label-title="LTR" class-name="text-center" label-class="p-0" id="theme-scheme-direction-ltr" :default-checked="themeSchemeDirection" value="ltr" @onChange="updateRadio">
       <img src="@/assets/images/settings/dark/01.png" alt="ltr" class="mode dark-img img-fluid" loading="lazy" />
       <img src="@/assets/images/settings/light/01.png" alt="ltr" class="mode light-img img-fluid" loading="lazy" />
@@ -28,7 +28,7 @@
       <img src="@/assets/images/settings/dark/02.png" alt="rtl" class="mode dark-img img-fluid" loading="lazy" />
       <img src="@/assets/images/settings/light/02.png" alt="rtl" class="mode light-img img-fluid" loading="lazy" />
     </radio-input>
-  </div>
+  </div> -->
 </template>
 <script>
 import { computed } from 'vue'

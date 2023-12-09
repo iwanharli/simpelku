@@ -1,5 +1,5 @@
 <template>
-  <div class="containerPage bg-secondary" style="padding-top: 40px !important">
+  <div class="containerPage bg-secondary" style="padding-top: 40px !important;">
     <div class="card">
       <b-card-header class="bg-info text-light pb-4">
         <div class="header-title">
@@ -10,9 +10,9 @@
           </b-row>
         </div>
       </b-card-header>
-      <div class="card-body p-0 bg-soft-secondary">
-        <div id="map" style="height: 100%; width: 100%; min-height: 740px" ref="map" @ready="initializeMap"></div>
-        <b-row class="p-3">
+      <div class="card-body p-0 bg-secondary">
+        <div id="map" style="height: 100%; width: 100%; min-height: 740px; border-radius: 0px 0px 10px 10px;" ref="map" @ready="initializeMap"></div>
+        <b-row class="mt-3">
           <div class="col-8">
             <button class="btn btn-primary d-grid w-100" @click="onSaveButtonClick()">UBAH GEOFENCE LABUH</button>
           </div>

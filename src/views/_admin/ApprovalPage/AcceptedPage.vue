@@ -2,7 +2,7 @@
   <div class="containerPage bg-secondary p-5" style="padding-top: 40px !important">
     <b-row>
       <b-col xl="12" lg="12" md="12" sm="12">
-        <div class="card">
+        <div class="card" data-aos="fade-down" data-aos-delay="110">
           <b-card-header class="bg-info text-light pb-4">
             <div class="header-title">
               <b-row>
@@ -54,9 +54,7 @@
                       {{ item.created_at }}
                     </td>
                     <td class="text-center bg-soft-dark">
-                      <RouterLink :to="{ name: 'admin.shipDetail', params: { shipId: item.id } }">
-                        <button class="btn btn-md btn-primary" type="button" id="kapal_detail"><i class="ti ti-search me-sm-1"></i> DETAIL</button>
-                      </RouterLink>
+                      <button class="btn btn-md btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalViewDetailApproved" @click="fetchShipAcceptedDetail(item.device_id)"><i class="ti ti-search me-sm-1"></i> DETAIL</button>
                     </td>
                   </tr>
                 </tbody>
@@ -67,14 +65,110 @@
       </b-col>
     </b-row>
   </div>
+
+  <div class="modal fade" id="modalViewDetailApproved" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-primary">
+          <h4 class="modal-title text-white" style="font-weight: bold">DETAIL APPROVAL</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-border" v-if="shipDetail">
+            <tbody>
+              <tr>
+                <th class="text-dark" style="font-weight: bolder">KAPAL</th>
+                <td>{{ shipDetail.ship_name }}</td>
+              </tr>
+              <tr>
+                <th class="text-dark" style="font-weight: bolder">PENANGGUNG JAWAB</th>
+                <td>{{ shipDetail.responsible_name }}</td>
+              </tr>
+              <tr>
+                <th class="text-dark" style="font-weight: bolder">NOMOR HP</th>
+                <td>{{ shipDetail.phone }}</td>
+              </tr>
+              <tr>
+                <th class="text-dark" style="font-weight: bolder">DEVICE ID</th>
+                <td>{{ shipDetail.device_id }}</td>
+              </tr>
+              <tr>
+                <th class="text-dark" style="font-weight: bolder">TANGGAL PENDAFTARAN</th>
+                <td>{{ shipDetail.submitted_at }}</td>
+              </tr>
+              <tr>
+                <th class="text-dark" style="font-weight: bolder">TANGGAL DISETUJUI</th>
+                <td>{{ shipDetail.responded_at }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="row">
+            <div class="col-md mb-4 mb-md-2">
+              <div class="accordion mt-3" id="accordionWithIcon">
+                <div class="accordion-item card">
+                  <h2 class="accordion-header d-flex align-items-center bg-info">
+                    <button type="button" class="accordion-button collapsed bg-info text-white" data-bs-toggle="collapse" data-bs-target="#accordionWithIcon-2" aria-expanded="false">
+                      <i class="ti ti-history ti-xs me-2"></i>
+                      <span style="font-weight: bolder">HISTORY PAIRING</span>
+                    </button>
+                  </h2>
+                  <div id="accordionWithIcon-2" class="accordion-collapse collapse bg-soft-white">
+                    <div class="accordion-body">
+                      <table class="table table-border">
+                        <thead class="bg-white text-dark">
+                          <tr>
+                            <th style="font-weight: bolder">NO</th>
+                            <th style="font-weight: bolder">KAPAL</th>
+                            <th style="font-weight: bolder">PENANGGUNG JAWAB</th>
+                            <th style="font-weight: bolder">NOMOR HP</th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-dark">
+                          <tr v-for="(data, index) in historyPairing" :key="index++">
+                            <th>{{ index }}</th>
+                            <th>{{ data.ship_name }}</th>
+                            <th>{{ data.responsible_name }}</th>
+                            <th>{{ data.phone }}</th>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/ Accordion with Icon -->
+          </div>
+        </div>
+        <div class="modal-footer mt-2">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios"
 import Swal from "sweetalert2"
+import AOS from "aos"
+import { onMounted, ref } from "vue"
 
 export default {
   name: "AcceptedPage",
+  setup() {
+    onMounted(() => {
+      AOS.init({
+        disable: function () {
+          var maxWidth = 996
+          return window.innerWidth < maxWidth
+        },
+        once: true,
+        duration: 800
+      })
+    })
+  },
 
   data() {
     return {

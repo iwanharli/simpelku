@@ -91,9 +91,11 @@ export default {
         console.log("🐣 \t", response.data.data.data_user.id)
         console.log("👽 \t", response.data.data.data_user.name)
         console.log("📧 \t", response.data.data.data_user.email)
+        console.log("🔐 \t", response.data.data.data_user.role)
 
         localStorage.setItem("token", response.data.data.token_jwt)
         localStorage.setItem("uid", response.data.data.data_user.id)
+        localStorage.setItem("urole", response.data.data.data_user.role)
         localStorage.setItem("uname", response.data.data.data_user.name)
         localStorage.setItem("uemail", response.data.data.data_user.email)
         localStorage.setItem("authenticated", true)

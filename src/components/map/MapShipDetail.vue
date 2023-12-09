@@ -90,20 +90,28 @@ export default {
 
     async mapShipDetail() {
       if (this.fixGeofence && !this.leaflet_map) {
-        this.leaflet_map = L.map("map", {}).setView([this.shipCurLat, this.shipCurLong], 18)
+        const mapElement = document.getElementById("map")
+        if (!mapElement) {
+          console.error("Map element not found in the document.")
+          return
+        }
+
+        this.leaflet_map = L.map(mapElement).setView([this.shipCurLat, this.shipCurLong], 18)
+
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxNativeZoom: 19,
           maxZoom: 30,
           minZoom: 5
         }).addTo(this.leaflet_map)
 
+        // Add polygon
         var polygon = L.polygon(this.fixGeofence, {
           color: "#7367F0",
           fillColor: "#A1B4FF",
           fillOpacity: 0.5
         }).addTo(this.leaflet_map)
 
-        this.leaflet_map.fitBounds(polygon.getBounds()) // initial center polgon
+        this.leaflet_map.fitBounds(polygon.getBounds())
         this.leaflet_map.flyTo([this.shipCurLat, this.shipCurLong], 18, {
           duration: 3
         })
@@ -120,7 +128,7 @@ export default {
 
         var icon = this.shipOnGround === 1 ? iconNelayan : iconKapal
         L.marker([this.shipCurLat, this.shipCurLong], { icon: icon }).addTo(this.leaflet_map)
-      } else {
+      } else if (this.leaflet_map) {
         this.leaflet_map.flyTo([this.shipCurLat, this.shipCurLong], 18, {
           duration: 3
         })
@@ -128,8 +136,7 @@ export default {
     },
 
     async filterHistory() {
-      console.log(this.dateStart)
-      console.log(this.dateEnd)
+      console.log(this.dateStart, '-', this.dateEnd)
 
       if (this.locationLogs) {
         const filteredLogs = this.locationLogs.filter((log) => {
@@ -209,7 +216,7 @@ export default {
           { dashArray: "5, 5", color: "blue" } // Customize the dashed line appearance
         ).addTo(this.leaflet_map)
       } else {
-        console.error("💥 LOG NULL / UNDEFINED:")
+        console.warn("⚠️ DOCK LOGS NULL / UNDEFINED:")
 
         const Toast = Swal.mixin({
           toast: true,

@@ -1,5 +1,5 @@
 <template>
-  <div class="containerPage bg-secondary" style="padding-top: 40px !important">
+  <div class="containerPage bg-secondary" style="padding-top: 40px !important" data-aos="fade-down" data-aos-delay="110">
     <b-row>
       <b-col xl="12" lg="12" md="12" sm="12" class="mb-3">
         <div class="card-header" style="border-radius: 20px; font-weight: bolder">
@@ -114,6 +114,8 @@
 <script>
 import axios from "axios"
 import Swal from "sweetalert2"
+import AOS from "aos"
+import { onMounted, ref } from "vue"
 
 import * as L from "leaflet"
 import "leaflet/dist/leaflet.css"
@@ -124,6 +126,20 @@ import markerKapal from "@/assets/images/ship-marker.png"
 import markerNelayan from "@/assets/images/fisherman-marker.png"
 
 export default {
+  name: "SettingPage",
+  setup() {
+    onMounted(() => {
+      AOS.init({
+        disable: function () {
+          var maxWidth = 996
+          return window.innerWidth < maxWidth
+        },
+        once: true,
+        duration: 800
+      })
+    })
+  },
+  
   data() {
     return {
       // map: null,

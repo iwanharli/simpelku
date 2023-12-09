@@ -15,7 +15,7 @@
                 <h4 class="card-title text-white p-2" style="font-weight: bolder">DETAIL KAPAL</h4>
               </div>
             </b-card-header>
-            <b-card-body>
+            <b-card-body class="p-2">
               <table class="table">
                 <tbody class="text-black">
                   <tr>
@@ -60,7 +60,7 @@
           <b-card no-body>
             <b-card-header header-class="bg-primary pb-2">
               <div class="header-title">
-                <b-row style="padding-right: 0px; padding-left: 0px;">
+                <b-row style="padding-right: 0px; padding-left: 0px">
                   <b-col xl="10">
                     <h4 class="card-title text-white p-2 ms-auto" style="font-weight: bolder">BIODATA KAPAL</h4>
                   </b-col>
@@ -72,7 +72,7 @@
                 </b-row>
               </div>
             </b-card-header>
-            <b-card-body>
+            <b-card-body class="p-2">
               <table class="table">
                 <tbody class="text-black">
                   <tr>
@@ -125,8 +125,8 @@
               <h4 class="card-title text-white p-2" style="font-weight: bolder">LOG HISTORI KAPAL</h4>
             </div>
           </b-card-header>
-          <b-card-body class="scrollbar" style="max-height: 855px !important; height: 855px; overflow-y: auto">
-            <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
+          <b-card-body class="scrollbar" style="max-height: 798px !important; overflow-y: auto">
+            <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative" v-if="this.dockLogs && this.dockLogs.length > 0">
               <ul class="list-inline p-0 m-0">
                 <li v-for="(dockLog, index) in this.dockLogs" :key="index++">
                   <div class="timeline-item">
@@ -148,6 +148,9 @@
                   </div>
                 </li>
               </ul>
+            </div>
+            <div class="p-2 text-dark" v-else>
+              <p>KAPAL INI BELUM MEMILIKI HISTORI ⛵</p>
             </div>
           </b-card-body>
         </b-card>
@@ -249,7 +252,7 @@ export default {
           console.log("💚 DOCK LOGS >", this.dockLogs)
         })
         .catch((error) => {
-          console.error("💥 DOCK LOGS GAGAL :", error)
+          console.log("💚 DOCK LOGS >", this.dockLogs)
         })
     },
 

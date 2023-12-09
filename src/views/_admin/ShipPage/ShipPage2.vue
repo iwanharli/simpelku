@@ -64,7 +64,7 @@
       <!-- <hr /> -->
       <!-- ISI  -->
       <b-row>
-        <b-col xl="12" lg="12" md="12" sm="12" class="bg-primary mb-3 p-5" style="border-radius: 20px" data-aos="fade-down" data-aos-delay="110">
+        <b-col xl="12" lg="12" md="12" sm="12" class="bg-primary mb-3 p-4" style="border-radius: 20px" data-aos="fade-down" data-aos-delay="110">
           <div class="header-title">
             <b-row>
               <b-col xl="9" lg="8" md="7" sm="7">
@@ -104,11 +104,12 @@
           </b-col>
         </div>
 
-        <b-col xl="10" lg="10" md="12" sm="12" style="padding: 0px 25px 25px 25px">
-          <b-card no-body class="bg-white text-white fade-up mb-2" v-for="(item, index) in filteredShip" :key="item.id" :style="{ animation: 'fadeUp ' + (index - 0.5 * index) + 's ease ' }">
+        <b-col xl="10" lg="10" md="12" sm="12" style="padding: 0px 25px 25px 25px" :style="{ animation: 'fadeUp 1s ease ' }">
+          <!-- <b-card no-body class="bg-white text-white fade-up mb-2" v-for="(item, index) in filteredShip" :key="item.id" :style="{ animation: 'fadeUp ' + (index - 0.5 * index) + 's ease ' }"> -->
+          <b-card no-body class="bg-white text-white fade-up mb-2" v-for="(item, index) in filteredShip" :key="item.id">
             <b-card-body style="padding: 5px 5px 5px 5px">
               <b-row style="padding: 15px">
-                <b-col xl="1" lg="1" md="2" sm="12" class="d-flex align-items-center justify-content-center">
+                <b-col xl="1" lg="1" md="2" sm="2" class="d-flex align-items-center justify-content-center">
                   <div class="bg-secondary rounded p-3 custom-index">
                     <h6 style="color: white">{{ adjustedIndex(index) }}</h6>
                   </div>
@@ -138,7 +139,7 @@
                 </b-col>
 
                 <b-col xl="2" lg="3" md="12" sm="12" class="d-flex align-items-center justify-content-center custom-date">
-                  <small class="text-black">{{ item.created_at }}</small>
+                  <small class="text-black">📆 {{ item.created_at }}</small>
                 </b-col>
 
                 <b-col xl="1" lg="12" md="12" sm="12" class="custom-detail">
@@ -201,6 +202,7 @@ export default {
       ships: [],
       searchQuery: "",
       page: 1,
+      maxPage: 0,
       pageSize: 10,
       hasPreviousPage: false,
       hasNextPage: false
@@ -252,6 +254,8 @@ export default {
           return ship
         })
 
+        this.maxPage = Math.ceil(this.ships.length / this.pageSize)
+
         this.hasPreviousPage = this.page > 1
         this.hasNextPage = response.data.data.length === this.pageSize
 
@@ -273,6 +277,10 @@ export default {
     nextShips() {
       console.log("Next Clicked - Before: page =", this.page)
       this.page++
+
+      if (this.page > this.maxPage) {
+        this.page = this.maxPage
+      }
       console.log("Next Clicked - After: page =", this.page)
       this.fetchShip()
     },
@@ -544,7 +552,7 @@ img.previous:hover {
   }
 
   .custom-btn {
-    width: 80%;
+    width: 85%;
     float: right;
   }
 

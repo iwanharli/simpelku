@@ -1,6 +1,6 @@
 {
-  "name": "hopeui-vue",
-  "version": "3.0.0",
+  "name": "simpel",
+  "version": "2.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

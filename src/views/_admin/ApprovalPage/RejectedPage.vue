@@ -2,7 +2,7 @@
   <div class="containerPage bg-secondary p-5" style="padding-top: 40px !important">
     <b-row>
       <b-col xl="12" lg="12" md="12" sm="12">
-        <div class="card">
+        <div class="card" data-aos="fade-down" data-aos-delay="110">
           <b-card-header class="bg-danger text-light pb-4">
             <div class="header-title">
               <b-row>
@@ -45,8 +45,8 @@
                     <td class="text-center">
                       {{ item.created_at }}
                     </td>
-                    <td class="text-center bg-soft-dark">
-                      <a :href="getWhatsAppLink(item.phone)" class="btn btn-sm btn-success p-2" style="width: 100%" type="button" target="_blank"> <img src="@/assets/images/whatsapp.png" width="20" height="20" /> &nbsp; {{ item.phone }} </a>
+                    <td class="bg-soft-dark">
+                      <a :href="getWhatsAppLink(item.phone)" class="btn btn-sm btn-success text-start p-2" style="width: 100%" type="button" target="_blank"> <img src="@/assets/images/whatsapp.png" width="20" height="20" /> &nbsp; {{ item.phone }} </a>
                     </td>
                   </tr>
                 </tbody>
@@ -62,9 +62,23 @@
 <script>
 import axios from "axios"
 import Swal from "sweetalert2"
+import AOS from "aos"
+import { onMounted, ref } from "vue"
 
 export default {
   name: "RejectedPage",
+  setup() {
+    onMounted(() => {
+      AOS.init({
+        disable: function () {
+          var maxWidth = 996
+          return window.innerWidth < maxWidth
+        },
+        once: true,
+        duration: 800
+      })
+    })
+  },
 
   data() {
     return {

@@ -80,7 +80,7 @@ export default {
     async harbourEditor(geofence) {
       var fix_geofence = geofence.map((item) => [item.lat, item.long])
 
-      var polygon = L.polygon(fix_geofence, {
+      L.polygon(fix_geofence, {
         color: "#7367F0",
         fillColor: "#A1B4FF",
         fillOpacity: 0.5
