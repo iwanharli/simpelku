@@ -39,7 +39,7 @@ const adminRoutes = (prefix) => [
     path: 'ship',
     name: prefix + '.ship',
     meta: { auth: true, name: 'ShipPage', isBanner: true },
-    component: () => import('@/views/_admin/ShipPage/ShipPage.vue')
+    component: () => import('@/views/_admin/ShipPage/ShipPage2.vue')
   },
   {
     path: 'ship/:shipId',

@@ -2,7 +2,7 @@
   <nav :class="`nav navbar navbar-expand-xl navbar-light iq-navbar ${headerNavbar}`">
     <div class="container-fluid navbar-inner">
       <slot></slot>
-      <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
+      <ul class="mb-2 navbar-nav align-items-center navbar-list mb-lg-0">
         <li class="nav-item dropdown">
           <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="@/assets/images/user2.png" alt="User-Profile" class="img-fluid avatar avatar-50 avatar-rounded" />
@@ -12,8 +12,8 @@
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><router-link class="dropdown-item" :to="{ name: 'admin.user-profile' }">User Profile</router-link></li>
-            <li><hr class="dropdown-divider" /></li>
+            <!-- <li><router-link class="dropdown-item" :to="{ name: 'admin.user-profile' }">User Profile</router-link></li> -->
+            <!-- <li><hr class="dropdown-divider" /></li> -->
             <li><router-link class="dropdown-item" :to="{ name: 'auth.login' }">Logout</router-link></li>
           </ul>
         </li>

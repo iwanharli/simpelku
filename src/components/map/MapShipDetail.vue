@@ -152,7 +152,7 @@ export default {
         })
         Toast.fire({
           icon: "success",
-          title: `Get ${filteredLogs.length} items`
+          title: `Get ${filteredLogs.length} lokasi`
         })
 
         const firstLog = filteredLogs[filteredLogs.length - 1]

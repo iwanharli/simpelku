@@ -1,0 +1,30 @@
+.simpel-text {
+    font-family: Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    letter-spacing: 1px;
+    font-size: 40px;
+}
+
+.simpel-nav {
+    border-radius: 10px;
+    width: 100%;
+}
+
+.simpel-map-container {
+    height: 80vh;
+}
+
+.boxed {
+    background: url('../../app/bg-simpel.png');
+}
+
+.simpel-ship-detail {
+    z-index: 999;
+    width: fit-content;
+    min-width: 500px;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    transition: 0.3s ease;
+    background: #fff;
+    border-top-left-radius: 20px;
+}

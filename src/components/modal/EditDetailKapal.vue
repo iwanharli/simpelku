@@ -1,85 +1,83 @@
 <template>
   <div class="modal fade" id="modalEditDetailKapal" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-transparent">
-        <div class="card p-4 mt-5">
-          <div class="card-body">
-            <div class="app-brand justify-content-center mt-2">
-              <span class="app-brand-text demo menu-text fw-bold" style="margin-left: -15px !important">EDIT DETAIL KAPAL</span>
-            </div>
-
-            <form @submit.prevent="updateShipDetail">
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="shipName" class="form-label">Nama Kapal</label>
-                    <input type="text" id="shipName" class="form-control" v-model="ship.ship_name" disabled />
-                  </div>
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-primary">
+          <h4 class="modal-title text-white" style="font-weight: bold">EDIT DETAIL KAPAL</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form @submit.prevent="updateShipDetail">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col mb-3">
+                  <label for="shipName" class="form-label">Nama Kapal</label>
+                  <input type="text" id="shipName" class="form-control" v-model="ship.ship_name" disabled />
                 </div>
-                <div class="row">
-                  <div class="col mb-3">
-                    <label class="form-label">Penanggung Jawab</label>
-                    <input type="text" id="nameWithTitle" class="form-control" v-model="ship.responsible_name" disabled />
-                  </div>
+              </div>
+              <div class="row">
+                <div class="col mb-3">
+                  <label class="form-label">Penanggung Jawab</label>
+                  <input type="text" id="nameWithTitle" class="form-control" v-model="ship.responsible_name" disabled />
                 </div>
-                <div class="row">
-                  <div class="col mb-3">
-                    <label class="form-label">Pelabuhan Pangkalan</label>
-                    <input type="text" id="nameWithTitle" class="form-control" v-model="shipHarbour" />
-                  </div>
+              </div>
+              <div class="row">
+                <div class="col mb-3">
+                  <label class="form-label">Pelabuhan Pangkalan</label>
+                  <input type="text" id="nameWithTitle" class="form-control" v-model="shipHarbour" />
                 </div>
-                <div class="row g-2">
-                  <div class="col mb-0">
-                    <div class="mb-3">
-                      <label for="defaultSelect" class="form-label">Jenis Kapal</label>
-                      <select id="defaultSelect" class="form-select" v-model="shipType">
-                        <option :value="shipType" style="display: none" selected>
-                          {{ formatShipStatus(shipType) }}
-                        </option>
-                        <option value="kapal angkut">KAPAL ANGKUT</option>
-                        <option value="kapal tangkap">KAPAL TANGKAP</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col mb-0">
-                    <label for="defaultSelect" class="form-label">Dimensi Kapal (P x L)</label>
-                    <div class="input-group mb-3">
-                      <input type="text" id="nameWithTitle" class="form-control" v-model="shipWidth" />
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">x</span>
-                      </div>
-                      <input type="text" id="nameWithTitle" class="form-control" v-model="shipLength" />
-                    </div>
-                  </div>
-                </div>
-                <div class="row g-2">
-                  <div class="col mb-0">
-                    <div class="mb-3">
-                      <label for="nameWithTitle" class="form-label">Nomor SIUP</label>
-                      <input type="text" id="nameWithTitle" class="form-control" v-model="shipSiup" />
-                    </div>
-                  </div>
-                  <div class="col mb-0">
-                    <div class="mb-3">
-                      <label for="nameWithTitle" class="form-label">Nomor BKP</label>
-                      <input type="text" id="nameWithTitle" class="form-control" v-model="shipBkp" />
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col mb-3">
-                    <label for="nameWithTitle" class="form-label">Tanda Selar</label>
-                    <input type="text" id="nameWithTitle" class="form-control" v-model="shipSelarMark" />
-                  </div>
-                </div>
-                <div class="row">
+              </div>
+              <div class="row g-2">
+                <div class="col mb-0">
                   <div class="mb-3">
-                    <button class="btn btn-primary d-grid w-100" type="submit">Simpan Perubahan</button>
+                    <label for="defaultSelect" class="form-label">Jenis Kapal</label>
+                    <select id="defaultSelect" class="form-select" v-model="shipType">
+                      <option :value="shipType" style="display: none" selected>
+                        {{ formatShipStatus(shipType) }}
+                      </option>
+                      <option value="kapal angkut">KAPAL ANGKUT</option>
+                      <option value="kapal tangkap">KAPAL TANGKAP</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col mb-0">
+                  <label for="defaultSelect" class="form-label">Dimensi Kapal (P x L)</label>
+                  <div class="input-group mb-3">
+                    <input type="text" id="nameWithTitle" class="form-control" v-model="shipWidth" />
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">x</span>
+                    </div>
+                    <input type="text" id="nameWithTitle" class="form-control" v-model="shipLength" />
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
+              <div class="row g-2">
+                <div class="col mb-0">
+                  <div class="mb-3">
+                    <label for="nameWithTitle" class="form-label">Nomor SIUP</label>
+                    <input type="text" id="nameWithTitle" class="form-control" v-model="shipSiup" />
+                  </div>
+                </div>
+                <div class="col mb-0">
+                  <div class="mb-3">
+                    <label for="nameWithTitle" class="form-label">Nomor BKP</label>
+                    <input type="text" id="nameWithTitle" class="form-control" v-model="shipBkp" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col mb-3">
+                  <label for="nameWithTitle" class="form-label">Tanda Selar</label>
+                  <input type="text" id="nameWithTitle" class="form-control" v-model="shipSelarMark" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="mb-3">
+                  <button class="btn btn-primary d-grid w-100" type="submit">Simpan Perubahan</button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

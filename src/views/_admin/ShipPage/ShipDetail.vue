@@ -1,146 +1,156 @@
 <template>
   <div class="containerPage bg-secondary p-5" style="padding-top: 40px !important">
     <b-row>
+      <!-- MAP DETAIL  -->
       <b-col xl="12" style="border-radius: 20px" v-if="shipCurLat !== 0">
         <MapDetail :shipCurLat="shipCurLat" :shipCurLong="shipCurLong" :shipOnGround="shipOnGround" :location-logs="locationLogs" />
       </b-col>
-      <b-col xl="6" style="border-radius: 20px">
-        <!-- SHIP DETAIL -->
-        <div class="card card-action mt-4 mb-4 navbar-dropdown dropdown">
-          <div class="card-header align-items-center" style="color: white; text-align: center">
-            <b-row>
-              <b-col xl="12" lg="12" md="12" sm="12" class="bg-primary card-action-title" style="border-radius: 5px">
-                <h5 class="text-white" style="padding: 10px; font-weight: bolder">DETAIL KAPAL</h5>
-              </b-col>
-            </b-row>
-          </div>
-          <div class="card-body" style="overflow: auto">
-            <table class="table">
-              <tbody>
-                <tr>
-                  <th style="width: 10%"><i class="ti ti-ship"></i></th>
-                  <th style="width: 40%">Nama Kapal</th>
-                  <td>
-                    {{ formatShipStatus(ship.ship_name) }}
-                  </td>
-                </tr>
-                <tr>
-                  <th><i class="ti ti-check"></i></th>
-                  <th>Status</th>
-                  <td style="text-transform: uppercase">
-                    <div class="badge bg-primary pt-2 pb-2" v-if="ship.status === 'checkin'">
-                      <span>{{ ship.status }}</span>
-                    </div>
-                    <div class="badge bg-info pt-2 pb-2" v-else-if="ship.status === 'checkout'">
-                      <span>{{ ship.status }}</span>
-                    </div>
-                    <div class="badge bg-warning pt-1 pb-1" v-else-if="ship.status === 'out of scope'">
-                      <span>{{ ship.status }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th><i class="ti ti-user"></i></th>
-                  <th>Penanggung Jawab</th>
-                  <td>{{ formatShipStatus(ship.responsible_name) }}</td>
-                </tr>
-                <tr>
-                  <th><i class="ti ti-phone-call"></i></th>
-                  <th>Device</th>
-                  <td>{{ ship.device_id }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
 
-        <!-- SHIP BIO -->
-        <div class="card card-action mt-4 mb-4 navbar-dropdown dropdown" style="max-height: 825px !important; height: auto; overflow-y: auto">
-          <div class="card-header align-items-center" style="color: white; text-align: center">
-            <b-row>
-              <b-col xl="10" lg="10" md="10" sm="10" class="bg-primary card-action-title" style="border-radius: 5px">
-                <h5 class="text-white" style="padding: 10px; font-weight: bolder">BIODATA KAPAL</h5>
-              </b-col>
-              <b-col xl="2" lg="2" md="2" sm="2">
-                <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#modalEditDetailKapal">
-                  <i class="ti ti-adjustments-alt"></i>
-                </button>
-              </b-col>
-            </b-row>
-          </div>
-          <div class="card-body">
-            <table class="table">
-              <tbody>
-                <tr>
-                  <th style="width: 10%"><i class="ti ti-route-2"></i></th>
-                  <th style="width: 40%">Jenis</th>
-                  <td>{{ formatShipStatus(shipBio.type) }}</td>
-                </tr>
-                <tr>
-                  <th><i class="ti ti-shape"></i></th>
-                  <th>Dimensi (m)</th>
-                  <td>{{ formatShipStatus(shipBio.dimension) }}</td>
-                </tr>
-                <tr>
-                  <th><i class="ti ti-directions"></i></th>
-                  <th>Pelabuhan Pangkalan</th>
-                  <td>{{ formatShipStatus(shipBio.harbour) }}</td>
-                </tr>
-                <tr>
-                  <th><i class="ti ti-align-box-bottom-center-filled"></i></th>
-                  <th>Nomor Siup</th>
-                  <td>{{ formatShipStatus(shipBio.siup) }}</td>
-                </tr>
-                <tr>
-                  <th><i class="ti ti-align-box-bottom-right-filled"></i></th>
-                  <th>Nomor BKP</th>
-                  <td>{{ formatShipStatus(shipBio.bkp) }}</td>
-                </tr>
-                <tr>
-                  <th><i class="ti ti-align-box-center-middle-filled"></i></th>
-                  <th>Tanda Selar</th>
-                  <td>{{ formatShipStatus(shipBio.selar_mark) }}</td>
-                </tr>
-                <tr>
-                  <th><i class="ti ti-calendar"></i></th>
-                  <th>Tanggal Terdaftar</th>
-                  <td>{{ formatShipStatus(ship.created_at) }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </b-col>
+      <!-- ISI  -->
+      <b-col lg="6">
+        <b-col lg="12" class="mt-4">
+          <b-card no-body>
+            <b-card-header header-class="d-flex justify-content-between bg-primary">
+              <div class="header-title">
+                <h4 class="card-title text-white p-2" style="font-weight: bolder">DETAIL KAPAL</h4>
+              </div>
+            </b-card-header>
+            <b-card-body>
+              <table class="table">
+                <tbody class="text-black">
+                  <tr>
+                    <th style="width: 10%"><i class="ti ti-ship"></i></th>
+                    <th style="width: 40%; font-weight: bolder">NAMA KAPAL</th>
+                    <td>
+                      {{ formatShipStatus(ship.ship_name) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th><i class="ti ti-check"></i></th>
+                    <th style="font-weight: bolder">STATUS</th>
+                    <td style="text-transform: uppercase">
+                      <div class="badge bg-primary pt-2 pb-2" v-if="ship.status === 'checkin'">
+                        <span>{{ ship.status }}</span>
+                      </div>
+                      <div class="badge bg-info pt-2 pb-2" v-else-if="ship.status === 'checkout'">
+                        <span>{{ ship.status }}</span>
+                      </div>
+                      <div class="badge bg-warning pt-1 pb-1" v-else-if="ship.status === 'out of scope'">
+                        <span>{{ ship.status }}</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th><i class="ti ti-user"></i></th>
+                    <th style="font-weight: bolder">PENANGGUNG JAWAB</th>
+                    <td>{{ formatShipStatus(ship.responsible_name) }}</td>
+                  </tr>
+                  <tr>
+                    <th><i class="ti ti-phone-call"></i></th>
+                    <th style="font-weight: bolder">DEVICE</th>
+                    <td>{{ ship.device_id }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </b-card-body>
+          </b-card>
+        </b-col>
 
-      <!-- HISTORY KAPAL  -->
-      <b-col xl="6" style="border-radius: 20px">
-        <div class="card card-action mt-4 mb-4 navbar-dropdown dropdown">
-          <div class="card-header align-items-center" style="color: white; text-align: center">
-            <h5 class="card-action-title bg-primary" style="color: white; padding: 10px; border-radius: 5px; font-weight: bolder">HISTORY KELUAR MASUK KAPAL</h5>
-          </div>
-          <div class="card-body scrollbar" style="max-height: 852px !important; height: 852px; overflow-y: auto">
-            <div v-for="(dockLog, index) in this.dockLogs" :key="index++" class="bg-soft-primary p-2 mb-1" style="border-radius: 20px">
-              <div style="text-transform: uppercase">
-                <b-row class="text-center">
+        <b-col lg="12" class="mt-4">
+          <b-card no-body>
+            <b-card-header header-class="bg-primary pb-2">
+              <div class="header-title">
+                <b-row style="padding-right: 0px; padding-left: 0px;">
+                  <b-col xl="10">
+                    <h4 class="card-title text-white p-2 ms-auto" style="font-weight: bolder">BIODATA KAPAL</h4>
+                  </b-col>
                   <b-col xl="2">
-                    <div class="badge bg-primary pt-2 pb-2" v-if="dockLog.status === 'checkin'">
-                      ✅ &nbsp;<span>{{ dockLog.status }}</span>
-                    </div>
-                    <div class="badge bg-info pt-1 pb-1" v-else-if="dockLog.status === 'checkout'">
-                      📤 &nbsp;<span>{{ dockLog.status }}</span>
-                    </div>
-                  </b-col>
-                  <b-col xl="6">
-                    <small>PPP Tegalsari - Tegal</small>
-                  </b-col>
-                  <b-col xl="4" class="text-center">
-                    <small class="text-muted text-center">{{ dockLog.created_at }}</small>
+                    <a class="btn btn-sm btn-warning p-2 mt-1" type="button" data-bs-toggle="modal" data-bs-target="#modalEditDetailKapal" style="width: 100%">
+                      <i class="ti ti-adjustments-alt"></i>
+                    </a>
                   </b-col>
                 </b-row>
               </div>
+            </b-card-header>
+            <b-card-body>
+              <table class="table">
+                <tbody class="text-black">
+                  <tr>
+                    <th style="width: 10%"><i class="ti ti-route-2"></i></th>
+                    <th style="width: 40%; font-weight: bolder">JENIS</th>
+                    <td>{{ formatShipStatus(shipBio.type) }}</td>
+                  </tr>
+                  <tr>
+                    <th><i class="ti ti-shape"></i></th>
+                    <th style="font-weight: bolder">DIMENSI (m)</th>
+                    <td>{{ formatShipStatus(shipBio.dimension) }}</td>
+                  </tr>
+                  <tr>
+                    <th><i class="ti ti-directions"></i></th>
+                    <th style="font-weight: bolder">PELABUHAN PANGKALAN</th>
+                    <td>{{ formatShipStatus(shipBio.harbour) }}</td>
+                  </tr>
+                  <tr>
+                    <th><i class="ti ti-align-box-bottom-center-filled"></i></th>
+                    <th style="font-weight: bolder">NOMOR SIUP</th>
+                    <td>{{ formatShipStatus(shipBio.siup) }}</td>
+                  </tr>
+                  <tr>
+                    <th><i class="ti ti-align-box-bottom-right-filled"></i></th>
+                    <th style="font-weight: bolder">NOMOR BKP</th>
+                    <td>{{ formatShipStatus(shipBio.bkp) }}</td>
+                  </tr>
+                  <tr>
+                    <th><i class="ti ti-align-box-center-middle-filled"></i></th>
+                    <th style="font-weight: bolder">TANDA SELAR</th>
+                    <td>{{ formatShipStatus(shipBio.selar_mark) }}</td>
+                  </tr>
+                  <tr>
+                    <th><i class="ti ti-calendar"></i></th>
+                    <th style="font-weight: bolder">TERDAFTAR</th>
+                    <td>{{ formatShipStatus(ship.created_at) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </b-card-body>
+          </b-card>
+        </b-col>
+      </b-col>
+
+      <!-- HISTORY KAPAL  -->
+      <b-col lg="6" class="mt-4">
+        <b-card no-body class="bg-white">
+          <b-card-header header-class="d-flex justify-content-between bg-primary">
+            <div class="header-title">
+              <h4 class="card-title text-white p-2" style="font-weight: bolder">LOG HISTORI KAPAL</h4>
             </div>
-          </div>
-        </div>
+          </b-card-header>
+          <b-card-body class="scrollbar" style="max-height: 855px !important; height: 855px; overflow-y: auto">
+            <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
+              <ul class="list-inline p-0 m-0">
+                <li v-for="(dockLog, index) in this.dockLogs" :key="index++">
+                  <div class="timeline-item">
+                    <div class="timeline-dots1 border-primary text-primary" v-if="dockLog.status === 'checkin'">
+                      <i class="ti ti-transfer-in" style="font-size: larger"></i>
+                    </div>
+                    <div class="timeline-dots1 border-danger text-danger" v-else>
+                      <i class="ti ti-transfer-out" style="font-size: larger"></i>
+                    </div>
+
+                    <div class="timeline-content">
+                      <h6 class="mb-1" style="text-transform: uppercase; display: inline-block">{{ dockLog.status }}</h6>
+                      -
+                      <small class="float-right mt-1">{{ dockLog.formattedDate }}</small>
+                      <div class="d-inline-block w-100">
+                        <p>PPP TEGALSARI</p>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </b-card-body>
+        </b-card>
       </b-col>
     </b-row>
   </div>
@@ -151,6 +161,9 @@
 <script>
 import axios from "axios"
 import Swal from "sweetalert2"
+import AOS from "aos"
+import { onMounted, ref } from "vue"
+
 import MapDetail from "@/components/map/MapShipDetail.vue"
 import ModalEditKapal from "@/components/modal/EditDetailKapal.vue"
 
@@ -200,9 +213,8 @@ export default {
         .catch((error) => {
           // Swal.fire({
           //   title: "Error!",
-          //   text: "Email / Password anda salah!",
+          //   text: "Mencoba lagi dalam 5 detik",
           //   icon: "error",
-          //   confirmButtonText: "😪 COBA LAGI"
           // })
 
           console.log("Get ship detail failure. Retrying in 5 seconds...", error)
@@ -221,6 +233,18 @@ export default {
         .get(`/api/v1/ship/dock-log/${shipDetailId}`, config)
         .then((res) => {
           this.dockLogs = res.data.data.docking_logs
+
+          this.dockLogs = res.data.data.docking_logs.map((log) => {
+            const date = new Date(log.created_at)
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+            const formattedDate = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+
+            return {
+              ...log,
+              formattedDate: formattedDate
+            }
+          })
 
           console.log("💚 DOCK LOGS >", this.dockLogs)
         })

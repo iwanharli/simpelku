@@ -5,9 +5,9 @@
         <b-row class="justify-content-center">
           <b-col md="10">
             <b-card class="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card iq-auth-form">
-              <div class="navbar-brand d-flex align-items-center mb-5 text-primary">
+              <div class="navbar-brand d-flex align-items-end mb-5 text-primary">
                 <brand-logo></brand-logo>
-                <h4 class="logo-title ms-3 mb-0" data-setting="app_name">SIMPEL</h4>
+                <h2 class="logo-title ms-3 mb-0 simpel-text" data-setting="app_name">SIMPEL</h2>
               </div>
               <h2 class="mb-2 text-center">MASUK</h2>
               <p class="text-center">Login to stay connected.</p>
@@ -50,7 +50,7 @@
         </div>
       </b-col>
       <div class="col-md-6 d-md-block d-none bg-primary p-0 vh-100 overflow-hidden">
-        <img src="@/assets/images/login.png" class="img-fluid gradient-main animated-scaleX" alt="images" loading="lazy" />
+        <img src="@/assets/images/login4.png" class="img-fluid gradient-main animated-scaleX" alt="images" loading="lazy" />
       </div>
     </b-row>
   </section>

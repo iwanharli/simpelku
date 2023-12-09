@@ -134,6 +134,15 @@
               <input type="text" class="form-control" v-model="user.email" required="" />
             </div>
             <div class="col-12 mb-3">
+              <label for="password" class="form-label">Password</label>
+              <b-input-group size="md" class="mb-2">
+                <b-form-input :type="showPassword ? 'text' : 'password'" class="form-control" id="password" aria-describedby="password"></b-form-input>
+                <b-input-group-append is-text>
+                  <b-form-checkbox switch class="mr-n2" @click="togglePasswordVisibility"> </b-form-checkbox>
+                </b-input-group-append>
+              </b-input-group>
+            </div>
+            <div class="col-12 mb-3">
               <label class="form-label" for="validationDefault01">Role</label>
               <select class="form-select" v-model="user.role">
                 <option value="admin">Admin</option>
