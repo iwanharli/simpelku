@@ -173,6 +173,8 @@ export default {
           title: `Get ${filteredLogs.length} lokasi`
         })
 
+        console.log()
+
         const firstLog = filteredLogs[filteredLogs.length - 1]
         const lastLog = firstLog
 
