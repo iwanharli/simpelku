@@ -1,6 +1,9 @@
 <template>
   <div class="boxed-inner">
     <span class="screen-darken"></span>
+
+    <!-- <admin-sidebar-component></admin-sidebar-component> -->
+
     <!-- Main Content Start Here -->
     <main class="main-content-custom">
       <horizontal-navbar></horizontal-navbar>

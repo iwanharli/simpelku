@@ -1,6 +1,6 @@
 <template>
   <div id="map" class="simpel-map-container">
-    <div id="map"></div>
+    <div id="map" style="z-index: 0px !important"></div>
 
     <div id="shipDetailsDiv" class="simpel-ship-detail"></div>
   </div>
@@ -57,14 +57,23 @@ export default {
       const tileTopo = "https://api.maptiler.com/maps/topo-v2/256/{z}/{x}/{y}.png?key=ufCf3dbMdr7VkfVI6gjQ"
       const street = "https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=ufCf3dbMdr7VkfVI6gjQ"
 
-      this.leaflet_map = await L.map("map", {}).setView([this.center.lat, this.center.lng], 13)
+      this.leaflet_map = await L.map("map", {
+        zoomControl: false
+      }).setView([this.center.lat, this.center.lng], 13)
+
       L.tileLayer(street, {
         maxNativeZoom: 19,
         maxZoom: 30,
         minZoom: 12,
-        noWrap: true,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        noWrap: true
+        // attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(this.leaflet_map)
+
+      L.control
+        .zoom({
+          position: "topright"
+        })
+        .addTo(this.leaflet_map)
 
       // L.marker([this.center.lat, this.center.lng])
       //   .addTo(this.leaflet_map)
@@ -130,18 +139,18 @@ export default {
                       <th style="font-weight: bolder; width: 5px; color: white; font-size: 20px;" class="text-center" colspan=2>DETAIL KAPAL</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="bg-secondary">
                     <tr>
-                      <td style='font-weight: bolder; width: 20%;'>ID</td>
-                        <td>${ship.ship_id}</td>
+                      <td class="text-white" style='font-weight: bolder; width: 20%;'>ID</td>
+                        <td class="text-white">${ship.ship_id}</td>
                       </tr>
                     <tr>
-                      <td style='font-weight: bolder;'>KAPAL</td>
-                      <td>${ship.ship_name}</td>
+                      <td class="text-white" style='font-weight: bolder;'>KAPAL</td>
+                      <td class="text-white">${ship.ship_name}</td>
                     </tr>
                     <tr>
-                      <td style='font-weight: bolder;'>DEVICE</td>
-                      <td>${ship.device_id}</td>
+                      <td class="text-white" style='font-weight: bolder;'>DEVICE</td>
+                      <td class="text-white">${ship.device_id}</td>
                     </tr>
                     <tr>
                       <td colspan="2">
@@ -468,8 +477,9 @@ export default {
   margin-top: 10px;
 }
 
-.leaflet-control-container {
-  z-index: 0;
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 0px;
 }
 
 @keyframes pulse-animation {

@@ -10,44 +10,38 @@
           </b-row>
         </div>
       </b-card-header>
-      <div class="card-body p-5">
+      <div class="card-body p-5 bg-soft-primary">
         <div class="row">
-          <div class="col-md-6 mb-4">
-            <label class="form-label text-dark" style="font-weight: bolder">KODE PELABUHAN</label>
-            <input type="text" class="form-control" v-model="harbourCode" required="" />
+          <div class="col-md-6 mb-5">
+            <label class="form-label" style="font-weight: bolder">KODE PELABUHAN</label>
+            <input type="text" class="form-control" v-model="harbourCode" required="" style="border-color: white" />
           </div>
-          <div class="col-md-6 mb-4">
-            <label class="form-label text-dark" style="font-weight: bolder">NAMA PELABUHAN</label>
-            <input type="text" class="form-control" v-model="harbourName" required="" />
+          <div class="col-md-6 mb-5">
+            <label class="form-label" style="font-weight: bolder">NAMA PELABUHAN</label>
+            <input type="text" class="form-control" v-model="harbourName" required="" style="border-color: white" />
           </div>
-          <div class="col-md-12 mb-4">
-            <label class="form-label text-dark" style="font-weight: bolder">MODE</label>
+          <div class="col-md-4 mb-5">
+            <label class="form-label" style="font-weight: bolder">MODE</label>
             <select class="form-select" v-model="appMode" required="">
               <option value="interval">Interval</option>
               <option value="jarak">Jarak</option>
             </select>
           </div>
-          <div class="col-md-6 mb-4">
-            <label class="form-label text-dark" style="font-weight: bolder">INTERVAL</label>
-            <div class="form-floating">
-              <input type="number" class="form-control" id="floatingInput" placeholder="30" v-model="appInterval" required="" />
-              <label for="floatingInput" style="font-weight: 900">Interval dalam (detik)</label>
-            </div>
+          <div class="col-md-4 mb-5">
+            <label class="form-label" style="font-weight: bolder">INTERVAL</label>
+            <input type="number" class="form-control" placeholder="30" v-model="appInterval" required="" style="border-color: white"/>
           </div>
-          <div class="col-md-6 mb-4">
-            <label class="form-label text-dark" style="font-weight: bolder">JARAK</label>
-            <div class="form-floating">
-              <input type="number" class="form-control" id="floatingInput" placeholder="30" v-model="appRange" required="" />
-              <label for="floatingInput" style="font-weight: 900">Jarak dalam (meter)</label>
-            </div>
+          <div class="col-md-4 mb-5">
+            <label class="form-label" style="font-weight: bolder">JARAK</label>
+            <input type="number" class="form-control" placeholder="30" v-model="appRange" required="" style="border-color: white"/>
           </div>
-          <div class="col-md-6 mb-4">
-            <label class="form-label text-dark" style="font-weight: bolder">VERSI MINIMAL APK</label>
-            <input type="text" class="form-control" v-model="appVersion" required="" />
+          <div class="col-md-6 mb-5">
+            <label class="form-label" style="font-weight: bolder">VERSI MINIMAL APK</label>
+            <input type="text" class="form-control" v-model="appVersion" required="" style="border-color: white"/>
           </div>
-          <div class="col-md-6 mb-4">
-            <label class="form-label text-dark" style="font-weight: bolder">URL UNDUH APK</label>
-            <input type="text" class="form-control" v-model="appUrl" required="" />
+          <div class="col-md-6 mb-5">
+            <label class="form-label" style="font-weight: bolder">URL UNDUH APK</label>
+            <input type="text" class="form-control" v-model="appUrl" required="" style="border-color: white"/>
           </div>
           <div class="col-md-8">
             <button class="btn btn-info" type="submit" style="width: 100%" @click="updateMobileSetting">SIMPAN PERUBAHAN</button>

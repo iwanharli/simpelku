@@ -20,9 +20,10 @@
           </b-card-header>
           <div class="card-body p-0">
             <div class="table-responsive">
-              <table id="basic-table" class="table table-hover mb-0" role="grid">
+              <table id="basic-table" class="table table-md mb-0" role="grid">
                 <thead>
                   <tr class="bg-soft-secondary">
+                    <th style="font-weight: bolder; width: 5px" class="text-center">ID</th>
                     <th class="text-center" style="width: 5%; font-weight: bolder">🤓</th>
                     <th style="font-weight: bolder">NAMA</th>
                     <th class="text-center" style="width: 15%; font-weight: bolder">ROLE</th>
@@ -32,7 +33,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(item, index) in filteredUserData" :key="index++">
+                  <tr v-for="(item, index) in paginatedUserData" :key="index">
+                    <td class="text-center bg-soft-light">
+                      {{ (currentPage - 1) * itemsPerPage + index + 1 }}
+                    </td>
                     <td class="text-center">
                       <img class="bg-soft-primary rounded img-fluid avatar-40" src="@/assets/images/user2.png" alt="profile" loading="lazy" v-if="item.role === 'superadmin'" />
                       <img class="bg-soft-primary rounded img-fluid avatar-40" src="@/assets/images/user.png" alt="profile" loading="lazy" v-else />
@@ -62,6 +66,20 @@
                   </tr>
                 </tbody>
               </table>
+
+              <!-- PAGINATION -->
+              <div class="pagination-container p-3 bg-soft-secondary">
+                <!-- Previous button -->
+                <button @click="currentPage -= 1" :disabled="currentPage === 1" class="prev-next-button"><span>&#9665;</span> Previous</button>
+
+                <!-- Numbered page buttons -->
+                <button v-for="page in totalPages" :key="page" @click="currentPage = page" :disabled="currentPage === page" :class="{ 'pagination-button': true, active: currentPage === page }">
+                  {{ page }}
+                </button>
+
+                <!-- Next button -->
+                <button @click="currentPage += 1" :disabled="currentPage === totalPages" class="prev-next-button">Next <span>&#9655;</span></button>
+              </div>
             </div>
           </div>
         </div>
@@ -136,7 +154,7 @@
             <div class="col-12 mb-3">
               <label for="password" class="form-label">Password</label>
               <b-input-group size="md" class="mb-2">
-                <b-form-input :type="showPassword ? 'text' : 'password'" class="form-control" id="password" aria-describedby="password"></b-form-input>
+                <b-form-input :type="showPassword ? 'text' : 'password'" class="form-control" v-model="user.password" id="password" aria-describedby="password"></b-form-input>
                 <b-input-group-append is-text>
                   <b-form-checkbox switch class="mr-n2" @click="togglePasswordVisibility"> </b-form-checkbox>
                 </b-input-group-append>
@@ -165,6 +183,8 @@ import Swal from "sweetalert2"
 import AOS from "aos"
 import { onMounted, ref } from "vue"
 
+import "@/assets/custom-vue/css/pagination.css"
+
 export default {
   name: "UserPage",
   setup() {
@@ -192,11 +212,15 @@ export default {
       inputPassword: "",
       inputRole: "",
 
+      currentPage: 1,
+      itemsPerPage: 10,
+
       user: {
         id: "",
         name: "",
         email: "",
-        role: ""
+        role: "",
+        password: ""
       }
     }
   },
@@ -208,8 +232,15 @@ export default {
   computed: {
     filteredUserData() {
       const query = this.searchQuery.toLowerCase()
-
       return this.userData.filter((user) => user.name.toLowerCase().includes(query) || user.email.toLowerCase().includes(query))
+    },
+    paginatedUserData() {
+      const startIdx = (this.currentPage - 1) * this.itemsPerPage
+      const endIdx = startIdx + this.itemsPerPage
+      return this.filteredUserData.slice(startIdx, endIdx)
+    },
+    totalPages() {
+      return Math.ceil(this.filteredUserData.length / this.itemsPerPage)
     }
   },
 
@@ -351,6 +382,7 @@ export default {
       this.user.name = item.name
       this.user.email = item.email
       this.user.role = item.role
+      // this.user.password = item.password
     },
 
     async submitEdit() {
@@ -360,8 +392,11 @@ export default {
         id: parseInt(this.user.id),
         name: this.user.name,
         email: this.user.email,
-        role: this.user.role
+        role: this.user.role,
+        password: this.user.password
       }
+
+      localStorage.setItem("uname", this.user.name)
 
       await axios
         .put("/api/v1/user/update", updatedData, config)
@@ -376,6 +411,8 @@ export default {
             showConfirmButton: false,
             timer: 2000
           })
+
+          this.user.password = ""
         })
         .catch((error) => {
           console.error("💥 UPDATE FAILED:", error)

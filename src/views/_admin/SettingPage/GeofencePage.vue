@@ -6,7 +6,7 @@
         <!-- Button Row Inside Map -->
         <div class="map-buttons-container">
           <button class="btn btn-primary" style="width: 70%" @click="onSaveButtonClick()">UBAH GEOFENCE LABUH</button>
-          <button class="btn btn-danger p-3" style="width: 25%" type="submit" @click="resetSetting()">RESET</button>
+          <button class="btn btn-danger" style="width: 25%" type="submit" @click="resetSetting()">RESET</button>
         </div>
       </div>
     </div>
@@ -75,7 +75,13 @@ export default {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       })
 
-      const map = L.map("map", { preferCanvas: true }).setView(latlng, 17).addLayer(tiles)
+      const map = L.map("map", { preferCanvas: true, zoomControl: false }).setView(latlng, 17).addLayer(tiles)
+
+      L.control
+        .zoom({
+          position: "topright"
+        })
+        .addTo(map)
 
       map.flyTo(latlng, 15, {
         duration: 2
@@ -83,6 +89,7 @@ export default {
 
       map.pm.setLang("id")
       map.pm.addControls({
+        position: "topright",
         drawPolygon: true,
         removalMode: true,
         editMode: true,
@@ -324,7 +331,7 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 30px;
-  z-index: 1000;
+  z-index: 500;
   background: rgba(0, 0, 0, 0.238);
 }
 

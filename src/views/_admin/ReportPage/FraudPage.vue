@@ -23,7 +23,7 @@
               <tr class="bg-soft-secondary">
                 <th style="font-weight: bolder; width: 5px" class="text-center">ID</th>
                 <th style="font-weight: bolder">NAMA KAPAL</th>
-                <th style="font-weight: bolder" class="text-center">STATUS</th>
+                <th style="font-weight: bolder; width: 10%" class="text-center">STATUS</th>
                 <th style="font-weight: bolder; width: 5%">LATITUDE</th>
                 <th style="font-weight: bolder; width: 5%">LONGITUDE</th>
                 <th style="font-weight: bolder; width: 20%" class="text-center">WAKTU LOG</th>
@@ -31,18 +31,23 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in filteredFraudReports" :key="index++">
+              <!-- Check if pendingList has data -->
+              <tr v-if="!filteredFraudReports || filteredFraudReports.length === 0">
+                <td colspan="6" class="bg-soft-white">Data kosong</td>
+              </tr>
+
+              <tr v-for="(item, index) in paginatedFraudReports" :key="index" v-else>
                 <td class="text-center bg-soft-light">
-                  {{ index }}
+                  {{ (currentPage - 1) * itemsPerPage + index + 1 }}
                 </td>
                 <td style="text-transform: uppercase; font-weight: bolder">
                   {{ item.ship_name }}
                 </td>
                 <td class="text-center" style="text-transform: uppercase">
-                  <div class="badge bg-success" v-if="item.on_ground === 1">
+                  <div class="badge bg-success pt-2 pb-2" v-if="item.on_ground === 1" style="width: 100%">
                     <span>{{ item.on_ground === 1 ? "Darat" : "" }}</span>
                   </div>
-                  <div class="badge bg-danger pt-2 pb-2" v-if="item.on_ground === 0">
+                  <div class="badge bg-danger pt-2 pb-2" v-if="item.on_ground === 0" style="width: 100%">
                     <span>{{ item.on_ground === 0 ? "Perairan" : "" }}</span>
                   </div>
                 </td>
@@ -63,6 +68,20 @@
               </tr>
             </tbody>
           </table>
+
+          <!-- PAGINATION -->
+          <div class="pagination-container p-3 bg-soft-secondary">
+            <!-- Previous button -->
+            <button @click="currentPage -= 1" :disabled="currentPage === 1" class="prev-next-button"><span>&#9665;</span> Previous</button>
+
+            <!-- Numbered page buttons -->
+            <button v-for="page in totalPages" :key="page" @click="currentPage = page" :disabled="currentPage === page" :class="{ 'pagination-button': true, active: currentPage === page }">
+              {{ page }}
+            </button>
+
+            <!-- Next button -->
+            <button @click="currentPage += 1" :disabled="currentPage === totalPages" class="prev-next-button">Next <span>&#9655;</span></button>
+          </div>
         </div>
       </div>
     </div>
@@ -75,7 +94,7 @@
           <h4 class="modal-title text-white" style="font-weight: bold">Export CSV</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body mb-3">
           <div class="col-12 mb-3">
             <label class="form-label" style="font-weight: bolder">PILIH KAPAL</label>
             <select class="form-select" v-model="selectedShip">
@@ -86,15 +105,15 @@
           </div>
           <div class="row mt-4">
             <label class="form-label" style="font-weight: bolder">TANGGAL</label>
-            <div class="col-6 mb-3">
+            <div class="col-6">
               <input type="date" class="form-control" v-model="inputDateStart" required="" />
             </div>
-            <div class="col-6 mb-3">
+            <div class="col-6">
               <input type="date" class="form-control" v-model="inputDateEnd" required="" />
             </div>
           </div>
         </div>
-        <div class="modal-footer mt-4">
+        <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="validationDownload()">Download</button>
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
         </div>
@@ -108,6 +127,8 @@ import axios from "axios"
 import Swal from "sweetalert2"
 import AOS from "aos"
 import { onMounted, ref } from "vue"
+
+import "@/assets/custom-vue/css/pagination.css"
 
 export default {
   name: "FraudPage",
@@ -131,7 +152,10 @@ export default {
 
       selectedShip: "",
       inputDateStart: "",
-      inputDateEnd: ""
+      inputDateEnd: "",
+
+      currentPage: 1,
+      itemsPerPage: 10
     }
   },
 
@@ -139,6 +163,14 @@ export default {
     filteredFraudReports() {
       const searchQuery = this.searchFraudQuery.toLowerCase().trim()
       return this.fraudReports.filter((report) => report.ship_name.toLowerCase().includes(searchQuery))
+    },
+    paginatedFraudReports() {
+      const startIdx = (this.currentPage - 1) * this.itemsPerPage
+      const endIdx = startIdx + this.itemsPerPage
+      return this.filteredFraudReports.slice(startIdx, endIdx)
+    },
+    totalPages() {
+      return Math.ceil(this.filteredFraudReports.length / this.itemsPerPage)
     },
 
     uniqueShipNames() {
@@ -265,7 +297,6 @@ export default {
           title: "GAGAL",
           text: "DATA KOSONG !"
         })
-
         ;(this.selectedShip = ""), (this.inputDateStart = ""), (this.inputDateEnd = "")
 
         return

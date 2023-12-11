@@ -11,6 +11,7 @@
             <input type="date" placeholder="MM/DD/YYYY" class="form-control" v-model="dateEnd" />
           </div>
         </div>
+
         <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
           <button class="btn btn-secondary d-grid w-100" type="submit" @click="filterHistory()">Lihat History</button>
         </div>
@@ -52,7 +53,7 @@ export default {
     return {
       dateStart: formatDate(weekAgoDate),
       dateEnd: formatDate(currentDate),
-      polyline: null
+      shipmarker: null
     }
   },
 
@@ -86,6 +87,8 @@ export default {
           console.log("Get geofence failure. Retrying in 1 seconds...", error)
           return
         })
+
+      console.error(this.shipCurLat, "|| ", this.shipCurLong)
     },
 
     async mapShipDetail() {
@@ -104,7 +107,6 @@ export default {
           minZoom: 5
         }).addTo(this.leaflet_map)
 
-        // Add polygon
         var polygon = L.polygon(this.fixGeofence, {
           color: "#7367F0",
           fillColor: "#A1B4FF",
@@ -118,7 +120,8 @@ export default {
 
         var iconKapal = L.icon({
           iconUrl: markerKapal,
-          iconSize: [35, 50]
+          iconSize: [22, 42],
+          iconAnchor: [16, 32]
         })
 
         var iconNelayan = L.icon({
@@ -127,7 +130,9 @@ export default {
         })
 
         var icon = this.shipOnGround === 1 ? iconNelayan : iconKapal
-        L.marker([this.shipCurLat, this.shipCurLong], { icon: icon }).addTo(this.leaflet_map)
+        this.shipmarker = L.marker([this.shipCurLat, this.shipCurLong], { icon: icon }).addTo(this.leaflet_map)
+
+        console.log(">", this.shipMarker)
       } else if (this.leaflet_map) {
         this.leaflet_map.flyTo([this.shipCurLat, this.shipCurLong], 18, {
           duration: 3
@@ -136,7 +141,13 @@ export default {
     },
 
     async filterHistory() {
-      console.log(this.dateStart, '-', this.dateEnd)
+      this.leaflet_map.eachLayer(function (layer) {
+        console.log("tanda", layer)
+      })
+
+
+      console.log(this.dateStart, "-", this.dateEnd)
+      this.removePreviousMarkersAndPolyline()
 
       if (this.locationLogs) {
         const filteredLogs = this.locationLogs.filter((log) => {
@@ -180,7 +191,6 @@ export default {
 
         const markers = []
 
-        // Iterate over the filteredLogs array
         filteredLogs.forEach((log) => {
           const { lat, long, on_ground } = log
           const icon = on_ground === 1 ? iconNelayan : iconKapal
@@ -197,24 +207,24 @@ export default {
         })
 
         if (markers.length > 0) {
-          // Get the first and last markers
           const firstMarker = markers[0]
           const lastMarker = markers[markers.length - 1]
 
-          // Change the icons of the first and last markers
           lastMarker.setIcon(L.icon({ iconUrl: markerStart, iconSize: [70, 70] }))
           firstMarker.setIcon(L.icon({ iconUrl: markerFinish, iconSize: [70, 70] }))
 
-          // Set a high z-index offset for both markers
           lastMarker.setZIndexOffset(1000)
           firstMarker.setZIndexOffset(1001)
         }
 
         // Create a polyline using the coordinates of the markers
-        L.polyline(
+        const polyline = L.polyline(
           markers.map((marker) => marker.getLatLng()),
-          { dashArray: "5, 5", color: "blue" } // Customize the dashed line appearance
+          { dashArray: "5, 5", color: "blue" }
         ).addTo(this.leaflet_map)
+
+        this.markers = markers
+        this.polyline = polyline
       } else {
         console.warn("⚠️ DOCK LOGS NULL / UNDEFINED:")
 
@@ -232,6 +242,30 @@ export default {
           icon: "warning",
           title: "Log Kapal Kosong"
         })
+      }
+    },
+
+    removePreviousMarkersAndPolyline() {
+      if (this.shipMarker) {
+        console.log("bubu", this.shipMarker)
+        // this.shipMarker.removeFrom(this.leaflet_map)
+        // this.shipMarker = null // Set to null after removing
+        // console.log("asdasd", this.shipmarker)
+
+        this.leaflet_map.removeLayer(this.shipMarker)
+        this.shipMarker = null
+      }
+
+      // Remove previous markers
+      if (this.markers && this.markers.length > 0) {
+        this.markers.forEach((marker) => {
+          this.leaflet_map.removeLayer(marker)
+        })
+      }
+
+      // Remove previous polyline
+      if (this.polyline) {
+        this.leaflet_map.removeLayer(this.polyline)
       }
     }
   }

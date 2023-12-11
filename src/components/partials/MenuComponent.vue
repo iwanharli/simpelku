@@ -7,22 +7,16 @@
   <div class="navbar dual-horizontal bg-transparent" style="border-radius: 20px !important">
     <nav id="navbar_main" class="mobile-offcanvas hover-nav horizontal-nav mx-md-auto navbar navbar-expand-xl">
       <div class="container-fluid">
-        <div class="offcanvas-header px-0">
-          <div class="navbar-brand d-flex align-items-end text-primary">
-            <brand-logo></brand-logo>
-            <h2 class="logo-title ms-3 mb-0 simpel-text" data-setting="app_name">SIMPEL</h2>
-          </div>
-          <button class="btn-close float-end"></button>
-        </div>
-        <ul class="navbar-nav bg-secondary p-2 simpel-nav px-3 fw-bolder">
+        <ul class="navbar-nav bg-primary p-2 simpel-nav px-3 fw-bolder">
+
           <!-- DASHBOARD  -->
-          <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'admin.dashboard' }" :class="{ active: $route.name === 'admin.dashboard' }"> <i class="menu-icon tf-icons ti ti-smart-home"></i> DASHBOARD </router-link>
+          <li class="nav-item dropdown">
+            <router-link class="nav-link" role="button" :to="{ name: 'admin.dashboard' }" :class="{ active: $route.name === 'admin.dashboard' }" style="white-space: nowrap"> <i class="menu-icon tf-icons ti ti-home"></i> DASHBOARD </router-link>
           </li>
 
           <!-- KAPAL  -->
           <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'admin.ship' }" :class="{ active: $route.name === 'admin.ship' }"> <i class="menu-icon tf-icons ti ti-ship"></i> KAPAL </router-link>
+            <router-link class="nav-link" role="button" :to="{ name: 'admin.ship' }" :class="{ active: $route.name === 'admin.ship' || $route.name === 'admin.shipDetail' }" style="white-space: nowrap"> <i class="menu-icon tf-icons ti ti-home"></i> KAPAL </router-link>
           </li>
 
           <!-- PENGAJUAN  -->
@@ -125,3 +119,81 @@ export default {
   }
 }
 </script>
+
+<style>
+.nav-item:not() {
+  background: #3a57e8 !important;
+}
+
+.nav-item:hover > a {
+  background: #5a77f7 !important;
+  /* border-radius: 20px; */
+  color: #fff !important;
+}
+
+.dropdown-usa {
+  background: white;
+  display: none;
+}
+
+.nav-item:hover .dropdown-usa {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  border-radius: 0 0 5px 5px;
+}
+
+.dropdown-item {
+  font-weight: 900 !important;
+  padding: 7px;
+}
+
+.dropdown-item:hover {
+  background: #5a77f7;
+  color: white;
+  border-radius: 5px;
+}
+
+.dropdown-item.logout {
+  font-weight: 900 !important;
+  padding: 10px;
+}
+
+.dropdown-item.logout:hover {
+  background: #c03221;
+  color: white;
+  border-radius: 5px;
+}
+
+.custom-centered-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 1200px) {
+  .iq-navbar .navbar-brand {
+    margin-left: 15rem !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .iq-navbar .navbar-brand {
+    margin-left: 10rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .iq-navbar .navbar-brand {
+    margin-left: 5rem !important;
+  }
+}
+
+@media (max-width: 565px) {
+  .iq-navbar .navbar-brand {
+    margin-left: 3rem !important;
+  }
+}
+</style>

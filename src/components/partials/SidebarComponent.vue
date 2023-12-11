@@ -5,41 +5,167 @@
     </svg>
   </button>
 
-  <div class="offcanvas offcanvas-start d-xl-none d-md-block" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-    <div class="offcanvas-header">
+  <div class="offcanvas offcanvas-start d-xl-none d-md-block" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas-header p-3">
       <div class="navbar-brand ms-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="61" height="40" viewBox="0 0 61 58" fill="none">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M53.4649 20.2188L30.6945 1.35718L7.92407 20.2188L18.8518 29.2697L7.92407 38.3235L30.6945 57.1851L53.4649 38.3235L42.5372 29.2726L53.4649 20.2188Z" fill="#7367f0" />
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M46.8043 32.8048L42.5372 29.2726L45.4478 26.8627L26.8776 14.5522L28.4753 10.788L43.8385 12.2931L43.8792 12.2815L30.6945 1.35718L7.92407 20.2188L14.5847 25.7375L18.8518 29.2697L15.9412 31.6796L34.5114 43.9901L32.9137 47.7543L17.5505 46.2492L17.5098 46.2637L30.6945 57.1851L53.4649 38.3235L46.8043 32.8048Z" fill="black" fill-opacity="0.14902" />
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4905 9.18718L43.8966 12.2931L30.6945 1.35718L7.92407 20.2188L27.4905 9.18718Z" fill="#8379f2" />
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M28.7774 9.43078L32.9137 3.19578L30.6945 1.35718L7.92407 20.2188L27.4905 9.18718L28.7774 9.43078Z" fill="black" fill-opacity="0.14902" />
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M33.9537 49.358L17.5505 46.2492L30.7498 57.1851L53.5231 38.3235L33.9537 49.358Z" fill="#8379f2 " />
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M33.9537 49.358L32.6175 49.1028L28.4956 55.3175L30.7497 57.1851L52.1287 39.4748L53.3604 38.4134L33.9537 49.358Z" fill="black" fill-opacity="0.14902" />
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M7.92407 20.2188L36.2281 43.6653L30.6945 57.1851L53.4649 38.3235L25.1609 14.877L30.6945 1.35718L7.92407 20.2188Z" fill="#A1B4FF" />
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M30.6946 1.35718L24.0369 9.91508L17.3472 18.4469L17.3211 18.1975C19.5752 20.0651 21.8293 21.9327 24.0659 23.8177L30.7905 29.464L37.483 35.1451L44.1582 40.8465L44.3092 40.9741L44.1843 41.1249L37.4598 49.1724L30.6946 57.1851L37.2652 49.0129L43.8764 40.8726L43.9026 41.151L37.1664 35.5192L30.4448 29.87L23.758 24.1831C21.5214 22.2923 19.305 20.3841 17.0887 18.473L16.9551 18.357L17.0655 18.2236L23.8626 9.77878L30.6946 1.35718Z" fill="white" />
-        </svg>
+        <img src="@/assets/app/s-logo.svg" /> &nbsp;
         <h4>IMPEL</h4>
       </div>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <router-link class="nav-link" :to="{ name: 'admin.dashboard' }" :class="{ active: $route.name === 'admin.dashboard' }"> DASHBOARD </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" :to="{ name: 'admin.ship' }" :class="{ active: $route.name === 'admin.ship' }"> KAPAL </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" :to="{ name: 'admin.approval' }" :class="{ active: $route.name === 'admin.approval' }"> PENGAJUAN </router-link>
-        </li>
-        <li class="nav-item">
-          <!-- <router-link class="nav-link" :to="{ name: 'admin.report' }" :class="{ active: $route.name === 'admin.report' }"> LAPORAN </router-link> -->
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" :to="{ name: 'admin.setting' }" :class="{ active: $route.name === 'admin.setting' }"> PENGATURAN </router-link>
+
+    <!-- ISI MENU  -->
+    <div class="offcanvas-body p-4" style="z-index: 1000">
+      <ul class="navbar-nav bg-light p-2 simpel-nav px-3 fw-bolder">
+        <!-- Iterate through menu items -->
+        <li v-for="menuItem in menuItems" :key="menuItem.id" class="nav-item">
+          <!-- Check if the menu item has children -->
+          <template v-if="menuItem.children && menuItem.children.length > 0">
+            <!-- Render a dropdown toggle -->
+            <a class="nav-link dropdown-toggle" href="#" role="button" @click.prevent="toggleDropdown(menuItem.id)" :class="{ active: isDropdownActive(menuItem.id) }"> <i :class="['menu-icon', 'tf-icons', menuItem.iconClass]"></i> {{ menuItem.title }} </a>
+            <!-- Render the dropdown menu -->
+            <div v-show="isDropdownActive(menuItem.id)" class="dropdown-usa" :aria-labelledby="'navbarDropdown' + menuItem.id">
+              <router-link v-for="childItem in menuItem.children" :key="childItem.id" class="dropdown-item" :to="{ name: childItem.routeName }" :class="{ active: $route.name === childItem.routeName }"> <i :class="['menu-icon', 'tf-icons', childItem.iconClass]"></i> {{ childItem.title }} </router-link>
+            </div>
+          </template>
+          <!-- Render a regular link if there are no children -->
+          <template v-else>
+            <router-link class="nav-link" :to="{ name: menuItem.routeName }" :class="{ active: $route.name === menuItem.routeName }"> <i :class="['menu-icon', 'tf-icons', menuItem.iconClass]"></i> {{ menuItem.title }} </router-link>
+          </template>
         </li>
       </ul>
     </div>
   </div>
 </template>
+
+<script setup>
+import DefaultSidebar from "@/components/custom/sidebar/DefaultSidebar.vue"
+import SideMenu from "@/components/custom/nav/SideMenu.vue"
+
+import axios from "axios"
+import { ref, onMounted } from "vue"
+import { useRoute } from "vue-router"
+
+const currentRoute = ref("")
+const route = useRoute()
+const toggle = (route) => {
+  if (route === currentRoute.value && route.includes(".")) {
+    const menu = currentRoute.value.split(".")
+    return (currentRoute.value = menu[menu.length - 2])
+  }
+  if (route !== currentRoute.value && currentRoute.value.includes(route)) {
+    return (currentRoute.value = "")
+  }
+  if (route !== currentRoute.value) {
+    return (currentRoute.value = route)
+  }
+  if (route === currentRoute.value) {
+    return (currentRoute.value = "")
+  }
+  return (currentRoute.value = "")
+}
+
+const menuItems = ref([
+  {
+    id: 1,
+    title: "DASHBOARD",
+    iconClass: "ti ti-smart-home",
+    routeName: "admin.dashboard"
+  },
+  {
+    id: 2,
+    title: "KAPAL",
+    iconClass: "ti ti-ship",
+    routeName: "admin.ship"
+  },
+  {
+    id: 3,
+    title: "PENGAJUAN",
+    iconClass: "ti ti-checklist",
+    children: [
+      { id: 31, title: "Disetujui", iconClass: "ti ti-brand-vinted", routeName: "admin.approval-accepted" },
+      { id: 32, title: "Pending", iconClass: "ti ti-24-hours", routeName: "admin.approval-pending" },
+      { id: 33, title: "Ditolak", iconClass: "ti ti-x", routeName: "admin.approval-rejected" }
+    ]
+  },
+  {
+    id: 4,
+    title: " LAPORAN",
+    iconClass: "ti ti-layout-grid-add",
+    children: [
+      { id: 41, title: "Labuh", iconClass: "ti ti-building-lighthouse", routeName: "admin.report-docking" },
+      { id: 42, title: "Fraud", iconClass: "ti ti-ship-off", routeName: "admin.report-fraud" }
+    ]
+  },
+  {
+    id: 5,
+    title: "PENGATURAN",
+    iconClass: "ti ti-settings",
+    children: [
+      { id: 51, title: "Perangkat", iconClass: "ti ti-device-mobile-share", routeName: "admin.setting-application" },
+      { id: 52, title: "Map Geofencing", iconClass: "ti ti-map-cog", routeName: "admin.setting-geofence" },
+      { id: 53, title: "Manajemen User", iconClass: "ti ti-user", routeName: "admin.user" }
+    ]
+  }
+])
+
+const activeDropdowns = ref([1]) // Set the ID of the initially expanded dropdown
+
+const toggleDropdown = (itemId) => {
+  activeDropdowns.value = [itemId]
+}
+
+const isDropdownActive = (itemId) => {
+  return activeDropdowns.value.includes(itemId)
+}
+
+const $route = useRoute()
+</script>
+
+<style>
+.nav-item:not() {
+  background: #3a57e8 !important;
+}
+
+.nav-item:hover > a {
+  background: #5a77f7 !important;
+  /* border-radius: 20px; */
+  color: #fff !important;
+}
+
+.dropdown-usa {
+  background: white;
+  display: none;
+}
+
+.nav-item:hover .dropdown-usa {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  border-radius: 0 0 5px 5px;
+}
+
+.dropdown-item {
+  font-weight: 900 !important;
+  padding: 7px;
+}
+
+.dropdown-item:hover {
+  background: #5a77f7;
+  color: white;
+  border-radius: 5px;
+}
+
+.dropdown-item.logout {
+  font-weight: 900 !important;
+  padding: 10px;
+}
+
+.dropdown-item.logout:hover {
+  background: #c03221;
+  color: white;
+  border-radius: 5px;
+}
+</style>

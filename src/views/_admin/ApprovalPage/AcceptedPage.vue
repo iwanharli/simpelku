@@ -30,9 +30,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in filteredApprovedData" :key="index++">
+              <!-- Check if pendingList has data -->
+              <tr v-if="!filteredApprovedData || filteredApprovedData.length === 0">
+                <td colspan="6" class="bg-soft-white">Data kosong</td>
+              </tr>
+
+              <tr v-for="(item, index) in paginatedApprovedData" :key="index" v-else>
                 <td class="text-center bg-soft-light">
-                  {{ index }}
+                  {{ (currentPage - 1) * itemsPerPage + index + 1 }}
                 </td>
                 <td style="text-transform: uppercase; font-weight: bolder">
                   {{ item.ship_name }}
@@ -51,11 +56,25 @@
                   {{ item.created_at }}
                 </td>
                 <td class="text-center bg-soft-dark">
-                  <button class="btn btn-md btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalViewDetailApproved" @click="fetchShipAcceptedDetail(item.device_id)"><i class="ti ti-search me-sm-1"></i> DETAIL</button>
+                  <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalViewDetailApproved" @click="fetchShipAcceptedDetail(item.device_id)"><i class="ti ti-search me-sm-1"></i> DETAIL</button>
                 </td>
               </tr>
             </tbody>
           </table>
+
+          <!-- PAGINATION -->
+          <div class="pagination-container p-3 bg-soft-secondary">
+            <!-- Previous button -->
+            <button @click="currentPage -= 1" :disabled="currentPage === 1" class="prev-next-button"><span>&#9665;</span> Previous</button>
+
+            <!-- Numbered page buttons -->
+            <button v-for="page in totalPages" :key="page" @click="currentPage = page" :disabled="currentPage === page" :class="{ 'pagination-button': true, active: currentPage === page }">
+              {{ page }}
+            </button>
+
+            <!-- Next button -->
+            <button @click="currentPage += 1" :disabled="currentPage === totalPages" class="prev-next-button">Next <span>&#9655;</span></button>
+          </div>
         </div>
       </b-col>
     </b-row>
@@ -145,10 +164,11 @@
 </template>
 
 <script>
+import AOS from "aos"
 import axios from "axios"
 import Swal from "sweetalert2"
-import AOS from "aos"
 import { onMounted, ref } from "vue"
+import "@/assets/custom-vue/css/pagination.css"
 
 export default {
   name: "AcceptedPage",
@@ -170,14 +190,25 @@ export default {
       acceptedList: [],
       shipDetail: [],
       historyPairing: [],
-      searchQuery: ""
+      searchQuery: "",
+
+      currentPage: 1,
+      itemsPerPage: 10
     }
   },
 
   computed: {
     filteredApprovedData() {
-      const searchQuery = this.searchQuery.toLowerCase().trim()
+      const searchQuery = this.searchQuery.toLowerCase()
       return this.acceptedList.filter((item) => item.status === "approved" && Object.values(item).some((value) => value.toString().toLowerCase().includes(searchQuery)))
+    },
+    paginatedApprovedData() {
+      const startIdx = (this.currentPage - 1) * this.itemsPerPage
+      const endIdx = startIdx + this.itemsPerPage
+      return this.filteredApprovedData.slice(startIdx, endIdx)
+    },
+    totalPages() {
+      return Math.ceil(this.filteredApprovedData.length / this.itemsPerPage)
     }
   },
 

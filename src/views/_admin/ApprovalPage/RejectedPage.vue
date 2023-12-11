@@ -29,9 +29,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in filteredRejectedData" :key="index++">
+              <!-- Check if pendingList has data -->
+              <tr v-if="!filteredRejectedData || filteredRejectedData.length === 0">
+                <td colspan="6" class="bg-soft-white">Data kosong</td>
+              </tr>
+
+              <tr v-for="(item, index) in paginatedApprovedData" :key="index">
                 <td class="text-center bg-soft-light">
-                  {{ index }}
+                  {{ (currentPage - 1) * itemsPerPage + index + 1 }}
                 </td>
                 <td style="text-transform: uppercase; font-weight: bolder">
                   {{ item.ship_name }}
@@ -49,6 +54,15 @@
               </tr>
             </tbody>
           </table>
+
+          <!-- PAGINATION -->
+          <div class="pagination-container p-3 bg-soft-secondary">
+            <button @click="currentPage -= 1" :disabled="currentPage === 1" class="prev-next-button"><span>&#9665;</span> Previous</button>
+            <button v-for="page in totalPages" :key="page" @click="currentPage = page" :disabled="currentPage === page" :class="{ 'pagination-button': true, active: currentPage === page }">
+              {{ page }}
+            </button>
+            <button @click="currentPage += 1" :disabled="currentPage === totalPages" class="prev-next-button">Next <span>&#9655;</span></button>
+          </div>
         </div>
       </b-col>
     </b-row>
@@ -56,10 +70,11 @@
 </template>
 
 <script>
+import AOS from "aos"
 import axios from "axios"
 import Swal from "sweetalert2"
-import AOS from "aos"
 import { onMounted, ref } from "vue"
+import "@/assets/custom-vue/css/pagination.css"
 
 export default {
   name: "RejectedPage",
@@ -79,14 +94,25 @@ export default {
   data() {
     return {
       rejectedList: [],
-      searchQuery: ""
+      searchQuery: "",
+
+      currentPage: 1,
+      itemsPerPage: 10
     }
   },
 
   computed: {
     filteredRejectedData() {
-      const searchQuery = this.searchQuery.toLowerCase().trim()
+      const searchQuery = this.searchQuery.toLowerCase()
       return this.rejectedList.filter((item) => item.status === "rejected" && Object.values(item).some((value) => value.toString().toLowerCase().includes(searchQuery)))
+    },
+    paginatedApprovedData() {
+      const startIdx = (this.currentPage - 1) * this.itemsPerPage
+      const endIdx = startIdx + this.itemsPerPage
+      return this.filteredRejectedData.slice(startIdx, endIdx)
+    },
+    totalPages() {
+      return Math.ceil(this.filteredRejectedData.length / this.itemsPerPage)
     }
   },
 

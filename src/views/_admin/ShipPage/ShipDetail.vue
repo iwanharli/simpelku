@@ -2,8 +2,15 @@
   <div class="containerPage bg-secondary p-5" style="padding-top: 40px !important">
     <b-row>
       <!-- MAP DETAIL  -->
-      <b-col xl="12" style="border-radius: 20px" v-if="shipCurLat !== 0">
-        <MapDetail :shipCurLat="shipCurLat" :shipCurLong="shipCurLong" :shipOnGround="shipOnGround" :location-logs="locationLogs" />
+      <b-col xl="12" class="bg-transparent" style="border-radius: 20px" v-if="shipCurLat !== 0">
+        <div style="border-radius: 20px">
+          <MapDetail :shipCurLat="shipCurLat" :shipCurLong="shipCurLong" :shipOnGround="shipOnGround" :location-logs="locationLogs" v-if="shipCurLat && shipCurLong" />
+
+          <div xl="12" class="bg-soft-danger d-flex align-items-center justify-content-center p-4 pt-5" style="border-radius: 20px; flex-direction: column; gap: 20px" v-if="!shipCurLat || !shipCurLong">
+            <img src="@/assets/images/nf.png" class="next" style="width: 60px; height: 60px" />
+            <h5 class="text-white mb-3" style="font-weight: bolder">LOKASI KAPAL MASIH KOSONG</h5>
+          </div>
+        </div>
       </b-col>
 
       <!-- ISI  -->
@@ -16,42 +23,44 @@
               </div>
             </b-card-header>
             <b-card-body class="p-2">
-              <table class="table">
-                <tbody class="text-black">
-                  <tr>
-                    <th style="width: 10%"><i class="ti ti-ship"></i></th>
-                    <th style="width: 40%; font-weight: bolder">NAMA KAPAL</th>
-                    <td>
-                      {{ formatShipStatus(ship.ship_name) }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th><i class="ti ti-check"></i></th>
-                    <th style="font-weight: bolder">STATUS</th>
-                    <td style="text-transform: uppercase">
-                      <div class="badge bg-primary pt-2 pb-2" v-if="ship.status === 'checkin'">
-                        <span>{{ ship.status }}</span>
-                      </div>
-                      <div class="badge bg-info pt-2 pb-2" v-else-if="ship.status === 'checkout'">
-                        <span>{{ ship.status }}</span>
-                      </div>
-                      <div class="badge bg-warning pt-1 pb-1" v-else-if="ship.status === 'out of scope'">
-                        <span>{{ ship.status }}</span>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th><i class="ti ti-user"></i></th>
-                    <th style="font-weight: bolder">PENANGGUNG JAWAB</th>
-                    <td>{{ formatShipStatus(ship.responsible_name) }}</td>
-                  </tr>
-                  <tr>
-                    <th><i class="ti ti-phone-call"></i></th>
-                    <th style="font-weight: bolder">DEVICE</th>
-                    <td>{{ ship.device_id }}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-responsive scrollbar">
+                <table class="table">
+                  <tbody class="text-black">
+                    <tr>
+                      <th style="width: 10%"><i class="ti ti-ship"></i></th>
+                      <th style="width: 40%; font-weight: bolder">NAMA KAPAL</th>
+                      <td>
+                        {{ formatShipStatus(ship.ship_name) }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th><i class="ti ti-check"></i></th>
+                      <th style="font-weight: bolder">STATUS</th>
+                      <td style="text-transform: uppercase">
+                        <div class="badge bg-primary pt-2 pb-2" v-if="ship.status === 'checkin'">
+                          <span>{{ ship.status }}</span>
+                        </div>
+                        <div class="badge bg-info pt-2 pb-2" v-else-if="ship.status === 'checkout'">
+                          <span>{{ ship.status }}</span>
+                        </div>
+                        <div class="badge bg-warning pt-1 pb-1" v-else-if="ship.status === 'out of scope'">
+                          <span>{{ ship.status }}</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th><i class="ti ti-user"></i></th>
+                      <th style="font-weight: bolder">PENANGGUNG JAWAB</th>
+                      <td>{{ formatShipStatus(ship.responsible_name) }}</td>
+                    </tr>
+                    <tr>
+                      <th><i class="ti ti-phone-call"></i></th>
+                      <th style="font-weight: bolder">DEVICE</th>
+                      <td>{{ ship.device_id }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </b-card-body>
           </b-card>
         </b-col>
@@ -61,10 +70,10 @@
             <b-card-header header-class="bg-primary pb-2">
               <div class="header-title">
                 <b-row style="padding-right: 0px; padding-left: 0px">
-                  <b-col xl="10">
+                  <b-col xl="10" lg="10" md="9" sm="9">
                     <h4 class="card-title text-white p-2 ms-auto" style="font-weight: bolder">BIODATA KAPAL</h4>
                   </b-col>
-                  <b-col xl="2">
+                  <b-col xl="2" lg="2" md="3" sm="3">
                     <a class="btn btn-sm btn-warning p-2 mt-1" type="button" data-bs-toggle="modal" data-bs-target="#modalEditDetailKapal" style="width: 100%">
                       <i class="ti ti-adjustments-alt"></i>
                     </a>
@@ -73,45 +82,47 @@
               </div>
             </b-card-header>
             <b-card-body class="p-2">
-              <table class="table">
-                <tbody class="text-black">
-                  <tr>
-                    <th style="width: 10%"><i class="ti ti-route-2"></i></th>
-                    <th style="width: 40%; font-weight: bolder">JENIS</th>
-                    <td>{{ formatShipStatus(shipBio.type) }}</td>
-                  </tr>
-                  <tr>
-                    <th><i class="ti ti-shape"></i></th>
-                    <th style="font-weight: bolder">DIMENSI (m)</th>
-                    <td>{{ formatShipStatus(shipBio.dimension) }}</td>
-                  </tr>
-                  <tr>
-                    <th><i class="ti ti-directions"></i></th>
-                    <th style="font-weight: bolder">PELABUHAN PANGKALAN</th>
-                    <td>{{ formatShipStatus(shipBio.harbour) }}</td>
-                  </tr>
-                  <tr>
-                    <th><i class="ti ti-align-box-bottom-center-filled"></i></th>
-                    <th style="font-weight: bolder">NOMOR SIUP</th>
-                    <td>{{ formatShipStatus(shipBio.siup) }}</td>
-                  </tr>
-                  <tr>
-                    <th><i class="ti ti-align-box-bottom-right-filled"></i></th>
-                    <th style="font-weight: bolder">NOMOR BKP</th>
-                    <td>{{ formatShipStatus(shipBio.bkp) }}</td>
-                  </tr>
-                  <tr>
-                    <th><i class="ti ti-align-box-center-middle-filled"></i></th>
-                    <th style="font-weight: bolder">TANDA SELAR</th>
-                    <td>{{ formatShipStatus(shipBio.selar_mark) }}</td>
-                  </tr>
-                  <tr>
-                    <th><i class="ti ti-calendar"></i></th>
-                    <th style="font-weight: bolder">TERDAFTAR</th>
-                    <td>{{ formatShipStatus(ship.created_at) }}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-responsive scrollbar">
+                <table class="table">
+                  <tbody class="text-black">
+                    <tr>
+                      <th style="width: 10%"><i class="ti ti-route-2"></i></th>
+                      <th style="width: 40%; font-weight: bolder">JENIS</th>
+                      <td>{{ formatShipStatus(shipBio.type) }}</td>
+                    </tr>
+                    <tr>
+                      <th><i class="ti ti-shape"></i></th>
+                      <th style="font-weight: bolder">DIMENSI (m)</th>
+                      <td>{{ formatShipStatus(shipBio.dimension) }}</td>
+                    </tr>
+                    <tr>
+                      <th><i class="ti ti-directions"></i></th>
+                      <th style="font-weight: bolder">PELABUHAN PANGKALAN</th>
+                      <td>{{ formatShipStatus(shipBio.harbour) }}</td>
+                    </tr>
+                    <tr>
+                      <th><i class="ti ti-align-box-bottom-center-filled"></i></th>
+                      <th style="font-weight: bolder">NOMOR SIUP</th>
+                      <td>{{ formatShipStatus(shipBio.siup) }}</td>
+                    </tr>
+                    <tr>
+                      <th><i class="ti ti-align-box-bottom-right-filled"></i></th>
+                      <th style="font-weight: bolder">NOMOR BKP</th>
+                      <td>{{ formatShipStatus(shipBio.bkp) }}</td>
+                    </tr>
+                    <tr>
+                      <th><i class="ti ti-align-box-center-middle-filled"></i></th>
+                      <th style="font-weight: bolder">TANDA SELAR</th>
+                      <td>{{ formatShipStatus(shipBio.selar_mark) }}</td>
+                    </tr>
+                    <tr>
+                      <th><i class="ti ti-calendar"></i></th>
+                      <th style="font-weight: bolder">TERDAFTAR</th>
+                      <td>{{ formatShipStatus(ship.created_at) }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </b-card-body>
           </b-card>
         </b-col>
@@ -122,7 +133,7 @@
         <b-card no-body class="bg-white">
           <b-card-header header-class="d-flex justify-content-between bg-primary">
             <div class="header-title">
-              <h4 class="card-title text-white p-2" style="font-weight: bolder">LOG HISTORI KAPAL</h4>
+              <h4 class="card-title text-white p-2" style="font-weight: bolder">HISTORI LABUH KAPAL</h4>
             </div>
           </b-card-header>
           <b-card-body class="scrollbar" style="max-height: 798px !important; overflow-y: auto">
@@ -207,11 +218,17 @@ export default {
           this.ship = res.data.data
           this.shipBio = this.ship.detail
 
+          if (!this.ship.current_lat || !this.ship.current_long) {
+            return
+          }
+
           this.shipCurLat = this.ship.current_lat
           this.shipCurLong = this.ship.current_long
           this.shipOnGround = this.ship.on_ground
 
           console.log("💚 SHIP DETAIL >", shipDetailId, this.ship)
+
+          console.log("asd", this.shipCurLat, this.shipCurLong)
         })
         .catch((error) => {
           // Swal.fire({

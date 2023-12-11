@@ -43,11 +43,11 @@
                 <div class="col mb-0">
                   <label for="defaultSelect" class="form-label">Dimensi Kapal (P x L)</label>
                   <div class="input-group mb-3">
-                    <input type="text" id="nameWithTitle" class="form-control" v-model="shipWidth" />
+                    <input type="number" id="nameWithTitle" class="form-control" v-model="shipWidth" />
                     <div class="input-group-prepend">
                       <span class="input-group-text">x</span>
                     </div>
-                    <input type="text" id="nameWithTitle" class="form-control" v-model="shipLength" />
+                    <input type="number" id="nameWithTitle" class="form-control" v-model="shipLength" />
                   </div>
                 </div>
               </div>

@@ -18,12 +18,12 @@
       </b-card-header>
       <div class="card-body p-0">
         <div class="table-responsive">
-          <table id="basic-table" class="table table-hover mb-0" role="grid">
+          <table id="basic-table table-border" class="table table-hover mb-0" role="grid">
             <thead>
               <tr class="bg-soft-secondary">
                 <th style="font-weight: bolder; width: 5px" class="text-center">ID</th>
                 <th style="font-weight: bolder">NAMA KAPAL</th>
-                <th style="font-weight: bolder" class="text-center">STATUS</th>
+                <th style="font-weight: bolder; width: 10%" class="text-center">STATUS</th>
                 <th style="font-weight: bolder; width: 16%">LATITUDE</th>
                 <th style="font-weight: bolder; width: 16%">LONGITUDE</th>
                 <th style="font-weight: bolder; width: 16%" class="text-center">WAKTU LOG</th>
@@ -31,21 +31,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in filteredDockingReports" :key="index++">
+              <!-- Check if pendingList has data -->
+              <tr v-if="!filteredDockingReports || filteredDockingReports.length === 0">
+                <td colspan="6" class="bg-soft-white">Data kosong</td>
+              </tr>
+
+              <tr v-for="(item, index) in paginatedDockingReports" :key="index" v-else>
                 <td class="text-center bg-soft-light">
-                  {{ index }}
+                  {{ (currentPage - 1) * itemsPerPage + index + 1 }}
                 </td>
                 <td style="text-transform: uppercase; font-weight: bolder">
                   {{ item.ship_name }}
                 </td>
-                <td class="text-center" style="text-transform: uppercase">
-                  <div class="badge bg-primary pt-2 pb-2" v-if="item.status === 'checkin'" style="width: 65%">
+                <td class="text-center" style="text-transform: uppercase; padding-left: 25px !important">
+                  <div class="badge bg-primary pt-2 pb-2" v-if="item.status === 'checkin'" style="width: 100%">
                     <span>{{ item.status }}</span>
                   </div>
-                  <div class="badge bg-info pt-2 pb-2" v-else-if="item.status === 'checkout'" style="width: 65%">
+                  <div class="badge bg-info pt-2 pb-2" v-else-if="item.status === 'checkout'" style="width: 100%">
                     <span>{{ item.status }}</span>
                   </div>
-                  <div class="badge bg-warning pt-1 pb-1" v-else-if="item.status === 'out of scope'" style="width: 65%">
+                  <div class="badge bg-warning pt-1 pb-1" v-else-if="item.status === 'out of scope'" style="width: 100%">
                     <span>{{ item.status }}</span>
                   </div>
                 </td>
@@ -66,6 +71,19 @@
               </tr>
             </tbody>
           </table>
+
+          <div class="pagination-container p-3 bg-soft-secondary">
+            <!-- Previous button -->
+            <button @click="currentPage -= 1" :disabled="currentPage === 1" class="prev-next-button"><span>&#9665;</span> Previous</button>
+
+            <!-- Numbered page buttons -->
+            <button v-for="page in totalPages" :key="page" @click="currentPage = page" :disabled="currentPage === page" :class="{ 'pagination-button': true, active: currentPage === page }">
+              {{ page }}
+            </button>
+
+            <!-- Next button -->
+            <button @click="currentPage += 1" :disabled="currentPage === totalPages" class="prev-next-button">Next <span>&#9655;</span></button>
+          </div>
         </div>
       </div>
     </div>
@@ -78,7 +96,7 @@
           <h4 class="modal-title text-white" style="font-weight: bold">Export CSV</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body mb-3">
           <div class="col-12 mb-3">
             <label class="form-label" style="font-weight: bolder">PILIH KAPAL</label>
             <select class="form-select" v-model="selectedShip">
@@ -89,15 +107,15 @@
           </div>
           <div class="row mt-4">
             <label class="form-label" style="font-weight: bolder">TANGGAL</label>
-            <div class="col-6 mb-3">
+            <div class="col-6">
               <input type="date" class="form-control" v-model="inputDateStart" required="" />
             </div>
-            <div class="col-6 mb-3">
+            <div class="col-6">
               <input type="date" class="form-control" v-model="inputDateEnd" required="" />
             </div>
           </div>
         </div>
-        <div class="modal-footer mt-4">
+        <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="validationDownload()">Download</button>
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
         </div>
@@ -111,6 +129,8 @@ import axios from "axios"
 import Swal from "sweetalert2"
 import AOS from "aos"
 import { onMounted, ref } from "vue"
+
+import "@/assets/custom-vue/css/pagination.css"
 
 export default {
   name: "DockingPage",
@@ -134,7 +154,10 @@ export default {
 
       selectedShip: "",
       inputDateStart: "",
-      inputDateEnd: ""
+      inputDateEnd: "",
+
+      currentPage: 1,
+      itemsPerPage: 10
     }
   },
 
@@ -142,6 +165,14 @@ export default {
     filteredDockingReports() {
       const searchQuery = this.searchDockingQuery.toLowerCase().trim()
       return this.dockingReports.filter((report) => report.ship_name.toLowerCase().includes(searchQuery))
+    },
+    paginatedDockingReports() {
+      const startIdx = (this.currentPage - 1) * this.itemsPerPage
+      const endIdx = startIdx + this.itemsPerPage
+      return this.filteredDockingReports.slice(startIdx, endIdx)
+    },
+    totalPages() {
+      return Math.ceil(this.filteredDockingReports.length / this.itemsPerPage)
     },
 
     uniqueShipNames() {

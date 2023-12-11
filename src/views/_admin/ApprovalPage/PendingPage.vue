@@ -1,7 +1,7 @@
 <template>
   <div class="containerPage p-5" style="background: #e2ad51; padding-top: 40px !important">
     <b-row>
-      <b-col xl="12" lg="12" md="12" sm="12" class="mb-3 p-4" style="background:#9f6c13; border-radius: 20px; border: 3px solid white" data-aos="fade-down" data-aos-delay="110">
+      <b-col xl="12" lg="12" md="12" sm="12" class="mb-3 p-4" style="background: #9f6c13; border-radius: 20px; border: 3px solid white" data-aos="fade-down" data-aos-delay="110">
         <div class="header-title">
           <b-row>
             <b-col xl="9" lg="9" md="9" sm="9">
@@ -30,9 +30,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in filteredPendingData" :key="index++">
+              <!-- Check if pendingList has data -->
+              <tr v-if="!filteredPendingData || filteredPendingData.length === 0">
+                <td colspan="6" class="bg-soft-white">Data kosong</td>
+              </tr>
+
+              <tr v-for="(item, index) in paginatedApprovedData" :key="index" v-else>
                 <td class="text-center bg-soft-light">
-                  {{ index }}
+                  {{ (currentPage - 1) * itemsPerPage + index + 1 }}
                 </td>
                 <td style="text-transform: uppercase; font-weight: bolder">
                   {{ item.ship_name }}
@@ -58,6 +63,15 @@
               </tr>
             </tbody>
           </table>
+
+          <!-- PAGINATION -->
+          <div class="pagination-container p-3 bg-soft-secondary">
+            <button @click="currentPage -= 1" :disabled="currentPage === 1" class="prev-next-button"><span>&#9665;</span> Previous</button>
+            <button v-for="page in totalPages" :key="page" @click="currentPage = page" :disabled="currentPage === page" :class="{ 'pagination-button': true, active: currentPage === page }">
+              {{ page }}
+            </button>
+            <button @click="currentPage += 1" :disabled="currentPage === totalPages" class="prev-next-button">Next <span>&#9655;</span></button>
+          </div>
         </div>
       </b-col>
     </b-row>
@@ -65,10 +79,11 @@
 </template>
 
 <script>
+import AOS from "aos"
 import axios from "axios"
 import Swal from "sweetalert2"
-import AOS from "aos"
 import { onMounted, ref } from "vue"
+import "@/assets/custom-vue/css/pagination.css"
 
 export default {
   name: "PendingPage",
@@ -88,14 +103,25 @@ export default {
   data() {
     return {
       pendingList: [],
-      searchQuery: ""
+      searchQuery: "",
+
+      currentPage: 1,
+      itemsPerPage: 10
     }
   },
 
   computed: {
     filteredPendingData() {
-      const searchQuery = this.searchQuery.toLowerCase().trim()
+      const searchQuery = this.searchQuery.toLowerCase()
       return this.pendingList.filter((item) => item.status === "pending" && Object.values(item).some((value) => value.toString().toLowerCase().includes(searchQuery)))
+    },
+    paginatedApprovedData() {
+      const startIdx = (this.currentPage - 1) * this.itemsPerPage
+      const endIdx = startIdx + this.itemsPerPage
+      return this.filteredPendingData.slice(startIdx, endIdx)
+    },
+    totalPages() {
+      return Math.ceil(this.filteredPendingData.length / this.itemsPerPage)
     }
   },
 

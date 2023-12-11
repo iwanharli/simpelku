@@ -17,8 +17,8 @@ const authChildRoutes = (prefix) => [
     component: () => import('@/views/auth/SignUp.vue')
   },
   {
-    path: 'varify-email',
-    name: prefix + '.varify-email',
+    path: 'verify-email',
+    name: prefix + '.verify-email',
     meta: { auth: false, name: 'Verify Email' },
     component: () => import('@/views/auth/VerifyEmail.vue')
   },
@@ -198,13 +198,18 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-
   const requiresAuth = to.matched.some(route => route.meta.auth);
   const isAuthenticated = localStorage.getItem("authenticated");
 
-  if (to.name !== 'auth.login' && !isAuthenticated && requiresAuth) next({ name: 'auth.login' });
-  if (to.name === 'auth.login' && isAuthenticated) next({ name: 'admin.dashboard' });
-  else next();
+  if (to.name !== 'auth.login' && !isAuthenticated && requiresAuth) {
+    next({ name: 'auth.login' });
+  } else if (to.name === 'auth.login' && isAuthenticated) {
+    next({ name: 'admin.dashboard' });
+  } else if (to.matched.length === 0) {
+    next({ name: 'errors.404' });
+  } else {
+    next();
+  }
 });
 
 export default router
